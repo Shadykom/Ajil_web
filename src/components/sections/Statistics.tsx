@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
+import { AjilSymbol } from '@/components/icons'
 
 interface StatItem {
   value: number
@@ -155,6 +156,22 @@ export default function Statistics() {
           }}
         />
       </div>
+
+      {/* Floating AJIL Symbols */}
+      <motion.div
+        className="absolute top-16 left-[10%] text-white/10"
+        animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <AjilSymbol size={80} />
+      </motion.div>
+      <motion.div
+        className="absolute bottom-16 right-[15%] text-white/10"
+        animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+      >
+        <AjilSymbol size={60} />
+      </motion.div>
 
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
