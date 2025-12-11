@@ -12,10 +12,10 @@ import {
   IconPersonalFinancing,
   IconBusinessFinancing,
   IconLoanProducts,
-  IconApplyFinancing,
-  IconLoanCalculator,
-  IconSecurity,
-  IconCustomerSupport,
+  IconQuickApproval,
+  IconFlexiblePayments,
+  IconShariaCompliant,
+  IconService247,
   AjilSymbol,
 } from '@/components/icons'
 import Link from 'next/link'
@@ -225,23 +225,23 @@ export default function Services() {
           transition={{ duration: 0.6, delay: 0.6 }}
         >
           {[
-            { label: language === 'ar' ? 'موافقة سريعة' : 'Quick Approval', Icon: IconApplyFinancing, color: 'text-green-600 bg-green-100' },
-            { label: language === 'ar' ? 'أقساط مرنة' : 'Flexible Payments', Icon: IconLoanCalculator, color: 'text-blue-600 bg-blue-100' },
-            { label: language === 'ar' ? 'متوافق مع الشريعة' : 'Sharia Compliant', Icon: IconSecurity, color: 'text-purple-600 bg-purple-100' },
-            { label: language === 'ar' ? 'خدمة على مدار الساعة' : '24/7 Service', Icon: IconCustomerSupport, color: 'text-orange-600 bg-orange-100' },
+            { label: language === 'ar' ? 'موافقة سريعة' : 'Quick Approval', Icon: IconQuickApproval, color: 'text-emerald-600 bg-emerald-50', hoverBg: 'group-hover:bg-emerald-500' },
+            { label: language === 'ar' ? 'أقساط مرنة' : 'Flexible Payments', Icon: IconFlexiblePayments, color: 'text-blue-600 bg-blue-50', hoverBg: 'group-hover:bg-blue-500' },
+            { label: language === 'ar' ? 'متوافق مع الشريعة' : 'Sharia Compliant', Icon: IconShariaCompliant, color: 'text-violet-600 bg-violet-50', hoverBg: 'group-hover:bg-violet-500' },
+            { label: language === 'ar' ? 'خدمة على مدار الساعة' : '24/7 Service', Icon: IconService247, color: 'text-amber-600 bg-amber-50', hoverBg: 'group-hover:bg-amber-500' },
           ].map((feature, index) => (
             <motion.div
               key={index}
-              className="flex flex-col items-center gap-3 p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 group"
+              className="flex flex-col items-center gap-4 p-6 bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 group cursor-pointer"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.4, delay: 0.7 + index * 0.1 }}
-              whileHover={{ y: -5 }}
+              whileHover={{ y: -8, scale: 1.02 }}
             >
-              <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${feature.color} group-hover:scale-110 transition-transform duration-300`}>
-                <feature.Icon size={28} />
+              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${feature.color} ${feature.hoverBg} group-hover:text-white transition-all duration-300 shadow-sm`}>
+                <feature.Icon size={32} />
               </div>
-              <span className="text-sm font-semibold text-gray-700 text-center">{feature.label}</span>
+              <span className="text-sm font-bold text-gray-700 text-center group-hover:text-gray-900 transition-colors">{feature.label}</span>
             </motion.div>
           ))}
         </motion.div>

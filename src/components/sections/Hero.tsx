@@ -11,7 +11,7 @@ import {
   IconSecurity,
   IconLoanCalculator,
   AjilSymbol,
-} from '@/components/icons'
+} from '@/components/icons/AjilIcons'
 
 // Particle component for background effect
 function Particle({ delay = 0 }: { delay?: number }) {

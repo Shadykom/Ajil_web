@@ -13,5 +13,11 @@ export {
   IconPayments,
   IconSecurity,
   IconCarFinancing,
+  IconQuickApproval,
+  IconFlexiblePayments,
+  IconShariaCompliant,
+  IconService247,
+  IconOffers,
+  IconNews,
   AjilIcons,
 } from './AjilIcons'
