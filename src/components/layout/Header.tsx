@@ -115,15 +115,6 @@ const navItems = [
         description: 'Heavy equipment financing',
         descriptionAr: 'تمويل المعدات الثقيلة',
       },
-      { 
-        key: 'bab_rizq', 
-        labelKey: 'nav.bab_rizq', 
-        href: '/business/bab-rizq-jameel',
-        icon: IconCustomerSupport,
-        animatedIcon: AnimatedCustomerSupport,
-        description: 'Bab Rizq Jameel program',
-        descriptionAr: 'برنامج باب رزق جميل',
-      },
     ],
   },
   {

@@ -28,7 +28,6 @@ const footerLinks = {
     { key: 'cash_financing', labelKey: 'nav.cash_financing', href: '/business/cash-financing' },
     { key: 'car_financing', labelKey: 'nav.car_financing', href: '/business/car-financing' },
     { key: 'heavy_equipment', labelKey: 'nav.heavy_equipment', href: '/business/heavy-equipment' },
-    { key: 'bab_rizq', labelKey: 'nav.bab_rizq', href: '/business/bab-rizq-jameel' },
   ],
 }
 
