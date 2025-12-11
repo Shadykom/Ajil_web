@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
 import { 
@@ -262,14 +263,17 @@ export default function Header() {
                 whileHover={{ scale: 1.03 }}
                 transition={{ type: 'spring', stiffness: 400 }}
               >
+                {/* Logo background - visible on white */}
+                <div className="absolute -inset-2 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 rounded-xl shadow-lg" />
                 {/* Logo glow effect on hover */}
-                <div className="absolute -inset-2 bg-gradient-to-r from-primary-500/20 to-secondary-500/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <AjilLogo 
-                  width={130} 
-                  height={50} 
-                  variant="primary" 
-                  className="relative z-10"
-                  animated={false}
+                <div className="absolute -inset-2 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-500" />
+                <Image
+                  src="/images/AJIL_logo.png"
+                  alt="AJIL Finance Logo"
+                  width={120}
+                  height={42}
+                  className="object-contain relative z-10 p-1"
+                  priority
                 />
               </motion.div>
             </Link>
@@ -499,7 +503,17 @@ export default function Header() {
             >
               {/* Mobile Menu Header */}
               <div className="sticky top-0 bg-white z-10 px-6 py-5 border-b border-gray-100 flex items-center justify-between">
-                <AjilLogoMark size={40} variant="primary" animated />
+                <div className="relative">
+                  <div className="bg-gradient-to-br from-primary-600 to-primary-800 rounded-xl p-2 shadow-lg">
+                    <Image
+                      src="/images/AJIL_logo.png"
+                      alt="AJIL Finance Logo"
+                      width={80}
+                      height={30}
+                      className="object-contain"
+                    />
+                  </div>
+                </div>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center"
