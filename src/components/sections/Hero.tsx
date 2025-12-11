@@ -8,10 +8,10 @@ import {
   ArrowRight,
 } from 'lucide-react'
 import {
-  IconSecurity,
-  IconLoanCalculator,
-  AjilSymbol,
-} from '@/components/icons/AjilIcons'
+  AnimatedSecurity,
+  AnimatedLoanCalculator,
+  AnimatedAjilSymbol,
+} from '@/components/icons/AnimatedIcons'
 
 // Particle component for background effect
 function Particle({ delay = 0 }: { delay?: number }) {
@@ -178,9 +178,9 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <IconSecurity size={20} />
+              <AnimatedSecurity size={20} delay={0.5} />
               <span className="font-medium">{t('hero.badge')}</span>
-              <AjilSymbol size={16} className="animate-pulse" />
+              <AnimatedAjilSymbol size={16} delay={0.7} />
             </motion.div>
 
             {/* Title */}
@@ -298,7 +298,7 @@ export default function Hero() {
                 {/* Card Header */}
                 <div className="flex items-center justify-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl flex items-center justify-center">
-                    <IconLoanCalculator size={20} className="text-white" />
+                    <AnimatedLoanCalculator size={20} className="text-white" delay={0.3} />
                   </div>
                   <h3 className="text-2xl font-bold text-primary-600">
                     {t('hero.calculator_title')}

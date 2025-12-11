@@ -3,7 +3,7 @@
 import { useRef, useEffect, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
-import { AjilSymbol } from '@/components/icons'
+import { AnimatedAjilSymbol } from '@/components/icons/AnimatedIcons'
 
 interface StatItem {
   value: number
@@ -163,14 +163,14 @@ export default function Statistics() {
         animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <AjilSymbol size={80} />
+        <AnimatedAjilSymbol size={80} delay={0.2} />
       </motion.div>
       <motion.div
         className="absolute bottom-16 right-[15%] text-white/10"
         animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }}
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
       >
-        <AjilSymbol size={60} />
+        <AnimatedAjilSymbol size={60} delay={0.5} />
       </motion.div>
 
       {/* Content */}

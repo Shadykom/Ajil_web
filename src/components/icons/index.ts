@@ -1,3 +1,4 @@
+// Static Icons
 export {
   AjilSymbol,
   IconLoanProducts,
@@ -21,3 +22,20 @@ export {
   IconNews,
   AjilIcons,
 } from './AjilIcons'
+
+// Animated Icons
+export {
+  AnimatedAjilSymbol,
+  AnimatedCarFinancing,
+  AnimatedPersonalFinancing,
+  AnimatedBusinessFinancing,
+  AnimatedLoanCalculator,
+  AnimatedSecurity,
+  AnimatedQuickApproval,
+  AnimatedFlexiblePayments,
+  AnimatedShariaCompliant,
+  AnimatedService247,
+  AnimatedCustomerSupport,
+  AnimatedLoadingSpinner,
+  AnimatedIcons,
+} from './AnimatedIcons'

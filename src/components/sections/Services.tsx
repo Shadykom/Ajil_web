@@ -8,16 +8,18 @@ import {
   ArrowRight,
 } from 'lucide-react'
 import {
-  IconCarFinancing,
-  IconPersonalFinancing,
-  IconBusinessFinancing,
   IconLoanProducts,
-  IconQuickApproval,
-  IconFlexiblePayments,
-  IconShariaCompliant,
-  IconService247,
   AjilSymbol,
 } from '@/components/icons'
+import {
+  AnimatedCarFinancing,
+  AnimatedPersonalFinancing,
+  AnimatedBusinessFinancing,
+  AnimatedQuickApproval,
+  AnimatedFlexiblePayments,
+  AnimatedShariaCompliant,
+  AnimatedService247,
+} from '@/components/icons/AnimatedIcons'
 import Link from 'next/link'
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { size?: number | string }>
@@ -34,7 +36,7 @@ const services: Array<{
 }> = [
   {
     key: 'car',
-    icon: IconCarFinancing,
+    icon: AnimatedCarFinancing,
     titleKey: 'services.car_title',
     descKey: 'services.car_desc',
     href: '/individuals/car-financing',
@@ -44,7 +46,7 @@ const services: Array<{
   },
   {
     key: 'cash',
-    icon: IconPersonalFinancing,
+    icon: AnimatedPersonalFinancing,
     titleKey: 'services.cash_title',
     descKey: 'services.cash_desc',
     href: '/individuals/personal-financing',
@@ -54,7 +56,7 @@ const services: Array<{
   },
   {
     key: 'business',
-    icon: IconBusinessFinancing,
+    icon: AnimatedBusinessFinancing,
     titleKey: 'services.business_title',
     descKey: 'services.business_desc',
     href: '/business/cash-financing',
@@ -225,10 +227,10 @@ export default function Services() {
           transition={{ duration: 0.6, delay: 0.6 }}
         >
           {[
-            { label: language === 'ar' ? 'موافقة سريعة' : 'Quick Approval', Icon: IconQuickApproval, color: 'text-emerald-600 bg-emerald-50', hoverBg: 'group-hover:bg-emerald-500' },
-            { label: language === 'ar' ? 'أقساط مرنة' : 'Flexible Payments', Icon: IconFlexiblePayments, color: 'text-blue-600 bg-blue-50', hoverBg: 'group-hover:bg-blue-500' },
-            { label: language === 'ar' ? 'متوافق مع الشريعة' : 'Sharia Compliant', Icon: IconShariaCompliant, color: 'text-violet-600 bg-violet-50', hoverBg: 'group-hover:bg-violet-500' },
-            { label: language === 'ar' ? 'خدمة على مدار الساعة' : '24/7 Service', Icon: IconService247, color: 'text-amber-600 bg-amber-50', hoverBg: 'group-hover:bg-amber-500' },
+            { label: language === 'ar' ? 'موافقة سريعة' : 'Quick Approval', Icon: AnimatedQuickApproval, color: 'text-emerald-600 bg-emerald-50', hoverBg: 'group-hover:bg-emerald-500', animDelay: 0 },
+            { label: language === 'ar' ? 'أقساط مرنة' : 'Flexible Payments', Icon: AnimatedFlexiblePayments, color: 'text-blue-600 bg-blue-50', hoverBg: 'group-hover:bg-blue-500', animDelay: 0.1 },
+            { label: language === 'ar' ? 'متوافق مع الشريعة' : 'Sharia Compliant', Icon: AnimatedShariaCompliant, color: 'text-violet-600 bg-violet-50', hoverBg: 'group-hover:bg-violet-500', animDelay: 0.2 },
+            { label: language === 'ar' ? 'خدمة على مدار الساعة' : '24/7 Service', Icon: AnimatedService247, color: 'text-amber-600 bg-amber-50', hoverBg: 'group-hover:bg-amber-500', animDelay: 0.3 },
           ].map((feature, index) => (
             <motion.div
               key={index}
@@ -239,7 +241,7 @@ export default function Services() {
               whileHover={{ y: -8, scale: 1.02 }}
             >
               <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${feature.color} ${feature.hoverBg} group-hover:text-white transition-all duration-300 shadow-sm`}>
-                <feature.Icon size={32} />
+                <feature.Icon size={32} delay={feature.animDelay} />
               </div>
               <span className="text-sm font-bold text-gray-700 text-center group-hover:text-gray-900 transition-colors">{feature.label}</span>
             </motion.div>
