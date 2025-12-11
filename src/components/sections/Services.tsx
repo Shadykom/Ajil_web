@@ -1,23 +1,43 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, ComponentType, SVGProps } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
 import { 
-  Car, 
-  Banknote, 
-  Building2, 
   ArrowLeft,
   ArrowRight,
-  Users,
-  Sparkles
 } from 'lucide-react'
+import {
+  IconLoanProducts,
+  AjilSymbol,
+  AjilLogoBackground,
+} from '@/components/icons'
+import {
+  AnimatedCarFinancing,
+  AnimatedPersonalFinancing,
+  AnimatedBusinessFinancing,
+  AnimatedQuickApproval,
+  AnimatedFlexiblePayments,
+  AnimatedShariaCompliant,
+  AnimatedService247,
+} from '@/components/icons/AnimatedIcons'
 import Link from 'next/link'
 
-const services = [
+type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { size?: number | string }>
+
+const services: Array<{
+  key: string
+  icon: IconComponent
+  titleKey: string
+  descKey: string
+  href: string
+  gradient: string
+  iconBg: string
+  delay: number
+}> = [
   {
     key: 'car',
-    icon: Car,
+    icon: AnimatedCarFinancing,
     titleKey: 'services.car_title',
     descKey: 'services.car_desc',
     href: '/individuals/car-financing',
@@ -27,7 +47,7 @@ const services = [
   },
   {
     key: 'cash',
-    icon: Banknote,
+    icon: AnimatedPersonalFinancing,
     titleKey: 'services.cash_title',
     descKey: 'services.cash_desc',
     href: '/individuals/personal-financing',
@@ -37,7 +57,7 @@ const services = [
   },
   {
     key: 'business',
-    icon: Building2,
+    icon: AnimatedBusinessFinancing,
     titleKey: 'services.business_title',
     descKey: 'services.business_desc',
     href: '/business/cash-financing',
@@ -89,7 +109,7 @@ function ServiceCard({
           transition={{ type: 'spring', stiffness: 400 }}
         >
           <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-          <Icon className="w-10 h-10 text-primary-500 group-hover:text-white relative z-10 transition-colors duration-500" />
+          <Icon size={40} className="text-primary-500 group-hover:text-white relative z-10 transition-colors duration-500" />
         </motion.div>
 
         {/* Content */}
@@ -134,6 +154,14 @@ export default function Services() {
       <div className="absolute top-0 left-0 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl" />
       
+      {/* AJIL Logo Background Decorations */}
+      <div className="absolute top-10 right-0 opacity-[0.02]">
+        <AjilLogoBackground size={350} animated />
+      </div>
+      <div className="absolute bottom-10 left-0 opacity-[0.015] -rotate-12">
+        <AjilLogoBackground size={300} animated />
+      </div>
+
       {/* Floating Elements */}
       <motion.div
         className="absolute top-20 right-10 w-20 h-20 bg-primary-500/10 rounded-full"
@@ -161,9 +189,9 @@ export default function Services() {
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.4, delay: 0.2 }}
           >
-            <Users className="w-4 h-4" />
+            <IconLoanProducts size={16} />
             <span>{t('services.badge')}</span>
-            <Sparkles className="w-4 h-4" />
+            <AjilSymbol size={16} />
           </motion.div>
 
           {/* Title */}
@@ -208,21 +236,23 @@ export default function Services() {
           transition={{ duration: 0.6, delay: 0.6 }}
         >
           {[
-            { label: language === 'ar' ? 'موافقة سريعة' : 'Quick Approval', icon: '⚡' },
-            { label: language === 'ar' ? 'أقساط مرنة' : 'Flexible Payments', icon: '💳' },
-            { label: language === 'ar' ? 'متوافق مع الشريعة' : 'Sharia Compliant', icon: '🕌' },
-            { label: language === 'ar' ? 'خدمة على مدار الساعة' : '24/7 Service', icon: '🌟' },
+            { label: language === 'ar' ? 'موافقة سريعة' : 'Quick Approval', Icon: AnimatedQuickApproval, color: 'text-emerald-600 bg-emerald-50', hoverBg: 'group-hover:bg-emerald-500', animDelay: 0 },
+            { label: language === 'ar' ? 'أقساط مرنة' : 'Flexible Payments', Icon: AnimatedFlexiblePayments, color: 'text-blue-600 bg-blue-50', hoverBg: 'group-hover:bg-blue-500', animDelay: 0.1 },
+            { label: language === 'ar' ? 'متوافق مع الشريعة' : 'Sharia Compliant', Icon: AnimatedShariaCompliant, color: 'text-violet-600 bg-violet-50', hoverBg: 'group-hover:bg-violet-500', animDelay: 0.2 },
+            { label: language === 'ar' ? 'خدمة على مدار الساعة' : '24/7 Service', Icon: AnimatedService247, color: 'text-amber-600 bg-amber-50', hoverBg: 'group-hover:bg-amber-500', animDelay: 0.3 },
           ].map((feature, index) => (
             <motion.div
               key={index}
-              className="flex flex-col items-center gap-3 p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100"
+              className="flex flex-col items-center gap-4 p-6 bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 group cursor-pointer"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.4, delay: 0.7 + index * 0.1 }}
-              whileHover={{ y: -5 }}
+              whileHover={{ y: -8, scale: 1.02 }}
             >
-              <span className="text-3xl">{feature.icon}</span>
-              <span className="text-sm font-semibold text-gray-700 text-center">{feature.label}</span>
+              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${feature.color} ${feature.hoverBg} group-hover:text-white transition-all duration-300 shadow-sm`}>
+                <feature.Icon size={32} delay={feature.animDelay} />
+              </div>
+              <span className="text-sm font-bold text-gray-700 text-center group-hover:text-gray-900 transition-colors">{feature.label}</span>
             </motion.div>
           ))}
         </motion.div>

@@ -4,12 +4,15 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
 import { 
-  Shield, 
   ArrowLeft, 
   ArrowRight,
-  Calculator,
-  Sparkles
 } from 'lucide-react'
+import {
+  AnimatedSecurity,
+  AnimatedLoanCalculator,
+  AnimatedAjilSymbol,
+} from '@/components/icons/AnimatedIcons'
+import { AjilLogoBackground } from '@/components/icons/AjilLogo'
 
 // Particle component for background effect
 function Particle({ delay = 0 }: { delay?: number }) {
@@ -146,6 +149,14 @@ export default function Hero() {
           delay={1}
         />
 
+        {/* AJIL Logo Background Decorations */}
+        <div className="absolute -top-20 -right-20 opacity-[0.03]">
+          <AjilLogoBackground size={500} animated />
+        </div>
+        <div className="absolute -bottom-32 -left-32 opacity-[0.02] rotate-180">
+          <AjilLogoBackground size={400} animated />
+        </div>
+
         {/* Particles */}
         <div className="absolute inset-0 overflow-hidden">
           {Array.from({ length: 20 }).map((_, i) => (
@@ -176,9 +187,9 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <Shield className="w-5 h-5" />
+              <AnimatedSecurity size={20} delay={0.5} />
               <span className="font-medium">{t('hero.badge')}</span>
-              <Sparkles className="w-4 h-4 animate-pulse" />
+              <AnimatedAjilSymbol size={16} delay={0.7} />
             </motion.div>
 
             {/* Title */}
@@ -296,7 +307,7 @@ export default function Hero() {
                 {/* Card Header */}
                 <div className="flex items-center justify-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl flex items-center justify-center">
-                    <Calculator className="w-5 h-5 text-white" />
+                    <AnimatedLoanCalculator size={20} className="text-white" delay={0.3} />
                   </div>
                   <h3 className="text-2xl font-bold text-primary-600">
                     {t('hero.calculator_title')}

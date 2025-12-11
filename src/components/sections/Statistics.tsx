@@ -3,6 +3,8 @@
 import { useRef, useEffect, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
+import { AnimatedAjilSymbol } from '@/components/icons/AnimatedIcons'
+import { AjilLogoBackground } from '@/components/icons/AjilLogo'
 
 interface StatItem {
   value: number
@@ -154,7 +156,31 @@ export default function Statistics() {
             backgroundSize: '30px 30px',
           }}
         />
+
+        {/* AJIL Logo Background Decorations */}
+        <div className="absolute top-0 right-0 opacity-[0.03]">
+          <AjilLogoBackground size={400} animated />
+        </div>
+        <div className="absolute bottom-0 left-0 opacity-[0.02] rotate-180">
+          <AjilLogoBackground size={350} animated />
+        </div>
       </div>
+
+      {/* Floating AJIL Symbols */}
+      <motion.div
+        className="absolute top-16 left-[10%] text-white/10"
+        animate={{ y: [0, -15, 0], rotate: [0, 5, 0] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <AnimatedAjilSymbol size={80} delay={0.2} />
+      </motion.div>
+      <motion.div
+        className="absolute bottom-16 right-[15%] text-white/10"
+        animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+      >
+        <AnimatedAjilSymbol size={60} delay={0.5} />
+      </motion.div>
 
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
