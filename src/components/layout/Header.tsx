@@ -26,16 +26,23 @@ import {
   IconNews,
   IconCustomerSupport,
   AjilSymbol,
+  AnimatedCarFinancing,
+  AnimatedPersonalFinancing,
+  AnimatedBusinessFinancing,
+  AnimatedLoanCalculator,
+  AnimatedCustomerSupport,
+  AnimatedAjilSymbol,
 } from '@/components/icons'
-import { AjilLogo, AjilLogoMark } from '@/components/icons/AjilLogo'
+import { AjilLogoMark } from '@/components/icons/AjilLogo'
 
-// Navigation items with icons
+// Navigation items with icons (static for desktop, animated for mobile)
 const navItems = [
   {
     key: 'individuals',
     labelKey: 'nav.individuals',
     hasDropdown: true,
     icon: IconPersonalFinancing,
+    animatedIcon: AnimatedPersonalFinancing,
     description: 'Personal financing solutions',
     descriptionAr: 'حلول التمويل الشخصي',
     dropdownItems: [
@@ -44,6 +51,7 @@ const navItems = [
         labelKey: 'nav.car_financing', 
         href: '/individuals/car-financing',
         icon: IconCarFinancing,
+        animatedIcon: AnimatedCarFinancing,
         description: 'Finance your dream car',
         descriptionAr: 'مول سيارة أحلامك',
       },
@@ -52,6 +60,7 @@ const navItems = [
         labelKey: 'nav.personal_financing', 
         href: '/individuals/personal-financing',
         icon: IconPersonalFinancing,
+        animatedIcon: AnimatedPersonalFinancing,
         description: 'Personal cash financing',
         descriptionAr: 'تمويل نقدي شخصي',
       },
@@ -60,6 +69,7 @@ const navItems = [
         labelKey: 'nav.financing_rates', 
         href: '/individuals/rates',
         icon: IconLoanCalculator,
+        animatedIcon: AnimatedLoanCalculator,
         description: 'View our competitive rates',
         descriptionAr: 'اطلع على أسعارنا التنافسية',
       },
@@ -70,6 +80,7 @@ const navItems = [
     labelKey: 'nav.business',
     hasDropdown: true,
     icon: IconBusinessFinancing,
+    animatedIcon: AnimatedBusinessFinancing,
     description: 'Business financing solutions',
     descriptionAr: 'حلول تمويل الأعمال',
     dropdownItems: [
@@ -78,6 +89,7 @@ const navItems = [
         labelKey: 'nav.cash_financing', 
         href: '/business/cash-financing',
         icon: IconLoanCalculator,
+        animatedIcon: AnimatedLoanCalculator,
         description: 'Cash financing for businesses',
         descriptionAr: 'تمويل نقدي للأعمال',
       },
@@ -86,6 +98,7 @@ const navItems = [
         labelKey: 'nav.car_financing', 
         href: '/business/car-financing',
         icon: IconCarFinancing,
+        animatedIcon: AnimatedCarFinancing,
         description: 'Fleet and vehicle financing',
         descriptionAr: 'تمويل الأسطول والمركبات',
       },
@@ -94,6 +107,7 @@ const navItems = [
         labelKey: 'nav.heavy_equipment', 
         href: '/business/heavy-equipment',
         icon: IconBusinessFinancing,
+        animatedIcon: AnimatedBusinessFinancing,
         description: 'Heavy equipment financing',
         descriptionAr: 'تمويل المعدات الثقيلة',
       },
@@ -102,6 +116,7 @@ const navItems = [
         labelKey: 'nav.bab_rizq', 
         href: '/business/bab-rizq-jameel',
         icon: IconCustomerSupport,
+        animatedIcon: AnimatedCustomerSupport,
         description: 'Bab Rizq Jameel program',
         descriptionAr: 'برنامج باب رزق جميل',
       },
@@ -112,12 +127,14 @@ const navItems = [
     labelKey: 'nav.offers',
     href: '/offers',
     icon: IconOffers,
+    animatedIcon: AnimatedAjilSymbol,
   },
   {
     key: 'about',
     labelKey: 'nav.about',
     hasDropdown: true,
     icon: IconNews,
+    animatedIcon: AnimatedAjilSymbol,
     description: 'Learn about AJIL',
     descriptionAr: 'تعرف على أجيل',
     dropdownItems: [
@@ -126,6 +143,7 @@ const navItems = [
         labelKey: 'nav.our_story', 
         href: '/about/story',
         icon: AjilSymbol,
+        animatedIcon: AnimatedAjilSymbol,
         description: 'Our journey and mission',
         descriptionAr: 'رحلتنا ومهمتنا',
       },
@@ -134,6 +152,7 @@ const navItems = [
         labelKey: 'nav.news', 
         href: '/about/news',
         icon: IconNews,
+        animatedIcon: AnimatedAjilSymbol,
         description: 'Latest news and updates',
         descriptionAr: 'آخر الأخبار والتحديثات',
       },
@@ -142,6 +161,7 @@ const navItems = [
         labelKey: 'nav.financial_reports', 
         href: '/about/reports',
         icon: IconLoanCalculator,
+        animatedIcon: AnimatedLoanCalculator,
         description: 'Financial reports and data',
         descriptionAr: 'التقارير المالية والبيانات',
       },
@@ -152,6 +172,7 @@ const navItems = [
     labelKey: 'nav.contact',
     href: '/contact',
     icon: IconCustomerSupport,
+    animatedIcon: AnimatedCustomerSupport,
   },
 ]
 
@@ -263,16 +284,14 @@ export default function Header() {
                 whileHover={{ scale: 1.03 }}
                 transition={{ type: 'spring', stiffness: 400 }}
               >
-                {/* Logo background - visible on white */}
-                <div className="absolute -inset-2 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 rounded-xl shadow-lg" />
-                {/* Logo glow effect on hover */}
-                <div className="absolute -inset-2 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-500" />
+                {/* Light background for logo visibility */}
+                <div className="absolute -inset-1 bg-primary-600 rounded-lg opacity-90 group-hover:opacity-100 group-hover:bg-primary-500 transition-all duration-300" />
                 <Image
                   src="/images/AJIL_logo.png"
                   alt="AJIL Finance Logo"
-                  width={120}
-                  height={42}
-                  className="object-contain relative z-10 p-1"
+                  width={115}
+                  height={40}
+                  className="object-contain relative z-10 p-1.5"
                   priority
                 />
               </motion.div>
@@ -503,16 +522,14 @@ export default function Header() {
             >
               {/* Mobile Menu Header */}
               <div className="sticky top-0 bg-white z-10 px-6 py-5 border-b border-gray-100 flex items-center justify-between">
-                <div className="relative">
-                  <div className="bg-gradient-to-br from-primary-600 to-primary-800 rounded-xl p-2 shadow-lg">
-                    <Image
-                      src="/images/AJIL_logo.png"
-                      alt="AJIL Finance Logo"
-                      width={80}
-                      height={30}
-                      className="object-contain"
-                    />
-                  </div>
+                <div className="bg-primary-600 rounded-lg p-1.5">
+                  <Image
+                    src="/images/AJIL_logo.png"
+                    alt="AJIL Finance Logo"
+                    width={80}
+                    height={30}
+                    className="object-contain"
+                  />
                 </div>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -525,7 +542,7 @@ export default function Header() {
               {/* Mobile Menu Content */}
               <div className="px-4 py-6">
                 {navItems.map((item, index) => {
-                  const ItemIcon = item.icon
+                  const AnimatedIcon = item.animatedIcon
                   const isExpanded = mobileActiveDropdown === item.key
                   
                   return (
@@ -539,25 +556,38 @@ export default function Header() {
                       {item.href ? (
                         <Link
                           href={item.href}
-                          className="flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 transition-colors"
+                          className="group flex items-center gap-4 p-4 rounded-2xl hover:bg-primary-50 transition-all duration-300"
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
-                          <div className="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center">
-                            <ItemIcon size={24} className="text-primary-600" />
-                          </div>
-                          <span className="font-bold text-gray-900 text-lg">{t(item.labelKey)}</span>
+                          <motion.div 
+                            className="w-12 h-12 rounded-xl bg-primary-100 group-hover:bg-primary-500 flex items-center justify-center transition-colors duration-300"
+                            whileHover={{ scale: 1.1, rotate: 5 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <AnimatedIcon size={24} className="text-primary-600 group-hover:text-white transition-colors duration-300" />
+                          </motion.div>
+                          <span className="font-bold text-gray-900 group-hover:text-primary-600 text-lg transition-colors duration-300">{t(item.labelKey)}</span>
                         </Link>
                       ) : (
                         <div>
                           <button
                             onClick={() => setMobileActiveDropdown(isExpanded ? null : item.key)}
-                            className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 transition-colors"
+                            className="group w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-primary-50 transition-all duration-300"
                           >
-                            <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${isExpanded ? 'bg-primary-500' : 'bg-primary-100'}`}>
-                              <ItemIcon size={24} className={isExpanded ? 'text-white' : 'text-primary-600'} />
-                            </div>
-                            <span className="font-bold text-gray-900 text-lg flex-1 text-start">{t(item.labelKey)}</span>
-                            <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
+                            <motion.div 
+                              className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${isExpanded ? 'bg-primary-500' : 'bg-primary-100 group-hover:bg-primary-200'}`}
+                              whileHover={{ scale: 1.1, rotate: 5 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              <AnimatedIcon size={24} className={`transition-colors duration-300 ${isExpanded ? 'text-white' : 'text-primary-600'}`} />
+                            </motion.div>
+                            <span className="font-bold text-gray-900 group-hover:text-primary-600 text-lg flex-1 text-start transition-colors duration-300">{t(item.labelKey)}</span>
+                            <motion.div
+                              animate={{ rotate: isExpanded ? 180 : 0 }}
+                              transition={{ duration: 0.3 }}
+                            >
+                              <ChevronDown className="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300" />
+                            </motion.div>
                           </button>
                           
                           <AnimatePresence>
@@ -571,7 +601,7 @@ export default function Header() {
                               >
                                 <div className={`${dir === 'rtl' ? 'pr-8' : 'pl-8'} py-2`}>
                                   {item.dropdownItems?.map((dropdownItem, idx) => {
-                                    const DropdownIcon = dropdownItem.icon
+                                    const DropdownAnimatedIcon = dropdownItem.animatedIcon
                                     return (
                                       <motion.div
                                         key={dropdownItem.key}
@@ -581,14 +611,18 @@ export default function Header() {
                                       >
                                         <Link
                                           href={dropdownItem.href}
-                                          className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors"
+                                          className="group/item flex items-center gap-3 p-3 rounded-xl hover:bg-primary-50 transition-all duration-300"
                                           onClick={() => setIsMobileMenuOpen(false)}
                                         >
-                                          <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center">
-                                            <DropdownIcon size={18} className="text-gray-600" />
-                                          </div>
+                                          <motion.div 
+                                            className="w-10 h-10 rounded-lg bg-gray-100 group-hover/item:bg-primary-500 flex items-center justify-center transition-colors duration-300"
+                                            whileHover={{ scale: 1.15, rotate: 10 }}
+                                            whileTap={{ scale: 0.9 }}
+                                          >
+                                            <DropdownAnimatedIcon size={20} className="text-gray-600 group-hover/item:text-white transition-colors duration-300" />
+                                          </motion.div>
                                           <div>
-                                            <span className="block font-semibold text-gray-800">{t(dropdownItem.labelKey)}</span>
+                                            <span className="block font-semibold text-gray-800 group-hover/item:text-primary-600 transition-colors duration-300">{t(dropdownItem.labelKey)}</span>
                                             <span className="block text-xs text-gray-500">
                                               {language === 'ar' ? dropdownItem.descriptionAr : dropdownItem.description}
                                             </span>
