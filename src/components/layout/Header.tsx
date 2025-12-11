@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
 import { 
@@ -9,7 +10,6 @@ import {
   Menu, 
   X, 
   ChevronDown, 
-  Shield,
   User,
   Globe
 } from 'lucide-react'
@@ -123,22 +123,19 @@ export default function Header() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
               <motion.div 
-                className="relative w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center overflow-hidden"
+                className="relative overflow-hidden"
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: 'spring', stiffness: 400 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                <Shield className="w-6 h-6 text-white relative z-10" />
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-secondary-500 rounded-full animate-pulse" />
+                <Image
+                  src="/images/AJIL_logo.png"
+                  alt="AJIL Finance Logo"
+                  width={140}
+                  height={50}
+                  className="object-contain"
+                  priority
+                />
               </motion.div>
-              <div className="flex flex-col">
-                <span className="text-lg font-bold text-primary-600 leading-tight">
-                  {t('common.brand_name')}
-                </span>
-                <span className="text-sm font-bold text-secondary-500 leading-tight">
-                  {t('common.brand_suffix')}
-                </span>
-              </div>
             </Link>
 
             {/* Desktop Navigation */}

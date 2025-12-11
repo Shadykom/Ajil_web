@@ -1,10 +1,10 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
 import { 
-  Shield, 
   Phone, 
   Mail, 
   MapPin,
@@ -32,11 +32,11 @@ const footerLinks = {
 }
 
 const socialLinks = [
-  { icon: Twitter, href: 'https://twitter.com/aljfinance', label: 'Twitter' },
-  { icon: Facebook, href: 'https://facebook.com/aljfinance', label: 'Facebook' },
-  { icon: Instagram, href: 'https://instagram.com/aljfinance', label: 'Instagram' },
-  { icon: Youtube, href: 'https://youtube.com/aljfinance', label: 'YouTube' },
-  { icon: Linkedin, href: 'https://linkedin.com/company/aljfinance', label: 'LinkedIn' },
+  { icon: Twitter, href: 'https://twitter.com/ajilfinance', label: 'Twitter' },
+  { icon: Facebook, href: 'https://facebook.com/ajilfinance', label: 'Facebook' },
+  { icon: Instagram, href: 'https://instagram.com/ajilfinance', label: 'Instagram' },
+  { icon: Youtube, href: 'https://youtube.com/ajilfinance', label: 'YouTube' },
+  { icon: Linkedin, href: 'https://linkedin.com/company/ajilfinance', label: 'LinkedIn' },
 ]
 
 export default function Footer() {
@@ -69,21 +69,18 @@ export default function Footer() {
             <div className="lg:col-span-1">
               <Link href="/" className="flex items-center gap-3 group mb-6">
                 <motion.div 
-                  className="relative w-14 h-14 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center overflow-hidden"
-                  whileHover={{ scale: 1.05, rotate: 5 }}
+                  className="relative overflow-hidden bg-white rounded-xl p-2"
+                  whileHover={{ scale: 1.05 }}
                   transition={{ type: 'spring', stiffness: 400 }}
                 >
-                  <Shield className="w-7 h-7 text-white relative z-10" />
-                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-secondary-500 rounded-full animate-pulse" />
+                  <Image
+                    src="/images/AJIL_logo.png"
+                    alt="AJIL Finance Logo"
+                    width={120}
+                    height={45}
+                    className="object-contain"
+                  />
                 </motion.div>
-                <div className="flex flex-col">
-                  <span className="text-xl font-bold text-white leading-tight">
-                    {t('common.brand_name')}
-                  </span>
-                  <span className="text-sm font-bold text-secondary-500 leading-tight">
-                    {t('common.brand_suffix')}
-                  </span>
-                </div>
               </Link>
               
               <p className="text-gray-400 text-sm leading-relaxed mb-8 max-w-sm">
@@ -173,7 +170,7 @@ export default function Footer() {
                 </a>
                 
                 <a 
-                  href="mailto:info@aljfinance.com" 
+                  href="mailto:info@ajil.com" 
                   className="flex items-start gap-4 text-gray-400 hover:text-white transition-colors group"
                 >
                   <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-primary-500 transition-colors">
