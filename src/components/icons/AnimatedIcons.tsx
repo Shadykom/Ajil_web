@@ -41,7 +41,7 @@ const scaleVariants: Variants = {
 }
 
 // ============================================
-// ANIMATED AJIL SYMBOL
+// ANIMATED AJIL SYMBOL (A Shape)
 // ============================================
 export function AnimatedAjilSymbol({ 
   size = 24, 
@@ -64,8 +64,9 @@ export function AnimatedAjilSymbol({
       initial="hidden"
       animate={isInView && animate ? 'visible' : 'hidden'}
     >
+      {/* Main A shape */}
       <motion.path
-        d="M3 5L12 19L21 5"
+        d="M3 20L12 4L21 20"
         stroke="currentColor"
         strokeWidth="2.5"
         strokeLinecap="round"
@@ -73,15 +74,35 @@ export function AnimatedAjilSymbol({
         variants={drawVariants}
         custom={delay}
       />
+      {/* A crossbar */}
       <motion.path
-        d="M7 7L12 15L17 7"
+        d="M6 14L18 14"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.4}
+      />
+      {/* Inner accent A */}
+      <motion.path
+        d="M7 18L12 8L17 18"
         stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
         opacity="0.4"
         variants={drawVariants}
-        custom={delay + 0.3}
+        custom={delay + 0.2}
+      />
+      {/* Inner A crossbar */}
+      <motion.path
+        d="M9 13L15 13"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        opacity="0.3"
+        variants={drawVariants}
+        custom={delay + 0.5}
       />
     </motion.svg>
   )
@@ -773,7 +794,7 @@ export function AnimatedOffers({
         variants={drawVariants}
         custom={delay + 0.3}
       />
-      {/* Bow - AJIL V shape */}
+      {/* Bow - Gift ribbon */}
       <motion.path
         d="M12 10c-2 0-4-2-4-4s2-3 4-3"
         stroke="currentColor"
@@ -954,6 +975,1178 @@ export function AnimatedNews({
 }
 
 // ============================================
+// ANIMATED REFRESH
+// ============================================
+export function AnimatedRefresh({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Top refresh arrow */}
+      <motion.path
+        d="M6 7.5A6 6 0 0117.25 7.5L18.75 5.25"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay}
+      />
+      <motion.path
+        d="M17.25 7.5H20.625"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.2}
+      />
+      {/* Bottom refresh arrow */}
+      <motion.path
+        d="M18 16.5A6 6 0 016.75 16.5L5.25 18.75"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.3}
+      />
+      <motion.path
+        d="M6.75 16.5H3.375"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.5}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
+// ANIMATED TERMS & CONDITIONS
+// ============================================
+export function AnimatedTerms({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Paper */}
+      <motion.path
+        d="M8.25 3.75H14.25L17.25 6.75V18.75H8.25V3.75Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay}
+      />
+      <motion.path
+        d="M14.25 3.75V6.75H17.25"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.2}
+      />
+      {/* Text lines */}
+      <motion.path
+        d="M9.75 9H14.25"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.3}
+      />
+      <motion.path
+        d="M9.75 11.25H14.25"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.4}
+      />
+      <motion.path
+        d="M9.75 13.5H12.75"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.5}
+      />
+      {/* Chatbot badge */}
+      <motion.circle
+        cx="16.5"
+        cy="16.5"
+        r="3"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        variants={scaleVariants}
+        custom={delay + 0.6}
+      />
+      <motion.path
+        d="M15.375 16.125C15.375 15.5 15.75 15.2 16.5 15.2C17.25 15.2 17.625 15.5 17.625 16.125C17.625 16.5 17.44 16.7 16.94 16.88L16.5 17V17.5"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.7}
+      />
+      <motion.circle
+        cx="16.5"
+        cy="18"
+        r="0.3"
+        fill="currentColor"
+        variants={scaleVariants}
+        custom={delay + 0.8}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
+// ANIMATED FAQ
+// ============================================
+export function AnimatedFaq({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Speech bubble */}
+      <motion.path
+        d="M6.75 6.75C6.75 5.1 8.25 3.75 10.3 3.75H13.7C15.75 3.75 17.25 5.1 17.25 6.75V9.75C17.25 11.4 15.75 12.75 13.7 12.75H11.25L9 15V12.75H10.3C8.25 12.75 6.75 11.4 6.75 9.75V6.75Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay}
+      />
+      {/* Question mark */}
+      <motion.path
+        d="M11.625 6.75C11.8 6.2 12.25 5.85 12.9 5.85C13.65 5.85 14.25 6.4 14.25 7.125C14.25 7.6 14 7.95 13.5 8.2C13.1 8.35 12.9 8.55 12.9 9"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.4}
+      />
+      <motion.circle
+        cx="12.9"
+        cy="10.3"
+        r="0.5"
+        fill="currentColor"
+        variants={scaleVariants}
+        custom={delay + 0.6}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
+// ANIMATED BANK TRANSFER
+// ============================================
+export function AnimatedBankTransfer({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Bank roof */}
+      <motion.path
+        d="M6 8.25L12 4.5L18 8.25H6Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay}
+      />
+      {/* Columns */}
+      <motion.path
+        d="M7.5 8.25V13.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.15}
+      />
+      <motion.path
+        d="M10.5 8.25V13.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.2}
+      />
+      <motion.path
+        d="M13.5 8.25V13.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.25}
+      />
+      <motion.path
+        d="M16.5 8.25V13.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.3}
+      />
+      {/* Base */}
+      <motion.path
+        d="M6 13.5H18"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.4}
+      />
+      {/* Transfer arrows */}
+      <motion.path
+        d="M7.5 15V18M7.5 18L6 16.5M7.5 18L9 16.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.5}
+      />
+      <motion.path
+        d="M16.5 15V18M16.5 15L15 16.5M16.5 15L18 16.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.6}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
+// ANIMATED CARD PAYMENT
+// ============================================
+export function AnimatedCardPayment({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Back card */}
+      <motion.rect
+        x="6"
+        y="8.25"
+        width="12"
+        height="6.75"
+        rx="1.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        variants={drawVariants}
+        custom={delay}
+      />
+      <motion.path
+        d="M6 10.5H18"
+        stroke="currentColor"
+        strokeWidth="2"
+        variants={drawVariants}
+        custom={delay + 0.2}
+      />
+      {/* Front card */}
+      <motion.rect
+        x="8.25"
+        y="6.75"
+        width="12"
+        height="6.75"
+        rx="1.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        variants={drawVariants}
+        custom={delay + 0.3}
+      />
+      <motion.path
+        d="M10.5 9H18"
+        stroke="currentColor"
+        strokeWidth="2"
+        variants={drawVariants}
+        custom={delay + 0.5}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
+// ANIMATED EDIT COINS
+// ============================================
+export function AnimatedEditCoins({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Left stack */}
+      <motion.ellipse
+        cx="9"
+        cy="12"
+        rx="2.25"
+        ry="1.125"
+        stroke="currentColor"
+        strokeWidth="2"
+        variants={drawVariants}
+        custom={delay}
+      />
+      <motion.path
+        d="M6.75 12V15C6.75 15.6 7.75 16.125 9 16.125C10.25 16.125 11.25 15.6 11.25 15V12"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.2}
+      />
+      <motion.ellipse
+        cx="9"
+        cy="13.5"
+        rx="2.25"
+        ry="1.125"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        variants={drawVariants}
+        custom={delay + 0.3}
+      />
+      {/* Right stack */}
+      <motion.ellipse
+        cx="15"
+        cy="10.5"
+        rx="2.25"
+        ry="1.125"
+        stroke="currentColor"
+        strokeWidth="2"
+        variants={drawVariants}
+        custom={delay + 0.35}
+      />
+      <motion.path
+        d="M12.75 10.5V13.5C12.75 14.1 13.75 14.625 15 14.625C16.25 14.625 17.25 14.1 17.25 13.5V10.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.5}
+      />
+      <motion.ellipse
+        cx="15"
+        cy="12"
+        rx="2.25"
+        ry="1.125"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        variants={drawVariants}
+        custom={delay + 0.6}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
+// ANIMATED ANALYTICS
+// ============================================
+export function AnimatedAnalytics({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Frame */}
+      <motion.rect
+        x="5.25"
+        y="5.25"
+        width="13.5"
+        height="13.5"
+        rx="2.25"
+        stroke="currentColor"
+        strokeWidth="2"
+        variants={drawVariants}
+        custom={delay}
+      />
+      {/* Bar chart */}
+      <motion.path
+        d="M7.5 15V12.75"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.2}
+      />
+      <motion.path
+        d="M10.5 15V10.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.3}
+      />
+      <motion.path
+        d="M13.5 15V8.25"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.4}
+      />
+      <motion.path
+        d="M16.5 15V11.25"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.5}
+      />
+      {/* Trend line */}
+      <motion.path
+        d="M7.5 11.25L10.5 9.75L13.5 7.5L16.5 9.75"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity="0.7"
+        variants={drawVariants}
+        custom={delay + 0.6}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
+// ANIMATED LOGOUT (Cloud Download)
+// ============================================
+export function AnimatedLogout({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Cloud */}
+      <motion.path
+        d="M8.25 15C6.375 15 4.875 13.6 4.875 11.8C4.875 10 6 8.7 7.95 8.65C8.4 6.85 9.95 5.625 11.8 5.625C13.8 5.625 15.4 7.05 15.65 8.96C16.95 9.2 18 10.4 18 11.8C18 13.6 16.5 15 14.625 15H8.25Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay}
+      />
+      {/* Download arrow */}
+      <motion.path
+        d="M12 10.5V15"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.4}
+      />
+      <motion.path
+        d="M10.5 13.5L12 15L13.5 13.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.6}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
+// ANIMATED DELETE (Trash)
+// ============================================
+export function AnimatedDelete({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Trash can body */}
+      <motion.path
+        d="M8.25 8.25L9 18.75H15L15.75 8.25H8.25Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay}
+      />
+      {/* Lid */}
+      <motion.path
+        d="M7.5 8.25H16.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.2}
+      />
+      {/* Handle */}
+      <motion.path
+        d="M10.5 6.75H13.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.3}
+      />
+      {/* Lines inside */}
+      <motion.path
+        d="M11.25 10.125V16.125"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.5}
+      />
+      <motion.path
+        d="M12.75 10.125V16.125"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.6}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
+// ANIMATED FOLDER
+// ============================================
+export function AnimatedFolder({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Folder shape */}
+      <motion.path
+        d="M5.25 8.25H9.75L11.25 6.75H18.75C19.6 6.75 20.25 7.4 20.25 8.25V16.5C20.25 17.35 19.6 18 18.75 18H5.25C4.4 18 3.75 17.35 3.75 16.5V9.75C3.75 8.9 4.4 8.25 5.25 8.25Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay}
+      />
+      {/* Inner document */}
+      <motion.rect
+        x="9.75"
+        y="11.25"
+        width="4.5"
+        height="4.5"
+        rx="0.75"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        variants={scaleVariants}
+        custom={delay + 0.4}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
+// ANIMATED INVOICE
+// ============================================
+export function AnimatedInvoice({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Document */}
+      <motion.path
+        d="M8.25 4.5H15L18 7.5V19.5H8.25V4.5Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay}
+      />
+      <motion.path
+        d="M15 4.5V7.5H18"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.2}
+      />
+      {/* Text lines */}
+      <motion.path
+        d="M9.75 9.75H15"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.3}
+      />
+      <motion.path
+        d="M9.75 12H15"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.4}
+      />
+      <motion.path
+        d="M9.75 14.25H12.75"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.5}
+      />
+      {/* Question badge */}
+      <motion.path
+        d="M11.25 7.5C11.25 6.975 11.66 6.56 12.2 6.56C12.7 6.56 13.125 6.86 13.125 7.425C13.125 7.875 12.86 8.14 12.45 8.29L12.2 8.4V9"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity="0.7"
+        variants={drawVariants}
+        custom={delay + 0.6}
+      />
+      <motion.circle
+        cx="12.2"
+        cy="9.95"
+        r="0.45"
+        fill="currentColor"
+        opacity="0.7"
+        variants={scaleVariants}
+        custom={delay + 0.7}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
+// ANIMATED EMAIL SUPPORT
+// ============================================
+export function AnimatedEmailSupport({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Envelope */}
+      <motion.rect
+        x="5.25"
+        y="6.75"
+        width="13.5"
+        height="10.5"
+        rx="1.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        variants={drawVariants}
+        custom={delay}
+      />
+      {/* Main fold line */}
+      <motion.path
+        d="M5.25 8.25L12 12.75L18.75 8.25"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.2}
+      />
+      {/* Corner folds */}
+      <motion.path
+        d="M7.5 15L10.5 12.75"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.4}
+      />
+      <motion.path
+        d="M16.5 15L13.5 12.75"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.4}
+      />
+      {/* @ symbol center */}
+      <motion.circle
+        cx="12"
+        cy="11.25"
+        r="1.875"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        variants={scaleVariants}
+        custom={delay + 0.5}
+      />
+      <motion.path
+        d="M12.94 11.25C12.94 11.775 12.56 12.075 12.08 12.075C11.63 12.075 11.25 11.7 11.25 11.1C11.25 10.575 11.63 10.31 12.1 10.31C12.55 10.31 12.94 10.6 12.94 11.1V12.15"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.6}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
+// ANIMATED PHONE SUPPORT
+// ============================================
+export function AnimatedPhoneSupport({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Phone handset */}
+      <motion.path
+        d="M9 6L7.5 7.5C7.5 11.25 10.5 14.25 14.25 16.5L15.75 15C16.5 14.25 17.25 14.25 18 15L19.5 16.5C20.25 17.25 20.25 18.375 19.5 19.125C18.75 19.875 17.25 20.25 15.75 19.5C11.25 17.44 8.06 14.25 6 9.75C5.25 8.25 5.625 6.75 6.375 6C7.125 5.25 8.25 5.25 9 6Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay}
+      />
+      {/* Signal waves */}
+      <motion.path
+        d="M15 6.75C16.125 7.01 16.95 7.875 17.25 9"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.4}
+      />
+      <motion.path
+        d="M15 8.25C15.56 8.36 15.9 8.81 16.125 9.375"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.6}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
+// ANIMATED DARK MODE
+// ============================================
+export function AnimatedDarkMode({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Headset band */}
+      <motion.path
+        d="M7.5 10.5C7.5 8.2 9.3 6.375 11.625 6.375H12.375C14.7 6.375 16.5 8.2 16.5 10.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay}
+      />
+      {/* Ear pieces */}
+      <motion.rect
+        x="6"
+        y="10.5"
+        width="2.25"
+        height="4.5"
+        rx="0.75"
+        stroke="currentColor"
+        strokeWidth="2"
+        variants={scaleVariants}
+        custom={delay + 0.2}
+      />
+      <motion.rect
+        x="15.75"
+        y="10.5"
+        width="2.25"
+        height="4.5"
+        rx="0.75"
+        stroke="currentColor"
+        strokeWidth="2"
+        variants={scaleVariants}
+        custom={delay + 0.2}
+      />
+      {/* Mic arm */}
+      <motion.path
+        d="M15.75 15C15.75 16.125 14.925 16.875 13.7 16.875H12.75"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.4}
+      />
+      {/* Mic */}
+      <motion.circle
+        cx="12.75"
+        cy="17.8"
+        r="0.6"
+        fill="currentColor"
+        variants={scaleVariants}
+        custom={delay + 0.5}
+      />
+      {/* Moon */}
+      <motion.path
+        d="M12 11.25C11.44 11.78 11.25 12.38 11.25 12.94C11.25 14.06 11.95 15 13.1 15C13.66 15 14.18 14.81 14.625 14.44C14 14.37 13.37 14.03 12.86 13.54C12.35 13.05 11.94 12.25 12 11.25Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.55}
+      />
+      {/* Star */}
+      <motion.path
+        d="M14.44 11.25L14.75 11.81L15.375 11.89L14.91 12.26L15.04 12.86L14.44 12.56L13.84 12.86L13.97 12.26L13.5 11.89L14.13 11.81L14.44 11.25Z"
+        stroke="currentColor"
+        strokeWidth="0.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.7}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
+// ANIMATED LIGHT MODE
+// ============================================
+export function AnimatedLightMode({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Sun center */}
+      <motion.circle
+        cx="12"
+        cy="12"
+        r="3"
+        stroke="currentColor"
+        strokeWidth="2"
+        variants={scaleVariants}
+        custom={delay}
+      />
+      {/* Sun rays */}
+      <motion.path
+        d="M12 5.25V7.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.1}
+      />
+      <motion.path
+        d="M12 16.5V18.75"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.15}
+      />
+      <motion.path
+        d="M6.75 12H9"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.2}
+      />
+      <motion.path
+        d="M15 12H17.25"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.25}
+      />
+      <motion.path
+        d="M8.25 8.25L9.75 9.75"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.3}
+      />
+      <motion.path
+        d="M14.25 14.25L15.75 15.75"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.35}
+      />
+      <motion.path
+        d="M8.25 15.75L9.75 14.25"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.4}
+      />
+      <motion.path
+        d="M14.25 9.75L15.75 8.25"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.45}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
 // ANIMATED LOADING SPINNER
 // ============================================
 export function AnimatedLoadingSpinner({ 
@@ -1013,6 +2206,22 @@ export const AnimatedIcons = {
   About: AnimatedAbout,
   News: AnimatedNews,
   LoadingSpinner: AnimatedLoadingSpinner,
+  // New animated icons
+  Refresh: AnimatedRefresh,
+  Terms: AnimatedTerms,
+  Faq: AnimatedFaq,
+  BankTransfer: AnimatedBankTransfer,
+  CardPayment: AnimatedCardPayment,
+  EditCoins: AnimatedEditCoins,
+  Analytics: AnimatedAnalytics,
+  Logout: AnimatedLogout,
+  Delete: AnimatedDelete,
+  Folder: AnimatedFolder,
+  Invoice: AnimatedInvoice,
+  EmailSupport: AnimatedEmailSupport,
+  PhoneSupport: AnimatedPhoneSupport,
+  DarkMode: AnimatedDarkMode,
+  LightMode: AnimatedLightMode,
 }
 
 export default AnimatedIcons

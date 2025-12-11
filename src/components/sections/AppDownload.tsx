@@ -16,6 +16,7 @@ import {
   AnimatedCustomerSupport,
   AnimatedSecurity,
 } from '@/components/icons'
+import { AjilVMesh, AjilGeometricAccent } from '@/components/brand/AjilPatterns'
 
 const features = [
   { key: 'feature1', Icon: AnimatedAjilSymbol, delay: 0 },
@@ -37,6 +38,15 @@ export default function AppDownload() {
       {/* Background Decorations */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl" />
+
+      {/* AJIL Branded Patterns */}
+      <AjilVMesh color="primary" opacity={0.025} />
+      <AjilGeometricAccent 
+        className="top-10 right-20"
+        size={100}
+        variant="edge"
+        color="secondary"
+      />
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -182,10 +192,11 @@ export default function AppDownload() {
                       animate={{ scale: [1.2, 1, 1.2] }}
                       transition={{ duration: 5, repeat: Infinity }}
                     />
-                    {/* Additional V pattern decoration */}
+                    {/* Additional A pattern decoration */}
                     <div className="absolute top-8 left-8 opacity-10">
                       <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                        <path d="M3 5L12 19L21 5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M3 20L12 4L21 20" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M6 14L18 14" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
                       </svg>
                     </div>
                   </div>

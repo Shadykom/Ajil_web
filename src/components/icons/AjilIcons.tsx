@@ -10,7 +10,7 @@ interface IconProps extends SVGProps<SVGSVGElement> {
  * AJIL Finance Custom Icon Set
  * 
  * Design Principles:
- * - Each icon incorporates the signature AJIL "V" motif
+ * - Each icon incorporates the signature AJIL "A" motif
  * - Modern, clean lines with consistent 2px stroke weight
  * - Dual-tone design using primary blue and accent elements
  * - Balanced proportions within 24x24 viewBox
@@ -31,22 +31,37 @@ export function AjilSymbol({ size = 24, className = '', ...props }: IconProps) {
       fill="none"
       {...props}
     >
-      {/* Main V with gradient effect simulation */}
+      {/* Main A shape */}
       <path
-        d="M3 5L12 19L21 5"
+        d="M3 20L12 4L21 20"
         stroke="currentColor"
         strokeWidth="2.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      {/* Inner accent V */}
+      {/* A crossbar */}
       <path
-        d="M7 7L12 15L17 7"
+        d="M6 14L18 14"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      {/* Inner accent A */}
+      <path
+        d="M7 18L12 8L17 18"
         stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
         opacity="0.4"
+      />
+      {/* Inner A crossbar */}
+      <path
+        d="M9 13L15 13"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        opacity="0.3"
       />
     </svg>
   )
@@ -972,7 +987,7 @@ export function IconOffers({ size = 24, className = '', ...props }: IconProps) {
         stroke="currentColor"
         strokeWidth="2"
       />
-      {/* Bow - AJIL V shape */}
+      {/* Bow - Gift ribbon */}
       <path
         d="M12 10c-2 0-4-2-4-4s2-3 4-3M12 10c2 0 4-2 4-4s-2-3-4-3"
         stroke="currentColor"

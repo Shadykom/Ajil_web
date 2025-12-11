@@ -41,6 +41,22 @@ export {
   AnimatedAbout,
   AnimatedNews,
   AnimatedLoadingSpinner,
+  // New animated icons
+  AnimatedRefresh,
+  AnimatedTerms,
+  AnimatedFaq,
+  AnimatedBankTransfer,
+  AnimatedCardPayment,
+  AnimatedEditCoins,
+  AnimatedAnalytics,
+  AnimatedLogout,
+  AnimatedDelete,
+  AnimatedFolder,
+  AnimatedInvoice,
+  AnimatedEmailSupport,
+  AnimatedPhoneSupport,
+  AnimatedDarkMode,
+  AnimatedLightMode,
   AnimatedIcons,
 } from './AnimatedIcons'
 

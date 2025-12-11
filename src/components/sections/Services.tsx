@@ -22,6 +22,7 @@ import {
   AnimatedService247,
 } from '@/components/icons/AnimatedIcons'
 import Link from 'next/link'
+import { AjilDotsMatrix, AjilGeometricAccent } from '@/components/brand/AjilPatterns'
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { size?: number | string }>
 
@@ -161,6 +162,21 @@ export default function Services() {
       <div className="absolute bottom-10 left-0 opacity-[0.015] -rotate-12">
         <AjilLogoBackground size={300} animated />
       </div>
+
+      {/* AJIL Branded Patterns */}
+      <AjilDotsMatrix color="mixed" opacity={0.04} density="normal" />
+      <AjilGeometricAccent 
+        className="top-20 right-10"
+        size={100}
+        variant="corner"
+        color="primary"
+      />
+      <AjilGeometricAccent 
+        className="bottom-32 left-5"
+        size={80}
+        variant="float"
+        color="secondary"
+      />
 
       {/* Floating Elements */}
       <motion.div
