@@ -1,6 +1,6 @@
 # Ajil Finance Website
 
-A modern, impressive website for Abdul Latif Jameel Finance (عبداللطيف جميل للتمويل) built with Next.js 14, Tailwind CSS, Framer Motion, and Supabase.
+A modern, impressive website for Abdul Latif Jameel Finance (أجل للتمويل) built with Next.js 14, Tailwind CSS, Framer Motion, and Supabase.
 
 ## 🚀 Features
 
