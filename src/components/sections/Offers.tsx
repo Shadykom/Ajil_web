@@ -11,6 +11,10 @@ import {
   ArrowRight,
 } from 'lucide-react'
 import { IconLoanProducts, AjilSymbol } from '@/components/icons'
+import { 
+  LiquidDrop, 
+  GlassyBlob 
+} from '@/components/decorative/Soft3DShapes'
 
 const offers = [
   {
@@ -85,6 +89,18 @@ export default function Offers() {
       ref={sectionRef}
       className="relative py-24 bg-white overflow-hidden"
     >
+      {/* Soft 3D Decorative Shapes */}
+      <LiquidDrop 
+        className="top-[15%] left-[3%] opacity-30"
+        size={140}
+        delay={0.3}
+      />
+      <GlassyBlob 
+        className="bottom-[10%] right-[5%] opacity-25"
+        size={180}
+        delay={0.6}
+      />
+
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <motion.div 

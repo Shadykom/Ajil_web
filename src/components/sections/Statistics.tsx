@@ -5,6 +5,11 @@ import { motion, useInView } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
 import { AnimatedAjilSymbol } from '@/components/icons/AnimatedIcons'
 import { AjilLogoBackground } from '@/components/icons/AjilLogo'
+import { 
+  HexagonCapsule, 
+  PillowyRibbon, 
+  BubbleCurve 
+} from '@/components/decorative/Soft3DShapes'
 
 interface StatItem {
   value: number
@@ -164,6 +169,25 @@ export default function Statistics() {
         <div className="absolute bottom-0 left-0 opacity-[0.02] rotate-180">
           <AjilLogoBackground size={350} animated />
         </div>
+
+        {/* Soft 3D Decorative Shapes */}
+        <HexagonCapsule 
+          className="top-[10%] left-[8%] opacity-20"
+          width={120}
+          height={150}
+          delay={0.3}
+        />
+        <PillowyRibbon 
+          className="bottom-[25%] right-[5%] opacity-15"
+          width={280}
+          height={100}
+          delay={0.6}
+        />
+        <BubbleCurve 
+          className="top-[20%] right-[12%] opacity-15"
+          size={130}
+          delay={0.9}
+        />
       </div>
 
       {/* Floating AJIL Symbols */}

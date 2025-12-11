@@ -22,6 +22,11 @@ import {
   AnimatedService247,
 } from '@/components/icons/AnimatedIcons'
 import Link from 'next/link'
+import { 
+  PolygonBlob, 
+  DualLayerOval, 
+  RoundedTriangle 
+} from '@/components/decorative/Soft3DShapes'
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { size?: number | string }>
 
@@ -161,6 +166,24 @@ export default function Services() {
       <div className="absolute bottom-10 left-0 opacity-[0.015] -rotate-12">
         <AjilLogoBackground size={300} animated />
       </div>
+
+      {/* Soft 3D Decorative Shapes */}
+      <PolygonBlob 
+        className="top-[10%] left-[5%] opacity-40"
+        size={180}
+        delay={0.2}
+      />
+      <DualLayerOval 
+        className="bottom-[20%] right-[3%] opacity-30"
+        width={220}
+        height={150}
+        delay={0.5}
+      />
+      <RoundedTriangle 
+        className="top-[40%] right-[8%] opacity-25"
+        size={140}
+        delay={0.8}
+      />
 
       {/* Floating Elements */}
       <motion.div
