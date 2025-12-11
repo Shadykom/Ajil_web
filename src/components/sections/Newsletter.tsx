@@ -10,10 +10,6 @@ import {
   AlertCircle,
   Sparkles
 } from 'lucide-react'
-import { 
-  DualLayerOval, 
-  RoundedTriangle 
-} from '@/components/decorative/Soft3DShapes'
 
 export default function Newsletter() {
   const { t, dir } = useI18n()
@@ -75,19 +71,6 @@ export default function Newsletter() {
         className="absolute bottom-0 right-1/4 w-64 h-64 bg-secondary-500/10 rounded-full blur-3xl"
         animate={{ scale: [1.2, 1, 1.2], opacity: [0.8, 0.5, 0.8] }}
         transition={{ duration: 8, repeat: Infinity }}
-      />
-
-      {/* Soft 3D Decorative Shapes */}
-      <DualLayerOval 
-        className="top-[10%] right-[8%] opacity-35"
-        width={160}
-        height={110}
-        delay={0.2}
-      />
-      <RoundedTriangle 
-        className="bottom-[15%] left-[5%] opacity-30"
-        size={120}
-        delay={0.5}
       />
 
       <div className="container mx-auto px-4 relative z-10">

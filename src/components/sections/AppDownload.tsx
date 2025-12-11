@@ -16,11 +16,6 @@ import {
   AnimatedCustomerSupport,
   AnimatedSecurity,
 } from '@/components/icons'
-import { 
-  CloudBlob, 
-  FlowingWave, 
-  PolygonBlob 
-} from '@/components/decorative/Soft3DShapes'
 
 const features = [
   { key: 'feature1', Icon: AnimatedAjilSymbol, delay: 0 },
@@ -42,25 +37,6 @@ export default function AppDownload() {
       {/* Background Decorations */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl" />
-
-      {/* Soft 3D Decorative Shapes */}
-      <CloudBlob 
-        className="top-[8%] right-[5%] opacity-25"
-        width={220}
-        height={130}
-        delay={0.2}
-      />
-      <PolygonBlob 
-        className="bottom-[20%] left-[3%] opacity-30"
-        size={150}
-        delay={0.5}
-      />
-      <FlowingWave 
-        className="bottom-0 right-0 opacity-15"
-        width={400}
-        height={120}
-        delay={0.8}
-      />
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">

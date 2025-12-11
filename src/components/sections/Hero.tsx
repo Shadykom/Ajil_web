@@ -13,13 +13,6 @@ import {
   AnimatedAjilSymbol,
 } from '@/components/icons/AnimatedIcons'
 import { AjilLogoBackground } from '@/components/icons/AjilLogo'
-import { 
-  BubbleCurve, 
-  LiquidDrop, 
-  GlassyBlob, 
-  FlowingWave,
-  CloudBlob,
-} from '@/components/decorative/Soft3DShapes'
 
 // Particle component for background effect
 function Particle({ delay = 0 }: { delay?: number }) {
@@ -154,35 +147,6 @@ export default function Hero() {
         <FloatingShape 
           className="w-32 h-32 bg-gradient-radial from-white/10 to-transparent top-1/2 left-1/3"
           delay={1}
-        />
-
-        {/* Soft 3D Decorative Shapes */}
-        <BubbleCurve 
-          className="top-[5%] right-[8%] opacity-30"
-          size={180}
-          delay={0.3}
-        />
-        <LiquidDrop 
-          className="bottom-[15%] left-[3%] opacity-25"
-          size={120}
-          delay={0.5}
-        />
-        <GlassyBlob 
-          className="top-[30%] right-[2%] opacity-20"
-          size={200}
-          delay={0.7}
-        />
-        <CloudBlob 
-          className="bottom-[5%] right-[15%] opacity-15"
-          width={250}
-          height={140}
-          delay={1}
-        />
-        <FlowingWave 
-          className="-bottom-10 left-0 opacity-20"
-          width={600}
-          height={150}
-          delay={0.4}
         />
 
         {/* AJIL Logo Background Decorations */}
