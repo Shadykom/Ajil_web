@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
 import { 
@@ -27,7 +26,7 @@ import {
   IconCustomerSupport,
   AjilSymbol,
 } from '@/components/icons'
-import { AjilLogoMark } from '@/components/icons/AjilLogo'
+import { AjilLogo, AjilLogoMark } from '@/components/icons/AjilLogo'
 
 // Navigation items with icons
 const navItems = [
@@ -265,13 +264,12 @@ export default function Header() {
               >
                 {/* Logo glow effect on hover */}
                 <div className="absolute -inset-2 bg-gradient-to-r from-primary-500/20 to-secondary-500/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <Image
-                  src="/images/AJIL_logo.png"
-                  alt="AJIL Finance Logo"
-                  width={130}
-                  height={45}
-                  className="object-contain relative z-10"
-                  priority
+                <AjilLogo 
+                  width={130} 
+                  height={50} 
+                  variant="primary" 
+                  className="relative z-10"
+                  animated={false}
                 />
               </motion.div>
             </Link>
