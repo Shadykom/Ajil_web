@@ -7,11 +7,10 @@ import Image from 'next/image'
 import { 
   ChevronLeft, 
   ChevronRight, 
-  Tag,
   ArrowLeft,
   ArrowRight,
-  Sparkles
 } from 'lucide-react'
+import { IconLoanProducts, AjilSymbol } from '@/components/icons'
 
 const offers = [
   {
@@ -101,9 +100,9 @@ export default function Offers() {
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.4, delay: 0.2 }}
           >
-            <Tag className="w-4 h-4" />
+            <IconLoanProducts size={16} />
             <span>{t('offers.badge')}</span>
-            <Sparkles className="w-4 h-4" />
+            <AjilSymbol size={16} />
           </motion.div>
 
           {/* Title */}

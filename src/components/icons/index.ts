@@ -1,0 +1,17 @@
+export {
+  AjilSymbol,
+  IconLoanProducts,
+  IconApplyFinancing,
+  IconLoanCalculator,
+  IconBusinessFinancing,
+  IconPersonalFinancing,
+  IconMurabaha,
+  IconTrackApplication,
+  IconCustomerSupport,
+  IconHome,
+  IconSettings,
+  IconPayments,
+  IconSecurity,
+  IconCarFinancing,
+  AjilIcons,
+} from './AjilIcons'

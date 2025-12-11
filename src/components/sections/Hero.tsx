@@ -4,12 +4,14 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
 import { 
-  Shield, 
   ArrowLeft, 
   ArrowRight,
-  Calculator,
-  Sparkles
 } from 'lucide-react'
+import {
+  IconSecurity,
+  IconLoanCalculator,
+  AjilSymbol,
+} from '@/components/icons'
 
 // Particle component for background effect
 function Particle({ delay = 0 }: { delay?: number }) {
@@ -176,9 +178,9 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <Shield className="w-5 h-5" />
+              <IconSecurity size={20} />
               <span className="font-medium">{t('hero.badge')}</span>
-              <Sparkles className="w-4 h-4 animate-pulse" />
+              <AjilSymbol size={16} className="animate-pulse" />
             </motion.div>
 
             {/* Title */}
@@ -296,7 +298,7 @@ export default function Hero() {
                 {/* Card Header */}
                 <div className="flex items-center justify-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl flex items-center justify-center">
-                    <Calculator className="w-5 h-5 text-white" />
+                    <IconLoanCalculator size={20} className="text-white" />
                   </div>
                   <h3 className="text-2xl font-bold text-primary-600">
                     {t('hero.calculator_title')}

@@ -1,23 +1,40 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, ComponentType, SVGProps } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
 import { 
-  Car, 
-  Banknote, 
-  Building2, 
   ArrowLeft,
   ArrowRight,
-  Users,
-  Sparkles
 } from 'lucide-react'
+import {
+  IconCarFinancing,
+  IconPersonalFinancing,
+  IconBusinessFinancing,
+  IconLoanProducts,
+  IconApplyFinancing,
+  IconLoanCalculator,
+  IconSecurity,
+  IconCustomerSupport,
+  AjilSymbol,
+} from '@/components/icons'
 import Link from 'next/link'
 
-const services = [
+type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { size?: number | string }>
+
+const services: Array<{
+  key: string
+  icon: IconComponent
+  titleKey: string
+  descKey: string
+  href: string
+  gradient: string
+  iconBg: string
+  delay: number
+}> = [
   {
     key: 'car',
-    icon: Car,
+    icon: IconCarFinancing,
     titleKey: 'services.car_title',
     descKey: 'services.car_desc',
     href: '/individuals/car-financing',
@@ -27,7 +44,7 @@ const services = [
   },
   {
     key: 'cash',
-    icon: Banknote,
+    icon: IconPersonalFinancing,
     titleKey: 'services.cash_title',
     descKey: 'services.cash_desc',
     href: '/individuals/personal-financing',
@@ -37,7 +54,7 @@ const services = [
   },
   {
     key: 'business',
-    icon: Building2,
+    icon: IconBusinessFinancing,
     titleKey: 'services.business_title',
     descKey: 'services.business_desc',
     href: '/business/cash-financing',
@@ -89,7 +106,7 @@ function ServiceCard({
           transition={{ type: 'spring', stiffness: 400 }}
         >
           <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-          <Icon className="w-10 h-10 text-primary-500 group-hover:text-white relative z-10 transition-colors duration-500" />
+          <Icon size={40} className="text-primary-500 group-hover:text-white relative z-10 transition-colors duration-500" />
         </motion.div>
 
         {/* Content */}
@@ -161,9 +178,9 @@ export default function Services() {
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.4, delay: 0.2 }}
           >
-            <Users className="w-4 h-4" />
+            <IconLoanProducts size={16} />
             <span>{t('services.badge')}</span>
-            <Sparkles className="w-4 h-4" />
+            <AjilSymbol size={16} />
           </motion.div>
 
           {/* Title */}
@@ -208,20 +225,22 @@ export default function Services() {
           transition={{ duration: 0.6, delay: 0.6 }}
         >
           {[
-            { label: language === 'ar' ? 'موافقة سريعة' : 'Quick Approval', icon: '⚡' },
-            { label: language === 'ar' ? 'أقساط مرنة' : 'Flexible Payments', icon: '💳' },
-            { label: language === 'ar' ? 'متوافق مع الشريعة' : 'Sharia Compliant', icon: '🕌' },
-            { label: language === 'ar' ? 'خدمة على مدار الساعة' : '24/7 Service', icon: '🌟' },
+            { label: language === 'ar' ? 'موافقة سريعة' : 'Quick Approval', Icon: IconApplyFinancing, color: 'text-green-600 bg-green-100' },
+            { label: language === 'ar' ? 'أقساط مرنة' : 'Flexible Payments', Icon: IconLoanCalculator, color: 'text-blue-600 bg-blue-100' },
+            { label: language === 'ar' ? 'متوافق مع الشريعة' : 'Sharia Compliant', Icon: IconSecurity, color: 'text-purple-600 bg-purple-100' },
+            { label: language === 'ar' ? 'خدمة على مدار الساعة' : '24/7 Service', Icon: IconCustomerSupport, color: 'text-orange-600 bg-orange-100' },
           ].map((feature, index) => (
             <motion.div
               key={index}
-              className="flex flex-col items-center gap-3 p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100"
+              className="flex flex-col items-center gap-3 p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 group"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.4, delay: 0.7 + index * 0.1 }}
               whileHover={{ y: -5 }}
             >
-              <span className="text-3xl">{feature.icon}</span>
+              <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${feature.color} group-hover:scale-110 transition-transform duration-300`}>
+                <feature.Icon size={28} />
+              </div>
               <span className="text-sm font-semibold text-gray-700 text-center">{feature.label}</span>
             </motion.div>
           ))}

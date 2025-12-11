@@ -10,9 +10,9 @@ import {
   Menu, 
   X, 
   ChevronDown, 
-  User,
   Globe
 } from 'lucide-react'
+import { IconPersonalFinancing } from '@/components/icons'
 
 const navItems = [
   {
@@ -103,7 +103,7 @@ export default function Header() {
               href="/login" 
               className="hover:text-secondary-400 transition-colors flex items-center gap-2"
             >
-              <User className="w-4 h-4" />
+              <IconPersonalFinancing size={16} />
               {t('nav.login')}
             </Link>
           </div>

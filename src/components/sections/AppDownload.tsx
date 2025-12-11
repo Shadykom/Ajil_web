@@ -4,18 +4,23 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
 import { 
-  Smartphone,
-  Check,
   Apple,
   Play,
-  Shield
 } from 'lucide-react'
+import {
+  IconHome,
+  IconPayments,
+  IconPersonalFinancing,
+  IconTrackApplication,
+  IconSecurity,
+  AjilSymbol,
+} from '@/components/icons'
 
 const features = [
-  { key: 'feature1', icon: '📱' },
-  { key: 'feature2', icon: '💳' },
-  { key: 'feature3', icon: '👤' },
-  { key: 'feature4', icon: '🎁' },
+  { key: 'feature1', Icon: IconHome },
+  { key: 'feature2', Icon: IconPayments },
+  { key: 'feature3', Icon: IconPersonalFinancing },
+  { key: 'feature4', Icon: IconTrackApplication },
 ]
 
 export default function AppDownload() {
@@ -57,10 +62,10 @@ export default function AppDownload() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                   transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
-                  className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-300"
+                  className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-300 group"
                 >
-                  <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
-                    <Check className="w-5 h-5 text-primary-600" />
+                  <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center group-hover:bg-primary-500 transition-colors duration-300">
+                    <feature.Icon size={20} className="text-primary-600 group-hover:text-white transition-colors duration-300" />
                   </div>
                   <span className="text-sm font-semibold text-gray-700">
                     {t(`app.${feature.key}`)}
@@ -130,7 +135,7 @@ export default function AppDownload() {
                         animate={{ scale: [1, 1.05, 1] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       >
-                        <Shield className="w-12 h-12 text-primary-600" />
+                        <AjilSymbol size={48} className="text-primary-600" />
                       </motion.div>
                       
                       {/* Brand Name */}
@@ -174,7 +179,7 @@ export default function AppDownload() {
                 animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
                 transition={{ duration: 3, repeat: Infinity }}
               >
-                <span className="text-2xl">💳</span>
+                <IconPayments size={32} />
               </motion.div>
 
               <motion.div
@@ -182,7 +187,7 @@ export default function AppDownload() {
                 animate={{ y: [0, 10, 0], rotate: [0, -5, 0] }}
                 transition={{ duration: 3.5, repeat: Infinity, delay: 0.5 }}
               >
-                <span className="text-xl">🚗</span>
+                <IconTrackApplication size={28} />
               </motion.div>
 
               <motion.div
@@ -190,7 +195,7 @@ export default function AppDownload() {
                 animate={{ y: [0, -8, 0], rotate: [0, 10, 0] }}
                 transition={{ duration: 4, repeat: Infinity, delay: 1 }}
               >
-                <Check className="w-6 h-6" />
+                <IconSecurity size={24} />
               </motion.div>
             </div>
           </motion.div>
