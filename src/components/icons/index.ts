@@ -19,6 +19,7 @@ export {
   IconShariaCompliant,
   IconService247,
   IconOffers,
+  IconAbout,
   IconNews,
   AjilIcons,
 } from './AjilIcons'
@@ -36,6 +37,9 @@ export {
   AnimatedShariaCompliant,
   AnimatedService247,
   AnimatedCustomerSupport,
+  AnimatedOffers,
+  AnimatedAbout,
+  AnimatedNews,
   AnimatedLoadingSpinner,
   AnimatedIcons,
 } from './AnimatedIcons'

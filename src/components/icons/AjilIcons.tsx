@@ -993,6 +993,55 @@ export function IconOffers({ size = 24, className = '', ...props }: IconProps) {
 }
 
 // ============================================
+// ABOUT / INFO Icon
+// ============================================
+export function IconAbout({ size = 24, className = '', ...props }: IconProps) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      {...props}
+    >
+      {/* Circle background */}
+      <circle
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      {/* Info "i" dot */}
+      <circle
+        cx="12"
+        cy="8"
+        r="1"
+        fill="currentColor"
+      />
+      {/* Info "i" line */}
+      <path
+        d="M12 11v6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      {/* AJIL V accent at bottom */}
+      <path
+        d="M9 15l3 2 3-2"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity="0.5"
+      />
+    </svg>
+  )
+}
+
+// ============================================
 // NEWS / UPDATES Icon
 // ============================================
 export function IconNews({ size = 24, className = '', ...props }: IconProps) {
@@ -1067,6 +1116,7 @@ export const AjilIcons = {
   IconShariaCompliant,
   IconService247,
   IconOffers,
+  IconAbout,
   IconNews,
 }
 

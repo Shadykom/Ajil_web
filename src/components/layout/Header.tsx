@@ -23,6 +23,7 @@ import {
   IconBusinessFinancing,
   IconLoanCalculator,
   IconOffers,
+  IconAbout,
   IconNews,
   IconCustomerSupport,
   AjilSymbol,
@@ -32,6 +33,9 @@ import {
   AnimatedLoanCalculator,
   AnimatedCustomerSupport,
   AnimatedAjilSymbol,
+  AnimatedOffers,
+  AnimatedAbout,
+  AnimatedNews,
 } from '@/components/icons'
 import { AjilLogoMark } from '@/components/icons/AjilLogo'
 
@@ -127,14 +131,14 @@ const navItems = [
     labelKey: 'nav.offers',
     href: '/offers',
     icon: IconOffers,
-    animatedIcon: AnimatedAjilSymbol,
+    animatedIcon: AnimatedOffers,
   },
   {
     key: 'about',
     labelKey: 'nav.about',
     hasDropdown: true,
-    icon: IconNews,
-    animatedIcon: AnimatedAjilSymbol,
+    icon: IconAbout,
+    animatedIcon: AnimatedAbout,
     description: 'Learn about AJIL',
     descriptionAr: 'تعرف على أجيل',
     dropdownItems: [
@@ -152,7 +156,7 @@ const navItems = [
         labelKey: 'nav.news', 
         href: '/about/news',
         icon: IconNews,
-        animatedIcon: AnimatedAjilSymbol,
+        animatedIcon: AnimatedNews,
         description: 'Latest news and updates',
         descriptionAr: 'آخر الأخبار والتحديثات',
       },

@@ -722,6 +722,238 @@ export function AnimatedCustomerSupport({
 }
 
 // ============================================
+// ANIMATED OFFERS - Gift/Special Deals Icon
+// ============================================
+export function AnimatedOffers({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Gift box */}
+      <motion.rect
+        x="3"
+        y="10"
+        width="18"
+        height="11"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="2"
+        variants={drawVariants}
+        custom={delay}
+      />
+      {/* Ribbon vertical */}
+      <motion.path
+        d="M12 10v11"
+        stroke="currentColor"
+        strokeWidth="2"
+        variants={drawVariants}
+        custom={delay + 0.2}
+      />
+      {/* Ribbon horizontal */}
+      <motion.path
+        d="M3 14h18"
+        stroke="currentColor"
+        strokeWidth="2"
+        variants={drawVariants}
+        custom={delay + 0.3}
+      />
+      {/* Bow - AJIL V shape */}
+      <motion.path
+        d="M12 10c-2 0-4-2-4-4s2-3 4-3"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.4}
+      />
+      <motion.path
+        d="M12 10c2 0 4-2 4-4s-2-3-4-3"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.5}
+      />
+      {/* Sparkle */}
+      <motion.path
+        d="M18 4l1-1M20 6l1-1"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.6"
+        variants={drawVariants}
+        custom={delay + 0.6}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
+// ANIMATED ABOUT - Info/Company Icon
+// ============================================
+export function AnimatedAbout({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Circle background */}
+      <motion.circle
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        strokeWidth="2"
+        variants={drawVariants}
+        custom={delay}
+      />
+      {/* Info "i" dot */}
+      <motion.circle
+        cx="12"
+        cy="8"
+        r="1"
+        fill="currentColor"
+        variants={scaleVariants}
+        custom={delay + 0.3}
+      />
+      {/* Info "i" line */}
+      <motion.path
+        d="M12 11v6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.4}
+      />
+      {/* AJIL V accent at bottom */}
+      <motion.path
+        d="M9 15l3 2 3-2"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity="0.5"
+        variants={drawVariants}
+        custom={delay + 0.5}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
+// ANIMATED NEWS - Newspaper Icon
+// ============================================
+export function AnimatedNews({ 
+  size = 24, 
+  className = '', 
+  animate = true,
+  delay = 0,
+}: AnimatedIconProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="none"
+      initial="hidden"
+      animate={isInView && animate ? 'visible' : 'hidden'}
+    >
+      {/* Newspaper frame */}
+      <motion.rect
+        x="3"
+        y="3"
+        width="18"
+        height="18"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="2"
+        variants={drawVariants}
+        custom={delay}
+      />
+      {/* Headline - AJIL V */}
+      <motion.path
+        d="M7 7l3 3 3-3"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        variants={drawVariants}
+        custom={delay + 0.3}
+      />
+      {/* Text lines */}
+      <motion.path
+        d="M7 13h10"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.4}
+      />
+      <motion.path
+        d="M7 16h7"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.5}
+      />
+      {/* Image placeholder */}
+      <motion.rect
+        x="15"
+        y="6"
+        width="3"
+        height="4"
+        rx="0.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        opacity="0.6"
+        variants={scaleVariants}
+        custom={delay + 0.6}
+      />
+    </motion.svg>
+  )
+}
+
+// ============================================
 // ANIMATED LOADING SPINNER
 // ============================================
 export function AnimatedLoadingSpinner({ 
@@ -777,6 +1009,9 @@ export const AnimatedIcons = {
   ShariaCompliant: AnimatedShariaCompliant,
   Service247: AnimatedService247,
   CustomerSupport: AnimatedCustomerSupport,
+  Offers: AnimatedOffers,
+  About: AnimatedAbout,
+  News: AnimatedNews,
   LoadingSpinner: AnimatedLoadingSpinner,
 }
 
