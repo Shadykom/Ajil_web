@@ -13,6 +13,12 @@ import {
   AnimatedAjilSymbol,
 } from '@/components/icons/AnimatedIcons'
 import { AjilLogoBackground } from '@/components/icons/AjilLogo'
+import { 
+  AjilVMesh, 
+  AjilGrowthLines, 
+  AjilGeometricAccent,
+  AjilWavePattern,
+} from '@/components/brand/AjilPatterns'
 
 // Particle component for background effect
 function Particle({ delay = 0 }: { delay?: number }) {
@@ -156,6 +162,32 @@ export default function Hero() {
         <div className="absolute -bottom-32 -left-32 opacity-[0.02] rotate-180">
           <AjilLogoBackground size={400} animated />
         </div>
+
+        {/* AJIL Branded Patterns */}
+        <AjilVMesh color="white" opacity={0.03} animated />
+        <AjilGrowthLines 
+          className="right-0 top-0 w-1/2 h-full"
+          variant="ascending"
+          color="secondary"
+          opacity={0.06}
+        />
+        <AjilGeometricAccent 
+          className="top-20 left-10"
+          size={150}
+          variant="float"
+          color="secondary"
+        />
+        <AjilGeometricAccent 
+          className="bottom-40 right-20"
+          size={120}
+          variant="corner"
+          color="secondary"
+        />
+        <AjilWavePattern 
+          position="bottom"
+          color="gradient"
+          height={100}
+        />
 
         {/* Particles */}
         <div className="absolute inset-0 overflow-hidden">

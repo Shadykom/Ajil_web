@@ -10,6 +10,7 @@ import {
   AlertCircle,
   Sparkles
 } from 'lucide-react'
+import { AjilGrowthLines } from '@/components/brand/AjilPatterns'
 
 export default function Newsletter() {
   const { t, dir } = useI18n()
@@ -71,6 +72,14 @@ export default function Newsletter() {
         className="absolute bottom-0 right-1/4 w-64 h-64 bg-secondary-500/10 rounded-full blur-3xl"
         animate={{ scale: [1.2, 1, 1.2], opacity: [0.8, 0.5, 0.8] }}
         transition={{ duration: 8, repeat: Infinity }}
+      />
+
+      {/* AJIL Branded Pattern */}
+      <AjilGrowthLines 
+        className="inset-0"
+        variant="radiating"
+        color="primary"
+        opacity={0.04}
       />
 
       <div className="container mx-auto px-4 relative z-10">
