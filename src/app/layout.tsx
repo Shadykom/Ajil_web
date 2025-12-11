@@ -40,7 +40,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#0066b3" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
       </head>
-      <body className="font-cairo antialiased">
+      <body className="font-ge-ss antialiased">
         <I18nProvider defaultLanguage="ar">
           {children}
         </I18nProvider>

@@ -1,3 +1,32 @@
+/* GE SS Two Font - Modern Arabic Corporate Font */
+@font-face {
+  font-family: 'GE SS Two';
+  src: url('/fonts/GESSTwo-Light.woff2') format('woff2'),
+       url('/fonts/GESSTwo-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GE SS Two';
+  src: url('/fonts/GESSTwo-Medium.woff2') format('woff2'),
+       url('/fonts/GESSTwo-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GE SS Two';
+  src: url('/fonts/GESSTwo-Bold.woff2') format('woff2'),
+       url('/fonts/GESSTwo-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Fallback to Cairo if GE SS Two is not available */
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
@@ -26,9 +55,22 @@ html {
 }
 
 body {
-  font-family: 'Cairo', sans-serif;
+  font-family: 'GE SS Two', 'Cairo', sans-serif;
   overflow-x: hidden;
   background: var(--bg-white);
+}
+
+/* Font Weight Utility Classes for GE SS Two */
+.font-light {
+  font-weight: 300; /* GE SS Two Light - for body text */
+}
+
+.font-medium {
+  font-weight: 500; /* GE SS Two Medium - for titles */
+}
+
+.font-bold {
+  font-weight: 700; /* GE SS Two Bold - for headings/CTA */
 }
 
 /* Custom Scrollbar */
