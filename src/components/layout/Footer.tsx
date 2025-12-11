@@ -75,25 +75,24 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-white/10">
             {/* Brand Column */}
             <div className="lg:col-span-1">
-              <Link href="/" className="flex items-center gap-3 group mb-6">
-                <motion.div 
-                  className="relative overflow-hidden bg-white rounded-xl p-2"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: 'spring', stiffness: 400 }}
-                >
+              <motion.div 
+                className="bg-white rounded-2xl p-6 mb-8 max-w-sm shadow-lg"
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: 'spring', stiffness: 400 }}
+              >
+                <Link href="/" className="flex justify-center mb-4">
                   <Image
                     src="/images/AJIL_logo.png"
                     alt="AJIL Finance Logo"
-                    width={120}
-                    height={45}
+                    width={140}
+                    height={55}
                     className="object-contain"
                   />
-                </motion.div>
-              </Link>
-              
-              <p className="text-gray-400 text-sm leading-relaxed mb-8 max-w-sm">
-                {t('footer.about_text')}
-              </p>
+                </Link>
+                <p className="text-gray-600 text-sm leading-relaxed text-center">
+                  {t('footer.about_text')}
+                </p>
+              </motion.div>
 
               {/* Social Links */}
               <div className="flex gap-3">
