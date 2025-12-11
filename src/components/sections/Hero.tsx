@@ -12,6 +12,7 @@ import {
   AnimatedLoanCalculator,
   AnimatedAjilSymbol,
 } from '@/components/icons/AnimatedIcons'
+import { AjilLogoBackground } from '@/components/icons/AjilLogo'
 
 // Particle component for background effect
 function Particle({ delay = 0 }: { delay?: number }) {
@@ -147,6 +148,14 @@ export default function Hero() {
           className="w-32 h-32 bg-gradient-radial from-white/10 to-transparent top-1/2 left-1/3"
           delay={1}
         />
+
+        {/* AJIL Logo Background Decorations */}
+        <div className="absolute -top-20 -right-20 opacity-[0.03]">
+          <AjilLogoBackground size={500} animated />
+        </div>
+        <div className="absolute -bottom-32 -left-32 opacity-[0.02] rotate-180">
+          <AjilLogoBackground size={400} animated />
+        </div>
 
         {/* Particles */}
         <div className="absolute inset-0 overflow-hidden">

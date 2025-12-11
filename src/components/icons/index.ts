@@ -39,3 +39,11 @@ export {
   AnimatedLoadingSpinner,
   AnimatedIcons,
 } from './AnimatedIcons'
+
+// Logo Components
+export {
+  AjilLogo,
+  AjilLogoMark,
+  AjilLogoBackground,
+  AjilWatermarkPattern,
+} from './AjilLogo'

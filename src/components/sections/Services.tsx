@@ -10,6 +10,7 @@ import {
 import {
   IconLoanProducts,
   AjilSymbol,
+  AjilLogoBackground,
 } from '@/components/icons'
 import {
   AnimatedCarFinancing,
@@ -153,6 +154,14 @@ export default function Services() {
       <div className="absolute top-0 left-0 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl" />
       
+      {/* AJIL Logo Background Decorations */}
+      <div className="absolute top-10 right-0 opacity-[0.02]">
+        <AjilLogoBackground size={350} animated />
+      </div>
+      <div className="absolute bottom-10 left-0 opacity-[0.015] -rotate-12">
+        <AjilLogoBackground size={300} animated />
+      </div>
+
       {/* Floating Elements */}
       <motion.div
         className="absolute top-20 right-10 w-20 h-20 bg-primary-500/10 rounded-full"

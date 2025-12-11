@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
 import { AnimatedAjilSymbol } from '@/components/icons/AnimatedIcons'
+import { AjilLogoBackground } from '@/components/icons/AjilLogo'
 
 interface StatItem {
   value: number
@@ -155,6 +156,14 @@ export default function Statistics() {
             backgroundSize: '30px 30px',
           }}
         />
+
+        {/* AJIL Logo Background Decorations */}
+        <div className="absolute top-0 right-0 opacity-[0.03]">
+          <AjilLogoBackground size={400} animated />
+        </div>
+        <div className="absolute bottom-0 left-0 opacity-[0.02] rotate-180">
+          <AjilLogoBackground size={350} animated />
+        </div>
       </div>
 
       {/* Floating AJIL Symbols */}
