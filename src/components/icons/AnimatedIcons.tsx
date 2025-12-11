@@ -41,7 +41,7 @@ const scaleVariants: Variants = {
 }
 
 // ============================================
-// ANIMATED AJIL SYMBOL
+// ANIMATED AJIL SYMBOL (A Shape)
 // ============================================
 export function AnimatedAjilSymbol({ 
   size = 24, 
@@ -64,8 +64,9 @@ export function AnimatedAjilSymbol({
       initial="hidden"
       animate={isInView && animate ? 'visible' : 'hidden'}
     >
+      {/* Main A shape */}
       <motion.path
-        d="M3 5L12 19L21 5"
+        d="M3 20L12 4L21 20"
         stroke="currentColor"
         strokeWidth="2.5"
         strokeLinecap="round"
@@ -73,15 +74,35 @@ export function AnimatedAjilSymbol({
         variants={drawVariants}
         custom={delay}
       />
+      {/* A crossbar */}
       <motion.path
-        d="M7 7L12 15L17 7"
+        d="M6 14L18 14"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        variants={drawVariants}
+        custom={delay + 0.4}
+      />
+      {/* Inner accent A */}
+      <motion.path
+        d="M7 18L12 8L17 18"
         stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
         opacity="0.4"
         variants={drawVariants}
-        custom={delay + 0.3}
+        custom={delay + 0.2}
+      />
+      {/* Inner A crossbar */}
+      <motion.path
+        d="M9 13L15 13"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        opacity="0.3"
+        variants={drawVariants}
+        custom={delay + 0.5}
       />
     </motion.svg>
   )
@@ -773,7 +794,7 @@ export function AnimatedOffers({
         variants={drawVariants}
         custom={delay + 0.3}
       />
-      {/* Bow - AJIL V shape */}
+      {/* Bow - Gift ribbon */}
       <motion.path
         d="M12 10c-2 0-4-2-4-4s2-3 4-3"
         stroke="currentColor"

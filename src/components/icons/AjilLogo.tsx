@@ -17,7 +17,7 @@ interface AjilLogoProps {
  * AJIL Finance Official Logo Component
  * 
  * The logo consists of:
- * - The iconic "V" symbol (representing growth and success)
+ * - The iconic "A" symbol (representing AJIL, ambition, and upward growth)
  * - Arabic text "أجيـــل" 
  * - English text "AJIL"
  * - Tagline "FINANCE" or "للتمويل"
@@ -94,15 +94,15 @@ export function AjilLogo({
           <stop offset="0%" stopColor="#00377B" />
           <stop offset="100%" stopColor="#0066b3" />
         </linearGradient>
-        <linearGradient id="ajil-v-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="ajil-a-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#F7941D" />
           <stop offset="100%" stopColor="#FFB347" />
         </linearGradient>
       </defs>
 
-      {/* Main V Symbol - The iconic AJIL mark */}
+      {/* Main A Symbol - The iconic AJIL mark */}
       <MotionPath
-        d="M70 15 L100 55 L130 15"
+        d="M70 55 L100 15 L130 55"
         fill="none"
         stroke={currentColors.main}
         strokeWidth="8"
@@ -115,9 +115,24 @@ export function AjilLogo({
         })}
       />
 
-      {/* Inner V accent */}
+      {/* A crossbar */}
       <MotionPath
-        d="M80 22 L100 48 L120 22"
+        d="M78 42 L122 42"
+        fill="none"
+        stroke={currentColors.main}
+        strokeWidth="5"
+        strokeLinecap="round"
+        {...(animated && {
+          variants: drawVariants,
+          initial: 'hidden',
+          animate: isInView ? 'visible' : 'hidden',
+          transition: { delay: 0.5 },
+        })}
+      />
+
+      {/* Inner A accent */}
+      <MotionPath
+        d="M80 48 L100 22 L120 48"
         fill="none"
         stroke={currentColors.accent}
         strokeWidth="3"
@@ -128,6 +143,21 @@ export function AjilLogo({
           initial: 'hidden',
           animate: isInView ? 'visible' : 'hidden',
           transition: { delay: 0.3 },
+        })}
+      />
+
+      {/* Inner A crossbar accent */}
+      <MotionPath
+        d="M86 38 L114 38"
+        fill="none"
+        stroke={currentColors.accent}
+        strokeWidth="2"
+        strokeLinecap="round"
+        {...(animated && {
+          variants: drawVariants,
+          initial: 'hidden',
+          animate: isInView ? 'visible' : 'hidden',
+          transition: { delay: 0.6 },
         })}
       />
 
@@ -173,7 +203,7 @@ export function AjilLogo({
 }
 
 /**
- * AJIL Logo Mark Only (V Symbol)
+ * AJIL Logo Mark Only (A Symbol)
  * For use as favicon, app icon, or decorative element
  */
 export function AjilLogoMark({
@@ -213,9 +243,9 @@ export function AjilLogoMark({
         </linearGradient>
       </defs>
 
-      {/* Main V */}
+      {/* Main A */}
       <motion.path
-        d="M8 12 L24 36 L40 12"
+        d="M8 38 L24 10 L40 38"
         fill="none"
         stroke={currentColors.main}
         strokeWidth="5"
@@ -226,9 +256,21 @@ export function AjilLogoMark({
         transition={{ duration: 0.8, ease: 'easeInOut' }}
       />
 
-      {/* Inner accent V */}
+      {/* A crossbar */}
       <motion.path
-        d="M14 16 L24 30 L34 16"
+        d="M14 28 L34 28"
+        fill="none"
+        stroke={currentColors.main}
+        strokeWidth="3"
+        strokeLinecap="round"
+        initial={animated ? { pathLength: 0 } : undefined}
+        animate={animated && isInView ? { pathLength: 1 } : undefined}
+        transition={{ duration: 0.4, delay: 0.5, ease: 'easeInOut' }}
+      />
+
+      {/* Inner accent A */}
+      <motion.path
+        d="M14 32 L24 16 L34 32"
         fill="none"
         stroke={currentColors.accent}
         strokeWidth="2"
@@ -237,6 +279,18 @@ export function AjilLogoMark({
         initial={animated ? { pathLength: 0, opacity: 0 } : undefined}
         animate={animated && isInView ? { pathLength: 1, opacity: 1 } : undefined}
         transition={{ duration: 0.6, delay: 0.3, ease: 'easeInOut' }}
+      />
+
+      {/* Inner A crossbar accent */}
+      <motion.path
+        d="M18 25 L30 25"
+        fill="none"
+        stroke={currentColors.accent}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        initial={animated ? { pathLength: 0, opacity: 0 } : undefined}
+        animate={animated && isInView ? { pathLength: 1, opacity: 1 } : undefined}
+        transition={{ duration: 0.3, delay: 0.6, ease: 'easeInOut' }}
       />
     </motion.svg>
   )
@@ -278,9 +332,9 @@ export function AjilLogoBackground({
         height={size}
         aria-hidden="true"
       >
-        {/* Large decorative V pattern */}
+        {/* Large decorative A pattern */}
         <path
-          d="M10 20 L50 80 L90 20"
+          d="M10 85 L50 15 L90 85"
           fill="none"
           stroke="#00377B"
           strokeWidth="8"
@@ -288,7 +342,14 @@ export function AjilLogoBackground({
           strokeLinejoin="round"
         />
         <path
-          d="M20 28 L50 70 L80 28"
+          d="M22 60 L78 60"
+          fill="none"
+          stroke="#00377B"
+          strokeWidth="5"
+          strokeLinecap="round"
+        />
+        <path
+          d="M20 75 L50 25 L80 75"
           fill="none"
           stroke="#00377B"
           strokeWidth="4"
@@ -297,13 +358,29 @@ export function AjilLogoBackground({
           opacity="0.5"
         />
         <path
-          d="M30 36 L50 60 L70 36"
+          d="M30 55 L70 55"
+          fill="none"
+          stroke="#00377B"
+          strokeWidth="3"
+          strokeLinecap="round"
+          opacity="0.5"
+        />
+        <path
+          d="M30 65 L50 35 L70 65"
           fill="none"
           stroke="#F7941D"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
           opacity="0.8"
+        />
+        <path
+          d="M38 52 L62 52"
+          fill="none"
+          stroke="#F7941D"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          opacity="0.6"
         />
       </svg>
     </motion.div>
@@ -341,22 +418,41 @@ export function AjilWatermarkPattern({
             height="200"
             patternUnits="userSpaceOnUse"
           >
+            {/* A shape */}
             <path
-              d="M50 40 L100 120 L150 40"
+              d="M50 130 L100 40 L150 130"
               fill="none"
               stroke="#00377B"
               strokeWidth="4"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
+            {/* A crossbar */}
             <path
-              d="M60 50 L100 105 L140 50"
+              d="M65 95 L135 95"
+              fill="none"
+              stroke="#00377B"
+              strokeWidth="3"
+              strokeLinecap="round"
+            />
+            {/* Inner A */}
+            <path
+              d="M65 115 L100 55 L135 115"
               fill="none"
               stroke="#00377B"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
               opacity="0.5"
+            />
+            {/* Inner A crossbar */}
+            <path
+              d="M78 90 L122 90"
+              fill="none"
+              stroke="#00377B"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              opacity="0.4"
             />
           </pattern>
         </defs>
