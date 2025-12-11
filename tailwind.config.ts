@@ -47,6 +47,7 @@ const config: Config = {
         }
       },
       fontFamily: {
+        'ge-ss': ['"GE SS Two"', 'Cairo', 'sans-serif'],
         cairo: ['Cairo', 'sans-serif'],
       },
       backgroundImage: {

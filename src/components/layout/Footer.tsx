@@ -75,9 +75,9 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-12 border-b border-white/10">
             {/* Brand Column */}
             <div className="lg:col-span-1">
-              <Link href="/" className="flex items-center gap-3 group mb-6">
+              <Link href="/" className="inline-block mb-6">
                 <motion.div 
-                  className="relative overflow-hidden bg-white rounded-xl p-2"
+                  className="bg-white rounded-xl p-3 shadow-md"
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: 'spring', stiffness: 400 }}
                 >
