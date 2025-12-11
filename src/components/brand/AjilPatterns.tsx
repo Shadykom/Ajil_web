@@ -6,8 +6,8 @@ import { useRef } from 'react'
 /**
  * AJIL Brand Patterns & Shapes
  * 
- * Unique, exclusive patterns based on the AJIL "V" motif
- * representing growth, success, and swift financial solutions.
+ * Unique, exclusive patterns based on the AJIL "A" motif
+ * representing growth, ambition, and upward financial success.
  * 
  * Brand Colors:
  * - Primary Blue: #00377B / #0066B3
@@ -15,8 +15,8 @@ import { useRef } from 'react'
  */
 
 // ============================================
-// 1. AJIL V-MESH PATTERN
-// Modern grid with integrated V shapes
+// 1. AJIL A-MESH PATTERN
+// Modern grid with integrated A shapes
 // ============================================
 export function AjilVMesh({
   className = '',
@@ -52,33 +52,42 @@ export function AjilVMesh({
       >
         <defs>
           <pattern
-            id="ajil-vmesh"
+            id="ajil-amesh"
             x="0"
             y="0"
             width="80"
             height="80"
             patternUnits="userSpaceOnUse"
           >
-            {/* V shape in center */}
+            {/* A shape in center */}
             <path
-              d="M20 20 L40 50 L60 20"
+              d="M20 55 L40 20 L60 55"
               fill="none"
               stroke={strokeColor}
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
+            {/* A crossbar */}
+            <path
+              d="M28 42 L52 42"
+              fill="none"
+              stroke={strokeColor}
+              strokeWidth="1"
+              strokeLinecap="round"
+              opacity="0.7"
+            />
             {/* Connecting lines */}
-            <line x1="0" y1="0" x2="20" y2="20" stroke={strokeColor} strokeWidth="0.5" opacity="0.5" />
-            <line x1="60" y1="20" x2="80" y2="0" stroke={strokeColor} strokeWidth="0.5" opacity="0.5" />
-            <line x1="40" y1="50" x2="40" y2="80" stroke={strokeColor} strokeWidth="0.5" opacity="0.5" />
+            <line x1="0" y1="80" x2="20" y2="55" stroke={strokeColor} strokeWidth="0.5" opacity="0.5" />
+            <line x1="60" y1="55" x2="80" y2="80" stroke={strokeColor} strokeWidth="0.5" opacity="0.5" />
+            <line x1="40" y1="20" x2="40" y2="0" stroke={strokeColor} strokeWidth="0.5" opacity="0.5" />
             {/* Corner dots */}
-            <circle cx="0" cy="0" r="2" fill={strokeColor} opacity="0.3" />
-            <circle cx="80" cy="0" r="2" fill={strokeColor} opacity="0.3" />
-            <circle cx="40" cy="80" r="2" fill={strokeColor} opacity="0.3" />
+            <circle cx="0" cy="80" r="2" fill={strokeColor} opacity="0.3" />
+            <circle cx="80" cy="80" r="2" fill={strokeColor} opacity="0.3" />
+            <circle cx="40" cy="0" r="2" fill={strokeColor} opacity="0.3" />
           </pattern>
         </defs>
-        <rect width="100%" height="100%" fill="url(#ajil-vmesh)" />
+        <rect width="100%" height="100%" fill="url(#ajil-amesh)" />
       </motion.svg>
     </div>
   )
@@ -86,7 +95,7 @@ export function AjilVMesh({
 
 // ============================================
 // 2. AJIL GROWTH LINES
-// Ascending lines representing financial growth
+// Ascending A-shaped lines representing financial growth
 // ============================================
 export function AjilGrowthLines({
   className = '',
@@ -135,41 +144,45 @@ export function AjilGrowthLines({
 
         {variant === 'ascending' && (
           <>
-            {/* Multiple ascending V-lines representing growth */}
+            {/* Multiple ascending A-shapes representing growth */}
             <motion.path
-              d="M0 280 L100 180 L200 280"
+              d="M0 280 L100 180 L200 280 M60 240 L140 240"
               stroke={colors[color]}
               strokeWidth="2"
               strokeLinecap="round"
+              fill="none"
               initial={animated ? { pathLength: 0 } : undefined}
               animate={animated && isInView ? { pathLength: 1 } : undefined}
               transition={{ duration: 1.5, delay: 0 }}
             />
             <motion.path
-              d="M50 250 L150 120 L250 250"
+              d="M50 250 L150 120 L250 250 M100 200 L200 200"
               stroke={colors[color]}
               strokeWidth="2"
               strokeLinecap="round"
+              fill="none"
               opacity="0.7"
               initial={animated ? { pathLength: 0 } : undefined}
               animate={animated && isInView ? { pathLength: 1 } : undefined}
               transition={{ duration: 1.5, delay: 0.2 }}
             />
             <motion.path
-              d="M100 220 L200 60 L300 220"
+              d="M100 220 L200 60 L300 220 M150 160 L250 160"
               stroke={colors[color]}
               strokeWidth="2"
               strokeLinecap="round"
+              fill="none"
               opacity="0.5"
               initial={animated ? { pathLength: 0 } : undefined}
               animate={animated && isInView ? { pathLength: 1 } : undefined}
               transition={{ duration: 1.5, delay: 0.4 }}
             />
             <motion.path
-              d="M150 190 L250 20 L350 190"
+              d="M150 190 L250 20 L350 190 M200 120 L300 120"
               stroke={colors[color]}
               strokeWidth="2"
               strokeLinecap="round"
+              fill="none"
               opacity="0.3"
               initial={animated ? { pathLength: 0 } : undefined}
               animate={animated && isInView ? { pathLength: 1 } : undefined}
@@ -180,9 +193,9 @@ export function AjilGrowthLines({
 
         {variant === 'converging' && (
           <>
-            {/* Lines converging to a point - representing focus */}
+            {/* Lines converging to form an A at top */}
             <motion.path
-              d="M0 0 L200 250"
+              d="M0 300 L200 50"
               stroke={colors[color]}
               strokeWidth="1.5"
               initial={animated ? { pathLength: 0 } : undefined}
@@ -190,7 +203,7 @@ export function AjilGrowthLines({
               transition={{ duration: 1.2 }}
             />
             <motion.path
-              d="M400 0 L200 250"
+              d="M400 300 L200 50"
               stroke={colors[color]}
               strokeWidth="1.5"
               initial={animated ? { pathLength: 0 } : undefined}
@@ -198,7 +211,7 @@ export function AjilGrowthLines({
               transition={{ duration: 1.2, delay: 0.1 }}
             />
             <motion.path
-              d="M100 0 L200 250"
+              d="M100 300 L200 50"
               stroke={colors[color]}
               strokeWidth="1"
               opacity="0.5"
@@ -207,7 +220,7 @@ export function AjilGrowthLines({
               transition={{ duration: 1.2, delay: 0.2 }}
             />
             <motion.path
-              d="M300 0 L200 250"
+              d="M300 300 L200 50"
               stroke={colors[color]}
               strokeWidth="1"
               opacity="0.5"
@@ -215,13 +228,12 @@ export function AjilGrowthLines({
               animate={animated && isInView ? { pathLength: 1 } : undefined}
               transition={{ duration: 1.2, delay: 0.3 }}
             />
-            {/* V accent at convergence point */}
+            {/* A crossbar accent */}
             <motion.path
-              d="M170 220 L200 260 L230 220"
+              d="M120 180 L280 180"
               stroke="#F7941D"
               strokeWidth="3"
               strokeLinecap="round"
-              strokeLinejoin="round"
               initial={animated ? { pathLength: 0, opacity: 0 } : undefined}
               animate={animated && isInView ? { pathLength: 1, opacity: 1 } : undefined}
               transition={{ duration: 0.8, delay: 1 }}
@@ -231,45 +243,49 @@ export function AjilGrowthLines({
 
         {variant === 'radiating' && (
           <>
-            {/* V shapes radiating outward */}
+            {/* A shapes radiating outward */}
             <motion.path
-              d="M180 150 L200 180 L220 150"
+              d="M180 180 L200 140 L220 180 M188 168 L212 168"
               stroke={colors[color]}
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
+              fill="none"
               initial={animated ? { scale: 0 } : undefined}
               animate={animated && isInView ? { scale: 1 } : undefined}
               transition={{ duration: 0.5 }}
             />
             <motion.path
-              d="M140 120 L200 200 L260 120"
+              d="M140 220 L200 100 L260 220 M160 180 L240 180"
               stroke={colors[color]}
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
+              fill="none"
               opacity="0.6"
               initial={animated ? { scale: 0 } : undefined}
               animate={animated && isInView ? { scale: 1 } : undefined}
               transition={{ duration: 0.7, delay: 0.2 }}
             />
             <motion.path
-              d="M100 90 L200 220 L300 90"
+              d="M100 260 L200 60 L300 260 M130 190 L270 190"
               stroke={colors[color]}
               strokeWidth="1"
               strokeLinecap="round"
               strokeLinejoin="round"
+              fill="none"
               opacity="0.4"
               initial={animated ? { scale: 0 } : undefined}
               animate={animated && isInView ? { scale: 1 } : undefined}
               transition={{ duration: 0.9, delay: 0.4 }}
             />
             <motion.path
-              d="M60 60 L200 240 L340 60"
+              d="M60 300 L200 20 L340 300 M100 200 L300 200"
               stroke={colors[color]}
               strokeWidth="0.75"
               strokeLinecap="round"
               strokeLinejoin="round"
+              fill="none"
               opacity="0.2"
               initial={animated ? { scale: 0 } : undefined}
               animate={animated && isInView ? { scale: 1 } : undefined}
@@ -284,7 +300,7 @@ export function AjilGrowthLines({
 
 // ============================================
 // 3. AJIL DOTS MATRIX
-// Dots arranged in V formations
+// Dots arranged in A formations
 // ============================================
 export function AjilDotsMatrix({
   className = '',
@@ -326,15 +342,16 @@ export function AjilDotsMatrix({
             height={patternSize}
             patternUnits="userSpaceOnUse"
           >
-            {/* V-shaped dot arrangement */}
-            <circle cx={patternSize * 0.2} cy={patternSize * 0.3} r="2" fill={colors[color]} />
-            <circle cx={patternSize * 0.35} cy={patternSize * 0.5} r="2.5" fill={color === 'mixed' ? '#F7941D' : colors[color]} />
-            <circle cx={patternSize * 0.5} cy={patternSize * 0.7} r="3" fill={colors[color]} />
-            <circle cx={patternSize * 0.65} cy={patternSize * 0.5} r="2.5" fill={color === 'mixed' ? '#F7941D' : colors[color]} />
-            <circle cx={patternSize * 0.8} cy={patternSize * 0.3} r="2" fill={colors[color]} />
-            {/* Accent dots */}
-            <circle cx={patternSize * 0.5} cy={patternSize * 0.2} r="1" fill={colors[color]} opacity="0.4" />
-            <circle cx={patternSize * 0.5} cy={patternSize * 0.9} r="1" fill="#F7941D" opacity="0.6" />
+            {/* A-shaped dot arrangement - apex at top */}
+            <circle cx={patternSize * 0.5} cy={patternSize * 0.15} r="3" fill={colors[color]} />
+            <circle cx={patternSize * 0.35} cy={patternSize * 0.4} r="2.5" fill={color === 'mixed' ? '#F7941D' : colors[color]} />
+            <circle cx={patternSize * 0.65} cy={patternSize * 0.4} r="2.5" fill={color === 'mixed' ? '#F7941D' : colors[color]} />
+            <circle cx={patternSize * 0.2} cy={patternSize * 0.7} r="2" fill={colors[color]} />
+            <circle cx={patternSize * 0.8} cy={patternSize * 0.7} r="2" fill={colors[color]} />
+            {/* A crossbar dots */}
+            <circle cx={patternSize * 0.35} cy={patternSize * 0.55} r="1.5" fill="#F7941D" opacity="0.7" />
+            <circle cx={patternSize * 0.5} cy={patternSize * 0.55} r="1.5" fill="#F7941D" opacity="0.7" />
+            <circle cx={patternSize * 0.65} cy={patternSize * 0.55} r="1.5" fill="#F7941D" opacity="0.7" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill={`url(#ajil-dots-${density})`} />
@@ -345,7 +362,7 @@ export function AjilDotsMatrix({
 
 // ============================================
 // 4. AJIL WAVE PATTERN
-// Flowing waves with V peaks
+// Flowing waves with A-shaped peaks
 // ============================================
 export function AjilWavePattern({
   className = '',
@@ -391,15 +408,13 @@ export function AjilWavePattern({
           </linearGradient>
         </defs>
         
-        {/* Main wave with V-shaped peaks */}
+        {/* Main wave with A-shaped peaks (pointing up) */}
         <motion.path
-          d="M0 60 
-             Q120 20 240 60 
-             L360 20 L480 60 
-             Q600 100 720 60 
-             L840 20 L960 60 
-             Q1080 100 1200 60 
-             L1320 20 L1440 60 
+          d="M0 100 
+             L120 100 L240 30 L360 100 
+             L480 100 L600 30 L720 100 
+             L840 100 L960 30 L1080 100 
+             L1200 100 L1320 30 L1440 100 
              L1440 120 L0 120 Z"
           fill={colors[color]}
           opacity="0.08"
@@ -408,13 +423,13 @@ export function AjilWavePattern({
           transition={{ duration: 2 }}
         />
         
-        {/* Secondary wave layer */}
+        {/* Secondary wave layer with smaller A peaks */}
         <motion.path
-          d="M0 80 
-             L180 40 L360 80 
-             Q540 120 720 80 
-             L900 40 L1080 80 
-             Q1260 120 1440 80 
+          d="M0 110 
+             L180 110 L300 50 L420 110 
+             L540 110 L660 50 L780 110 
+             L900 110 L1020 50 L1140 110 
+             L1260 110 L1380 50 L1440 90 
              L1440 120 L0 120 Z"
           fill={colors[color]}
           opacity="0.05"
@@ -429,7 +444,7 @@ export function AjilWavePattern({
 
 // ============================================
 // 5. AJIL GEOMETRIC ACCENT
-// Single decorative V-based shape for corners/edges
+// Single decorative A-based shape for corners/edges
 // ============================================
 export function AjilGeometricAccent({
   className = '',
@@ -477,9 +492,9 @@ export function AjilGeometricAccent({
 
         {variant === 'corner' && (
           <>
-            {/* Layered V shapes for corner */}
+            {/* Layered A shapes for corner */}
             <motion.path
-              d="M10 10 L50 70 L90 10"
+              d="M10 85 L50 15 L90 85"
               stroke={colors[color]}
               strokeWidth="3"
               strokeLinecap="round"
@@ -491,7 +506,18 @@ export function AjilGeometricAccent({
               transition={{ duration: 1 }}
             />
             <motion.path
-              d="M20 18 L50 60 L80 18"
+              d="M25 60 L75 60"
+              stroke={colors[color]}
+              strokeWidth="2"
+              strokeLinecap="round"
+              fill="none"
+              opacity="0.12"
+              initial={animated ? { pathLength: 0 } : undefined}
+              animate={animated && isInView ? { pathLength: 1 } : undefined}
+              transition={{ duration: 0.5, delay: 0.8 }}
+            />
+            <motion.path
+              d="M20 75 L50 25 L80 75"
               stroke={colors[color]}
               strokeWidth="2"
               strokeLinecap="round"
@@ -503,7 +529,7 @@ export function AjilGeometricAccent({
               transition={{ duration: 1, delay: 0.2 }}
             />
             <motion.path
-              d="M30 26 L50 50 L70 26"
+              d="M30 65 L50 35 L70 65"
               stroke="#F7941D"
               strokeWidth="1.5"
               strokeLinecap="round"
@@ -514,14 +540,25 @@ export function AjilGeometricAccent({
               animate={animated && isInView ? { pathLength: 1 } : undefined}
               transition={{ duration: 1, delay: 0.4 }}
             />
+            <motion.path
+              d="M38 55 L62 55"
+              stroke="#F7941D"
+              strokeWidth="1"
+              strokeLinecap="round"
+              fill="none"
+              opacity="0.15"
+              initial={animated ? { pathLength: 0 } : undefined}
+              animate={animated && isInView ? { pathLength: 1 } : undefined}
+              transition={{ duration: 0.5, delay: 1 }}
+            />
           </>
         )}
 
         {variant === 'edge' && (
           <>
-            {/* Horizontal edge pattern */}
+            {/* Horizontal edge pattern with A peaks */}
             <motion.path
-              d="M0 50 L25 30 L50 50 L75 30 L100 50"
+              d="M0 70 L25 30 L50 70 L75 30 L100 70"
               stroke={colors[color]}
               strokeWidth="2"
               strokeLinecap="round"
@@ -532,17 +569,17 @@ export function AjilGeometricAccent({
               animate={animated && isInView ? { pathLength: 1 } : undefined}
               transition={{ duration: 1.5 }}
             />
+            {/* A crossbars */}
             <motion.path
-              d="M0 60 L25 40 L50 60 L75 40 L100 60"
+              d="M12 55 L38 55 M62 55 L88 55"
               stroke="#F7941D"
               strokeWidth="1"
               strokeLinecap="round"
-              strokeLinejoin="round"
               fill="none"
-              opacity="0.08"
+              opacity="0.1"
               initial={animated ? { pathLength: 0 } : undefined}
               animate={animated && isInView ? { pathLength: 1 } : undefined}
-              transition={{ duration: 1.5, delay: 0.3 }}
+              transition={{ duration: 1, delay: 0.5 }}
             />
           </>
         )}
@@ -559,9 +596,9 @@ export function AjilGeometricAccent({
               ease: 'easeInOut',
             }}
           >
-            {/* Floating V with glow effect */}
+            {/* Floating A with glow effect */}
             <motion.path
-              d="M25 25 L50 65 L75 25"
+              d="M25 75 L50 25 L75 75"
               stroke={colors[color]}
               strokeWidth="4"
               strokeLinecap="round"
@@ -573,7 +610,18 @@ export function AjilGeometricAccent({
               transition={{ duration: 1 }}
             />
             <motion.path
-              d="M35 32 L50 55 L65 32"
+              d="M35 55 L65 55"
+              stroke={colors[color]}
+              strokeWidth="2"
+              strokeLinecap="round"
+              fill="none"
+              opacity="0.12"
+              initial={animated ? { pathLength: 0 } : undefined}
+              animate={animated && isInView ? { pathLength: 1 } : undefined}
+              transition={{ duration: 0.5, delay: 0.8 }}
+            />
+            <motion.path
+              d="M35 65 L50 35 L65 65"
               stroke="#F7941D"
               strokeWidth="2"
               strokeLinecap="round"
@@ -584,10 +632,21 @@ export function AjilGeometricAccent({
               animate={animated && isInView ? { pathLength: 1 } : undefined}
               transition={{ duration: 0.8, delay: 0.5 }}
             />
-            {/* Glow circle */}
+            <motion.path
+              d="M42 52 L58 52"
+              stroke="#F7941D"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              fill="none"
+              opacity="0.2"
+              initial={animated ? { pathLength: 0 } : undefined}
+              animate={animated && isInView ? { pathLength: 1 } : undefined}
+              transition={{ duration: 0.4, delay: 1 }}
+            />
+            {/* Glow circle at apex */}
             <circle
               cx="50"
-              cy="55"
+              cy="25"
               r="8"
               fill="#F7941D"
               opacity="0.1"
@@ -601,7 +660,7 @@ export function AjilGeometricAccent({
 
 // ============================================
 // 6. AJIL SPEED LINES
-// Dynamic lines suggesting swift/agile movement
+// Dynamic A-shaped lines suggesting swift/agile movement
 // ============================================
 export function AjilSpeedLines({
   className = '',
@@ -636,76 +695,89 @@ export function AjilSpeedLines({
         className="w-full h-full"
         preserveAspectRatio="xMidYMid slice"
       >
-        {/* Speed lines emanating in V formation */}
+        {/* Speed lines forming A shapes - apex pointing forward */}
         <motion.path
-          d="M0 200 L300 100 L600 200"
+          d="M0 350 L300 50 L600 350"
           stroke="#00377B"
           strokeWidth="2"
           strokeLinecap="round"
+          fill="none"
           initial={animated ? { pathLength: 0, opacity: 0 } : undefined}
           animate={animated && isInView ? { pathLength: 1, opacity: 1 } : undefined}
           transition={{ duration: 1.5 }}
         />
         <motion.path
-          d="M50 200 L300 130 L550 200"
+          d="M100 220 L500 220"
           stroke="#00377B"
           strokeWidth="1.5"
           strokeLinecap="round"
+          opacity="0.6"
+          initial={animated ? { pathLength: 0, opacity: 0 } : undefined}
+          animate={animated && isInView ? { pathLength: 1, opacity: 0.6 } : undefined}
+          transition={{ duration: 1, delay: 0.8 }}
+        />
+        
+        <motion.path
+          d="M50 320 L300 80 L550 320"
+          stroke="#00377B"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          fill="none"
           opacity="0.7"
           initial={animated ? { pathLength: 0, opacity: 0 } : undefined}
           animate={animated && isInView ? { pathLength: 1, opacity: 0.7 } : undefined}
           transition={{ duration: 1.5, delay: 0.1 }}
         />
         <motion.path
-          d="M100 200 L300 160 L500 200"
+          d="M130 210 L470 210"
           stroke="#0066B3"
           strokeWidth="1"
           strokeLinecap="round"
           opacity="0.5"
           initial={animated ? { pathLength: 0, opacity: 0 } : undefined}
           animate={animated && isInView ? { pathLength: 1, opacity: 0.5 } : undefined}
+          transition={{ duration: 0.8, delay: 0.9 }}
+        />
+        
+        <motion.path
+          d="M100 290 L300 110 L500 290"
+          stroke="#0066B3"
+          strokeWidth="1"
+          strokeLinecap="round"
+          fill="none"
+          opacity="0.5"
+          initial={animated ? { pathLength: 0, opacity: 0 } : undefined}
+          animate={animated && isInView ? { pathLength: 1, opacity: 0.5 } : undefined}
           transition={{ duration: 1.5, delay: 0.2 }}
         />
         
-        {/* Lower V lines */}
-        <motion.path
-          d="M0 200 L300 300 L600 200"
-          stroke="#00377B"
-          strokeWidth="2"
-          strokeLinecap="round"
-          initial={animated ? { pathLength: 0, opacity: 0 } : undefined}
-          animate={animated && isInView ? { pathLength: 1, opacity: 1 } : undefined}
-          transition={{ duration: 1.5, delay: 0.3 }}
-        />
-        <motion.path
-          d="M50 200 L300 270 L550 200"
+        {/* Accent streaks extending from apex */}
+        <motion.line
+          x1="300" y1="50" x2="800" y2="50"
           stroke="#F7941D"
           strokeWidth="1.5"
-          strokeLinecap="round"
-          opacity="0.6"
-          initial={animated ? { pathLength: 0, opacity: 0 } : undefined}
-          animate={animated && isInView ? { pathLength: 1, opacity: 0.6 } : undefined}
-          transition={{ duration: 1.5, delay: 0.4 }}
+          opacity="0.5"
+          initial={animated ? { pathLength: 0 } : undefined}
+          animate={animated && isInView ? { pathLength: 1 } : undefined}
+          transition={{ duration: 1, delay: 0.6 }}
         />
-        
-        {/* Accent streaks */}
         <motion.line
-          x1="300" y1="100" x2="800" y2="100"
+          x1="300" y1="80" x2="750" y2="80"
           stroke="#F7941D"
           strokeWidth="1"
-          opacity="0.4"
+          opacity="0.3"
+          initial={animated ? { pathLength: 0 } : undefined}
+          animate={animated && isInView ? { pathLength: 1 } : undefined}
+          transition={{ duration: 1, delay: 0.7 }}
+        />
+        <motion.line
+          x1="300" y1="110" x2="700" y2="110"
+          stroke="#F7941D"
+          strokeWidth="0.75"
+          opacity="0.2"
           initial={animated ? { pathLength: 0 } : undefined}
           animate={animated && isInView ? { pathLength: 1 } : undefined}
           transition={{ duration: 1, delay: 0.8 }}
-        />
-        <motion.line
-          x1="300" y1="300" x2="800" y2="300"
-          stroke="#F7941D"
-          strokeWidth="1"
-          opacity="0.4"
-          initial={animated ? { pathLength: 0 } : undefined}
-          animate={animated && isInView ? { pathLength: 1 } : undefined}
-          transition={{ duration: 1, delay: 0.9 }}
         />
       </svg>
     </motion.div>
@@ -714,7 +786,7 @@ export function AjilSpeedLines({
 
 // ============================================
 // 7. AJIL HEXAGON GRID
-// Modern fintech hexagon grid with V accents
+// Modern fintech hexagon grid with A accents
 // ============================================
 export function AjilHexGrid({
   className = '',
@@ -746,7 +818,7 @@ export function AjilHexGrid({
             height="86.6"
             patternUnits="userSpaceOnUse"
           >
-            {/* Hexagon with V inside */}
+            {/* Hexagon with A inside */}
             <path
               d="M50 0 L93.3 25 L93.3 75 L50 100 L6.7 75 L6.7 25 Z"
               fill="none"
@@ -754,15 +826,25 @@ export function AjilHexGrid({
               strokeWidth="1"
               transform="translate(0, -6.7)"
             />
-            {/* V inside hexagon */}
+            {/* A inside hexagon */}
             <path
-              d="M30 25 L50 55 L70 25"
+              d="M30 60 L50 25 L70 60"
               fill="none"
               stroke={colors[color]}
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
               opacity="0.6"
+              transform="translate(0, -6.7)"
+            />
+            {/* A crossbar */}
+            <path
+              d="M38 48 L62 48"
+              fill="none"
+              stroke={colors[color]}
+              strokeWidth="1"
+              strokeLinecap="round"
+              opacity="0.4"
               transform="translate(0, -6.7)"
             />
             {/* Offset hexagon */}
@@ -784,15 +866,17 @@ export function AjilHexGrid({
 
 // ============================================
 // EXPORT ALL PATTERNS
+// All patterns use the AJIL "A" motif representing
+// growth, ambition, and upward success
 // ============================================
 export const AjilPatterns = {
-  VMesh: AjilVMesh,
-  GrowthLines: AjilGrowthLines,
-  DotsMatrix: AjilDotsMatrix,
-  WavePattern: AjilWavePattern,
-  GeometricAccent: AjilGeometricAccent,
-  SpeedLines: AjilSpeedLines,
-  HexGrid: AjilHexGrid,
+  AMesh: AjilVMesh,        // A-shaped mesh grid
+  GrowthLines: AjilGrowthLines,  // Ascending A formations
+  DotsMatrix: AjilDotsMatrix,    // Dots in A arrangement
+  WavePattern: AjilWavePattern,  // Waves with A peaks
+  GeometricAccent: AjilGeometricAccent,  // A-shaped accents
+  SpeedLines: AjilSpeedLines,    // A-shaped speed lines
+  HexGrid: AjilHexGrid,          // Hexagons with A inside
 }
 
 export default AjilPatterns
