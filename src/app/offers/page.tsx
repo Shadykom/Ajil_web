@@ -3,6 +3,7 @@
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { PageHero } from '@/components/shared'
+import PromoSlider from '@/components/sections/PromoSlider'
 import { motion } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
 import Link from 'next/link'
@@ -138,6 +139,8 @@ export default function OffersPage() {
         badgeAr="لفترة محدودة"
         BadgeIcon={Gift}
       />
+
+      <PromoSlider />
 
       {/* Featured Offers */}
       <section className="py-20 bg-white">
