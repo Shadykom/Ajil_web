@@ -3,7 +3,7 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import Link from 'next/link'
 import { 
   Newspaper,
@@ -13,7 +13,26 @@ import {
   Sparkles
 } from 'lucide-react'
 
-const newsArticles = [
+// Import local images
+import NewsImage1 from '@/Images/Ajil1.png'
+import NewsImage2 from '@/Images/Ajil2.png'
+
+interface NewsArticle {
+  id: number
+  titleAr: string
+  titleEn: string
+  excerptAr: string
+  excerptEn: string
+  category: string
+  categoryLabelAr: string
+  categoryLabelEn: string
+  image: StaticImageData
+  date: string
+  dateEn: string
+  href: string
+}
+
+const newsArticles: NewsArticle[] = [
   {
     id: 1,
     titleAr: 'أجل للتمويل تفوز بجائزتين من منشآت',
@@ -23,7 +42,7 @@ const newsArticles = [
     category: 'awards',
     categoryLabelAr: 'جوائز وإنجازات',
     categoryLabelEn: 'Awards & Achievements',
-    image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=600&h=400&fit=crop',
+    image: NewsImage1,
     date: '15 نوفمبر 2025',
     dateEn: 'Nov 15, 2025',
     href: '/news/awards-monshaat',
@@ -37,7 +56,7 @@ const newsArticles = [
     category: 'partnerships',
     categoryLabelAr: 'شراكات',
     categoryLabelEn: 'Partnerships',
-    image: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?w=600&h=400&fit=crop',
+    image: NewsImage2,
     date: '10 نوفمبر 2025',
     dateEn: 'Nov 10, 2025',
     href: '/news/ant-partnership',
@@ -51,7 +70,7 @@ const newsArticles = [
     category: 'services',
     categoryLabelAr: 'خدمات جديدة',
     categoryLabelEn: 'New Services',
-    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&h=400&fit=crop',
+    image: NewsImage1,
     date: '5 نوفمبر 2025',
     dateEn: 'Nov 5, 2025',
     href: '/news/digital-financing',
@@ -65,7 +84,7 @@ function NewsCard({
   dir,
   t
 }: { 
-  article: typeof newsArticles[0]
+  article: NewsArticle
   index: number
   language: string
   dir: string
@@ -90,6 +109,7 @@ function NewsCard({
           alt={language === 'ar' ? article.titleAr : article.titleEn}
           fill
           className="object-cover transition-transform duration-700 group-hover:scale-110"
+          placeholder="blur"
         />
         
         {/* Overlay */}
