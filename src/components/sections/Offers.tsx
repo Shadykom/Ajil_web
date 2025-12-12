@@ -7,8 +7,8 @@ import Image from 'next/image'
 import { IconLoanProducts, AjilSymbol } from '@/components/icons'
 
 // Import local images
-import Ajil1 from '@/Images/Ajil1.jpg'
-import Ajil2 from '@/Images/Ajil2.jpg'
+import Ajil1 from '@/Images/Ajil1.png'
+import Ajil2 from '@/Images/Ajil2.png'
 
 const offers = [
   {
