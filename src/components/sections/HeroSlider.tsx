@@ -4,98 +4,234 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence, PanInfo } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
 import Link from 'next/link'
-import { ChevronLeft, ChevronRight, Car, Banknote, Building2, ArrowLeft, ArrowRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ArrowLeft, ArrowRight, Car, Banknote, Percent, Gift } from 'lucide-react'
 
-// AJIL A Shape for decorations
-function AjilADecoration({ size = 100, opacity = 0.1, className = '' }: { size?: number; opacity?: number; className?: string }) {
+// AJIL Brand Colors
+const AJIL_BLUE = '#00377B'
+const AJIL_BLUE_LIGHT = '#0066b3'
+const AJIL_ORANGE = '#F7941D'
+
+// AJIL A Shape SVG Component
+function AjilAShape({ className = '', size = 100, color = 'white', opacity = 0.1 }: { className?: string; size?: number; color?: string; opacity?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" className={className} style={{ opacity }}>
+    <svg 
+      width={size} 
+      height={size} 
+      viewBox="0 0 100 100" 
+      className={className}
+      style={{ opacity }}
+    >
       <path
-        d="M20 80 L50 20 L80 80"
+        d="M15 85 L50 15 L85 85"
         fill="none"
-        stroke="currentColor"
+        stroke={color}
+        strokeWidth="6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M28 60 L72 60"
+        fill="none"
+        stroke={color}
         strokeWidth="4"
         strokeLinecap="round"
-        strokeLinejoin="round"
       />
       <path
-        d="M32 58 L68 58"
+        d="M32 72 L50 32 L68 72"
         fill="none"
-        stroke="currentColor"
+        stroke={AJIL_ORANGE}
         strokeWidth="3"
         strokeLinecap="round"
-      />
-      <path
-        d="M35 68 L50 38 L65 68"
-        fill="none"
-        stroke="#F7941D"
-        strokeWidth="2"
-        strokeLinecap="round"
         strokeLinejoin="round"
-        opacity="0.7"
+        opacity="0.8"
       />
     </svg>
   )
 }
 
-// Slider data - promotional banners with enhanced content
+// Car Illustration Component
+function CarIllustration({ color = AJIL_ORANGE }: { color?: string }) {
+  return (
+    <motion.svg 
+      viewBox="0 0 400 200" 
+      className="w-full max-w-md"
+      initial={{ x: 100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ duration: 0.8, delay: 0.3 }}
+    >
+      {/* Car Body */}
+      <motion.path
+        d="M60 140 L60 110 Q60 90 80 90 L140 90 L170 60 L280 60 L310 90 L340 90 Q360 90 360 110 L360 140"
+        fill={color}
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1 }}
+      />
+      {/* Windows */}
+      <path
+        d="M150 90 L175 65 L270 65 L290 90 Z"
+        fill="rgba(255,255,255,0.3)"
+      />
+      <line x1="220" y1="65" x2="220" y2="90" stroke="rgba(255,255,255,0.5)" strokeWidth="2" />
+      {/* Wheels */}
+      <circle cx="110" cy="140" r="28" fill="#1a1a1a" />
+      <circle cx="110" cy="140" r="18" fill="#333" />
+      <circle cx="110" cy="140" r="8" fill="#666" />
+      <circle cx="310" cy="140" r="28" fill="#1a1a1a" />
+      <circle cx="310" cy="140" r="18" fill="#333" />
+      <circle cx="310" cy="140" r="8" fill="#666" />
+      {/* Headlights */}
+      <rect x="350" y="100" width="15" height="20" rx="3" fill="rgba(255,255,255,0.9)" />
+      <rect x="55" y="100" width="10" height="15" rx="2" fill="rgba(255,50,50,0.9)" />
+      {/* Ground reflection */}
+      <ellipse cx="210" cy="175" rx="160" ry="10" fill="rgba(255,255,255,0.1)" />
+    </motion.svg>
+  )
+}
+
+// Money/Cash Illustration
+function CashIllustration({ color = AJIL_ORANGE }: { color?: string }) {
+  return (
+    <motion.svg 
+      viewBox="0 0 300 200" 
+      className="w-full max-w-sm"
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ duration: 0.6, delay: 0.3 }}
+    >
+      {/* Stack of money */}
+      {[0, 1, 2, 3].map((i) => (
+        <motion.g 
+          key={i} 
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.4 + i * 0.1 }}
+        >
+          <rect 
+            x={60 + i * 5} 
+            y={80 - i * 15} 
+            width="180" 
+            height="80" 
+            rx="8" 
+            fill={i === 3 ? color : `rgba(255,255,255,${0.2 + i * 0.1})`}
+            stroke="rgba(255,255,255,0.3)"
+            strokeWidth="2"
+          />
+          {i === 3 && (
+            <>
+              <text x="150" y="130" textAnchor="middle" fill="white" fontSize="24" fontWeight="bold">SAR</text>
+              <circle cx="100" cy="120" r="15" fill="rgba(255,255,255,0.3)" />
+              <circle cx="200" cy="120" r="15" fill="rgba(255,255,255,0.3)" />
+            </>
+          )}
+        </motion.g>
+      ))}
+      {/* Floating coins */}
+      {[
+        { x: 40, y: 60, delay: 0.5 },
+        { x: 260, y: 50, delay: 0.6 },
+        { x: 30, y: 130, delay: 0.7 },
+      ].map((coin, i) => (
+        <motion.circle
+          key={i}
+          cx={coin.x}
+          cy={coin.y}
+          r="20"
+          fill={AJIL_ORANGE}
+          stroke="rgba(255,255,255,0.5)"
+          strokeWidth="3"
+          initial={{ scale: 0, y: coin.y + 30 }}
+          animate={{ scale: 1, y: coin.y }}
+          transition={{ delay: coin.delay, type: 'spring' }}
+        />
+      ))}
+    </motion.svg>
+  )
+}
+
+// Promotional Badge
+function PromoBadge({ text, icon: Icon, color = AJIL_ORANGE }: { text: string; icon: React.ElementType; color?: string }) {
+  return (
+    <motion.div 
+      className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold"
+      style={{ backgroundColor: color, color: '#1a1a1a' }}
+      initial={{ scale: 0, rotate: -10 }}
+      animate={{ scale: 1, rotate: 0 }}
+      transition={{ type: 'spring', delay: 0.5 }}
+    >
+      <Icon className="w-4 h-4" />
+      <span>{text}</span>
+    </motion.div>
+  )
+}
+
+// Slider data with AJIL branding
 const slides = [
   {
     id: 1,
-    icon: Car,
+    type: 'car',
     titleAr: 'عروض نهاية العام',
     titleEn: 'Year End Offers',
     subtitleAr: 'أول قسطين علينا',
     subtitleEn: 'First 2 Payments On Us',
-    descriptionAr: 'احصل على تمويل سيارتك الجديدة مع عروض حصرية',
-    descriptionEn: 'Get your new car financing with exclusive offers',
-    highlightAr: '0%',
-    highlightEn: '0%',
-    highlightLabelAr: 'دفعة أولى ورسوم إدارية',
-    highlightLabelEn: 'Down Payment & Admin Fees',
+    descriptionAr: 'احصل على تمويل سيارتك الجديدة بأفضل العروض',
+    descriptionEn: 'Get your new car financing with the best offers',
+    highlightValue: '0%',
+    highlightLabelAr: 'دفعة أولى',
+    highlightLabelEn: 'Down Payment',
+    highlight2Value: '0%',
+    highlight2LabelAr: 'رسوم إدارية',
+    highlight2LabelEn: 'Admin Fees',
+    badgeAr: 'عرض محدود',
+    badgeEn: 'Limited Offer',
+    badgeIcon: Gift,
     ctaAr: 'تقدم الآن',
     ctaEn: 'Apply Now',
     ctaLink: '/apply',
-    bgGradient: 'from-[#0a1628] via-[#1a365d] to-[#0a1628]',
-    accentColor: '#F7941D',
   },
   {
     id: 2,
-    icon: Car,
+    type: 'car',
     titleAr: 'تمويل السيارات',
     titleEn: 'Car Financing',
     subtitleAr: 'سيارة أحلامك في انتظارك',
     subtitleEn: 'Your Dream Car Awaits',
-    descriptionAr: 'تمويل مرن يناسب احتياجاتك مع أقساط ميسرة',
-    descriptionEn: 'Flexible financing that suits your needs',
-    highlightAr: '2.9%',
-    highlightEn: '2.9%',
+    descriptionAr: 'تمويل مرن يناسب احتياجاتك بأقساط ميسرة',
+    descriptionEn: 'Flexible financing with easy installments',
+    highlightValue: '2.9%',
     highlightLabelAr: 'معدل النسبة السنوي',
-    highlightLabelEn: 'Annual Percentage Rate',
+    highlightLabelEn: 'Annual Rate',
+    highlight2Value: '60',
+    highlight2LabelAr: 'شهر فترة السداد',
+    highlight2LabelEn: 'Months Tenure',
+    badgeAr: 'الأكثر طلباً',
+    badgeEn: 'Most Popular',
+    badgeIcon: Car,
     ctaAr: 'احسب قسطك',
     ctaEn: 'Calculate',
     ctaLink: '/calculator',
-    bgGradient: 'from-[#001a33] via-[#003366] to-[#001a33]',
-    accentColor: '#22D3EE',
   },
   {
     id: 3,
-    icon: Banknote,
+    type: 'cash',
     titleAr: 'تمويل شخصي',
     titleEn: 'Personal Finance',
     subtitleAr: 'حقق أهدافك المالية',
     subtitleEn: 'Achieve Your Goals',
     descriptionAr: 'تمويل نقدي سريع بدون تحويل راتب',
     descriptionEn: 'Quick cash financing without salary transfer',
-    highlightAr: '500K',
-    highlightEn: '500K',
+    highlightValue: '500K',
     highlightLabelAr: 'ريال سعودي',
     highlightLabelEn: 'SAR',
+    highlight2Value: '24',
+    highlight2LabelAr: 'ساعة للموافقة',
+    highlight2LabelEn: 'Hours Approval',
+    badgeAr: 'سريع وسهل',
+    badgeEn: 'Fast & Easy',
+    badgeIcon: Banknote,
     ctaAr: 'اعرف المزيد',
     ctaEn: 'Learn More',
     ctaLink: '/individuals/personal-financing',
-    bgGradient: 'from-[#1a1a3e] via-[#2d2d5e] to-[#1a1a3e]',
-    accentColor: '#A78BFA',
   },
 ]
 
@@ -120,10 +256,9 @@ export default function HeroSlider() {
 
   const pauseAutoPlay = () => {
     setIsAutoPlaying(false)
-    setTimeout(() => setIsAutoPlaying(true), 8000)
+    setTimeout(() => setIsAutoPlaying(true), 10000)
   }
 
-  // Auto-play functionality
   useEffect(() => {
     if (!isAutoPlaying) return
     const interval = setInterval(nextSlide, 6000)
@@ -139,7 +274,6 @@ export default function HeroSlider() {
     }
   }
 
-  // Touch/Swipe handling
   const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     const threshold = 50
     if (info.offset.x > threshold) {
@@ -153,14 +287,13 @@ export default function HeroSlider() {
 
   const ArrowIcon = dir === 'rtl' ? ArrowLeft : ArrowRight
   const currentSlideData = slides[currentSlide]
-  const SlideIcon = currentSlideData.icon
 
   return (
-    <section className="relative w-full overflow-hidden bg-gray-900">
-      {/* Slides Container */}
+    <section className="relative w-full overflow-hidden">
+      {/* Main Slider */}
       <motion.div 
         ref={containerRef}
-        className="relative h-[420px] xs:h-[480px] sm:h-[520px] md:h-[560px] lg:h-[600px]"
+        className="relative h-[480px] xs:h-[520px] sm:h-[560px] md:h-[600px] lg:h-[650px]"
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
         dragElastic={0.1}
@@ -169,39 +302,73 @@ export default function HeroSlider() {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlideData.id}
-            className={`absolute inset-0 bg-gradient-to-br ${currentSlideData.bgGradient}`}
+            className="absolute inset-0"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
           >
-            {/* Background Decorations */}
+            {/* AJIL Branded Background */}
+            <div 
+              className="absolute inset-0"
+              style={{
+                background: `linear-gradient(135deg, ${AJIL_BLUE} 0%, ${AJIL_BLUE_LIGHT} 50%, ${AJIL_BLUE} 100%)`,
+              }}
+            />
+            
+            {/* Decorative Elements */}
             <div className="absolute inset-0 overflow-hidden">
+              {/* Large A shapes */}
+              <motion.div 
+                className="absolute -top-20 -right-20 md:top-0 md:right-0"
+                animate={{ rotate: [0, 10, 0], scale: [1, 1.05, 1] }}
+                transition={{ duration: 20, repeat: Infinity }}
+              >
+                <AjilAShape size={400} opacity={0.08} />
+              </motion.div>
+              <motion.div 
+                className="absolute -bottom-20 -left-20 md:bottom-0 md:left-0"
+                animate={{ rotate: [0, -10, 0], scale: [1, 1.1, 1] }}
+                transition={{ duration: 25, repeat: Infinity }}
+              >
+                <AjilAShape size={350} opacity={0.06} />
+              </motion.div>
+              
+              {/* Floating A shapes */}
+              <motion.div 
+                className="absolute top-20 left-[10%] hidden md:block"
+                animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
+                transition={{ duration: 6, repeat: Infinity }}
+              >
+                <AjilAShape size={80} opacity={0.15} />
+              </motion.div>
+              <motion.div 
+                className="absolute bottom-32 right-[15%] hidden lg:block"
+                animate={{ y: [0, 15, 0], rotate: [0, -5, 0] }}
+                transition={{ duration: 8, repeat: Infinity }}
+              >
+                <AjilAShape size={60} opacity={0.12} />
+              </motion.div>
+
               {/* Gradient orbs */}
               <div 
-                className="absolute top-0 right-0 w-[300px] sm:w-[400px] md:w-[500px] h-[300px] sm:h-[400px] md:h-[500px] rounded-full opacity-20 blur-3xl"
-                style={{ background: `radial-gradient(circle, ${currentSlideData.accentColor}40 0%, transparent 70%)` }}
+                className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-30 blur-3xl"
+                style={{ background: `radial-gradient(circle, ${AJIL_ORANGE}40 0%, transparent 70%)` }}
               />
               <div 
-                className="absolute bottom-0 left-0 w-[250px] sm:w-[350px] md:w-[400px] h-[250px] sm:h-[350px] md:h-[400px] rounded-full opacity-15 blur-3xl"
-                style={{ background: `radial-gradient(circle, ${currentSlideData.accentColor}30 0%, transparent 70%)` }}
+                className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-20 blur-3xl"
+                style={{ background: `radial-gradient(circle, ${AJIL_ORANGE}30 0%, transparent 70%)` }}
               />
-              
-              {/* AJIL A Decorations */}
-              <div className="absolute top-10 right-10 text-white hidden md:block">
-                <AjilADecoration size={120} opacity={0.08} />
-              </div>
-              <div className="absolute bottom-20 left-10 text-white hidden lg:block">
-                <AjilADecoration size={80} opacity={0.06} />
-              </div>
               
               {/* Grid pattern */}
               <div 
                 className="absolute inset-0 opacity-[0.03]"
                 style={{
-                  backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                                   linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-                  backgroundSize: '40px 40px',
+                  backgroundImage: `
+                    linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+                  `,
+                  backgroundSize: '50px 50px',
                 }}
               />
             </div>
@@ -209,83 +376,79 @@ export default function HeroSlider() {
             {/* Content */}
             <div className="container mx-auto px-4 sm:px-6 h-full flex items-center relative z-10">
               <div className="w-full">
-                <div className="grid lg:grid-cols-2 gap-6 lg:gap-12 items-center">
+                <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                   
                   {/* Text Content */}
                   <motion.div 
                     className={`text-white ${dir === 'rtl' ? 'lg:order-2 text-right' : 'lg:order-1 text-left'}`}
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
+                    transition={{ duration: 0.6 }}
                   >
-                    {/* Icon Badge */}
-                    <motion.div 
-                      className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-full mb-4 sm:mb-6 border border-white/20"
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.4, delay: 0.3 }}
-                    >
-                      <SlideIcon className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: currentSlideData.accentColor }} />
-                      <span className="text-xs sm:text-sm font-medium text-white/90">
-                        {language === 'ar' ? 'أجل للتمويل' : 'AJIL Finance'}
-                      </span>
-                    </motion.div>
+                    {/* Badge */}
+                    <PromoBadge 
+                      text={language === 'ar' ? currentSlideData.badgeAr : currentSlideData.badgeEn}
+                      icon={currentSlideData.badgeIcon}
+                    />
 
-                    {/* Main Title */}
-                    <motion.h2 
-                      className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-3 sm:mb-4 leading-tight"
+                    {/* Title */}
+                    <motion.h1 
+                      className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mt-4 mb-3 leading-tight"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.3 }}
+                      transition={{ duration: 0.5, delay: 0.2 }}
                     >
-                      <span 
-                        className="block"
-                        style={{
-                          textShadow: `0 0 30px ${currentSlideData.accentColor}40`,
-                        }}
-                      >
-                        {language === 'ar' ? currentSlideData.titleAr : currentSlideData.titleEn}
-                      </span>
-                    </motion.h2>
+                      {language === 'ar' ? currentSlideData.titleAr : currentSlideData.titleEn}
+                    </motion.h1>
                     
-                    {/* Subtitle Badge */}
+                    {/* Subtitle */}
                     <motion.div 
-                      className="inline-block px-4 sm:px-6 py-2 sm:py-3 rounded-xl mb-4 sm:mb-6"
-                      style={{ backgroundColor: currentSlideData.accentColor }}
+                      className="inline-block px-4 sm:px-6 py-2 sm:py-3 rounded-xl mb-4"
+                      style={{ backgroundColor: AJIL_ORANGE }}
                       initial={{ opacity: 0, x: dir === 'rtl' ? 30 : -30 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: 0.4 }}
+                      transition={{ duration: 0.5, delay: 0.3 }}
                     >
-                      <span className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-gray-900">
+                      <span className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
                         {language === 'ar' ? currentSlideData.subtitleAr : currentSlideData.subtitleEn}
                       </span>
                     </motion.div>
 
-                    {/* Description - Hidden on very small screens */}
+                    {/* Description */}
                     <motion.p 
-                      className="hidden xs:block text-sm sm:text-base md:text-lg text-white/70 mb-4 sm:mb-6 max-w-md leading-relaxed"
+                      className="text-base sm:text-lg text-white/80 mb-6 max-w-lg"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      transition={{ duration: 0.5, delay: 0.5 }}
+                      transition={{ duration: 0.5, delay: 0.4 }}
                     >
                       {language === 'ar' ? currentSlideData.descriptionAr : currentSlideData.descriptionEn}
                     </motion.p>
 
-                    {/* Highlight Stats */}
+                    {/* Highlights */}
                     <motion.div 
-                      className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8"
+                      className="flex flex-wrap gap-4 sm:gap-6 mb-8"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.5, delay: 0.5 }}
                     >
-                      <div 
-                        className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl font-black"
-                        style={{ color: currentSlideData.accentColor }}
-                      >
-                        {language === 'ar' ? currentSlideData.highlightAr : currentSlideData.highlightEn}
+                      {/* Highlight 1 */}
+                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-5 py-4 border border-white/20">
+                        <div className="text-3xl sm:text-4xl md:text-5xl font-black" style={{ color: AJIL_ORANGE }}>
+                          {currentSlideData.highlightValue}
+                        </div>
+                        <div className="text-sm sm:text-base text-white/70">
+                          {language === 'ar' ? currentSlideData.highlightLabelAr : currentSlideData.highlightLabelEn}
+                        </div>
                       </div>
-                      <div className="text-sm sm:text-base md:text-lg text-white/80 leading-tight">
-                        {language === 'ar' ? currentSlideData.highlightLabelAr : currentSlideData.highlightLabelEn}
+                      
+                      {/* Highlight 2 */}
+                      <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-5 py-4 border border-white/20">
+                        <div className="text-3xl sm:text-4xl md:text-5xl font-black" style={{ color: AJIL_ORANGE }}>
+                          {currentSlideData.highlight2Value}
+                        </div>
+                        <div className="text-sm sm:text-base text-white/70">
+                          {language === 'ar' ? currentSlideData.highlight2LabelAr : currentSlideData.highlight2LabelEn}
+                        </div>
                       </div>
                     </motion.div>
 
@@ -297,111 +460,72 @@ export default function HeroSlider() {
                     >
                       <Link
                         href={currentSlideData.ctaLink}
-                        className="group inline-flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base md:text-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                        className="group inline-flex items-center gap-3 px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                         style={{ 
-                          backgroundColor: currentSlideData.accentColor,
+                          backgroundColor: AJIL_ORANGE,
                           color: '#1a1a1a',
+                          boxShadow: `0 10px 40px ${AJIL_ORANGE}40`
                         }}
                       >
                         <span>{language === 'ar' ? currentSlideData.ctaAr : currentSlideData.ctaEn}</span>
-                        <ArrowIcon className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
+                        <ArrowIcon className="w-5 h-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
                       </Link>
                     </motion.div>
                   </motion.div>
 
-                  {/* Visual Side - Hidden on mobile, shown on lg+ */}
+                  {/* Visual Side */}
                   <motion.div 
                     className={`hidden lg:flex relative ${dir === 'rtl' ? 'lg:order-1' : 'lg:order-2'} items-center justify-center`}
-                    initial={{ opacity: 0, scale: 0.8 }}
+                    initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.7, delay: 0.3 }}
                   >
-                    <div className="relative w-[350px] h-[350px] xl:w-[400px] xl:h-[400px]">
-                      {/* Animated A rings */}
-                      <motion.div 
+                    <div className="relative w-full max-w-lg">
+                      {/* Glowing circle behind illustration */}
+                      <div 
                         className="absolute inset-0 flex items-center justify-center"
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
                       >
-                        <svg className="w-full h-full text-white" viewBox="0 0 400 400">
-                          {[0, 72, 144, 216, 288].map((angle, i) => (
-                            <g key={i} transform={`rotate(${angle} 200 200)`}>
-                              <path
-                                d="M185 80 L200 50 L215 80"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                opacity={0.15 - i * 0.02}
-                              />
-                              <path
-                                d="M190 72 L210 72"
-                                fill="none"
-                                stroke={currentSlideData.accentColor}
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                opacity={0.2 - i * 0.02}
-                              />
-                            </g>
-                          ))}
-                          <circle cx="200" cy="200" r="150" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.1" />
-                          <circle cx="200" cy="200" r="120" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.08" strokeDasharray="10 10" />
-                        </svg>
-                      </motion.div>
-
-                      {/* Center content */}
-                      <div className="absolute inset-0 flex items-center justify-center">
                         <motion.div 
-                          className="text-center"
-                          animate={{ y: [0, -10, 0] }}
-                          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                        >
-                          {/* Large A symbol */}
-                          <svg className="w-32 h-32 xl:w-40 xl:h-40 mx-auto text-white" viewBox="0 0 100 100">
-                            <motion.path
-                              d="M20 80 L50 15 L80 80"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="6"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              initial={{ pathLength: 0 }}
-                              animate={{ pathLength: 1 }}
-                              transition={{ duration: 1.5, delay: 0.5 }}
-                            />
-                            <motion.path
-                              d="M30 60 L70 60"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="4"
-                              strokeLinecap="round"
-                              initial={{ pathLength: 0 }}
-                              animate={{ pathLength: 1 }}
-                              transition={{ duration: 0.8, delay: 1.2 }}
-                            />
-                            <motion.path
-                              d="M35 70 L50 35 L65 70"
-                              fill="none"
-                              stroke={currentSlideData.accentColor}
-                              strokeWidth="3"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              initial={{ pathLength: 0, opacity: 0 }}
-                              animate={{ pathLength: 1, opacity: 0.8 }}
-                              transition={{ duration: 1, delay: 1 }}
-                            />
-                          </svg>
-                          <motion.div 
-                            className="mt-4 text-white/60 text-sm font-medium"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 1.5 }}
-                          >
-                            AJIL FINANCE
-                          </motion.div>
-                        </motion.div>
+                          className="w-80 h-80 rounded-full"
+                          style={{ 
+                            background: `radial-gradient(circle, ${AJIL_ORANGE}30 0%, transparent 70%)`,
+                          }}
+                          animate={{ scale: [1, 1.1, 1] }}
+                          transition={{ duration: 4, repeat: Infinity }}
+                        />
                       </div>
+                      
+                      {/* Illustration */}
+                      <div className="relative z-10 flex items-center justify-center py-8">
+                        {currentSlideData.type === 'car' ? (
+                          <CarIllustration color={AJIL_ORANGE} />
+                        ) : (
+                          <CashIllustration color={AJIL_ORANGE} />
+                        )}
+                      </div>
+                      
+                      {/* Floating badges around illustration */}
+                      <motion.div 
+                        className="absolute top-10 right-10 bg-white/10 backdrop-blur-sm rounded-xl px-3 py-2 border border-white/20"
+                        animate={{ y: [0, -10, 0] }}
+                        transition={{ duration: 3, repeat: Infinity }}
+                      >
+                        <div className="flex items-center gap-2 text-white">
+                          <Percent className="w-4 h-4" style={{ color: AJIL_ORANGE }} />
+                          <span className="text-sm font-bold">0% رسوم</span>
+                        </div>
+                      </motion.div>
+                      
+                      <motion.div 
+                        className="absolute bottom-16 left-5 bg-white/10 backdrop-blur-sm rounded-xl px-3 py-2 border border-white/20"
+                        animate={{ y: [0, 10, 0] }}
+                        transition={{ duration: 4, repeat: Infinity, delay: 1 }}
+                      >
+                        <div className="flex items-center gap-2 text-white">
+                          <Gift className="w-4 h-4" style={{ color: AJIL_ORANGE }} />
+                          <span className="text-sm font-bold">عروض حصرية</span>
+                        </div>
+                      </motion.div>
                     </div>
                   </motion.div>
                 </div>
@@ -410,91 +534,76 @@ export default function HeroSlider() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Navigation Arrows - Larger touch targets on mobile */}
+        {/* Navigation Arrows */}
         <button
           onClick={() => handleNavClick('prev')}
-          className={`absolute top-1/2 -translate-y-1/2 ${dir === 'rtl' ? 'right-2 sm:right-4 md:right-6' : 'left-2 sm:left-4 md:left-6'} z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 active:scale-95`}
+          className={`absolute top-1/2 -translate-y-1/2 ${dir === 'rtl' ? 'right-2 sm:right-4' : 'left-2 sm:left-4'} z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110`}
           aria-label="Previous slide"
         >
-          <ChevronLeft className={`w-5 h-5 sm:w-6 sm:h-6 text-primary-600 ${dir === 'rtl' ? 'rotate-180' : ''}`} />
+          <ChevronLeft className={`w-5 h-5 sm:w-6 sm:h-6 ${dir === 'rtl' ? 'rotate-180' : ''}`} style={{ color: AJIL_BLUE }} />
         </button>
         
         <button
           onClick={() => handleNavClick('next')}
-          className={`absolute top-1/2 -translate-y-1/2 ${dir === 'rtl' ? 'left-2 sm:left-4 md:left-6' : 'right-2 sm:right-4 md:right-6'} z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 active:scale-95`}
+          className={`absolute top-1/2 -translate-y-1/2 ${dir === 'rtl' ? 'left-2 sm:left-4' : 'right-2 sm:right-4'} z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110`}
           aria-label="Next slide"
         >
-          <ChevronRight className={`w-5 h-5 sm:w-6 sm:h-6 text-primary-600 ${dir === 'rtl' ? 'rotate-180' : ''}`} />
+          <ChevronRight className={`w-5 h-5 sm:w-6 sm:h-6 ${dir === 'rtl' ? 'rotate-180' : ''}`} style={{ color: AJIL_BLUE }} />
         </button>
       </motion.div>
 
-      {/* Modern A-Peak Pagination */}
+      {/* Bottom Section with A-Peak Wave */}
       <div className="absolute bottom-0 left-0 right-0 z-30">
-        {/* A-Peak Wave Shape */}
+        {/* A-Peak Wave */}
         <svg 
-          viewBox="0 0 1440 100" 
+          viewBox="0 0 1440 80" 
           className="w-full h-[50px] sm:h-[60px] md:h-[70px]"
           preserveAspectRatio="none"
         >
-          {/* Main wave with A peak */}
           <path 
-            d="M0,100 L0,60 Q360,80 720,30 Q1080,80 1440,60 L1440,100 Z" 
+            d="M0,80 L0,50 Q360,70 720,25 Q1080,70 1440,50 L1440,80 Z" 
             fill="white"
           />
-          {/* A accent line */}
+          {/* A accent */}
           <path 
-            d="M540,75 L720,35 L900,75" 
+            d="M580,62 L720,28 L860,62" 
             fill="none"
-            stroke={currentSlideData.accentColor}
-            strokeWidth="2"
+            stroke={AJIL_ORANGE}
+            strokeWidth="3"
             strokeLinecap="round"
             strokeLinejoin="round"
-            opacity="0.6"
           />
         </svg>
         
-        {/* Triangular Pagination Indicator */}
+        {/* Triangular Pagination */}
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-40">
           <div className="relative">
-            <svg 
-              viewBox="0 0 120 50" 
-              className="w-[100px] sm:w-[110px] md:w-[120px] h-[40px] sm:h-[45px] md:h-[50px]"
-            >
-              {/* A-shaped triangle */}
-              <path 
-                d="M60,8 L110,42 L10,42 Z" 
-                fill="white"
-                stroke="#e5e5e5"
-                strokeWidth="1"
-              />
-              {/* Inner A accent */}
-              <path 
-                d="M60,15 L90,38 L30,38 Z" 
-                fill="none"
-                stroke={currentSlideData.accentColor}
-                strokeWidth="1"
-                opacity="0.3"
-              />
+            <svg viewBox="0 0 120 50" className="w-[100px] sm:w-[120px] h-[40px] sm:h-[50px]">
+              {/* A-shaped indicator */}
+              <path d="M60,5 L110,45 L10,45 Z" fill="white" stroke="#e5e5e5" strokeWidth="1" />
+              <path d="M60,12 L95,40 L25,40 Z" fill="none" stroke={AJIL_ORANGE} strokeWidth="1.5" opacity="0.4" />
             </svg>
             
-            {/* Navigation Controls */}
+            {/* Controls */}
             <div className="absolute inset-0 flex items-center justify-center pt-1">
-              <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex items-center gap-2">
                 <button
                   onClick={() => handleNavClick('prev')}
-                  className="text-primary-500 hover:text-primary-700 transition-colors p-1"
+                  className="p-1 transition-colors"
+                  style={{ color: AJIL_BLUE }}
                   aria-label="Previous"
                 >
                   <ChevronLeft className={`w-4 h-4 sm:w-5 sm:h-5 ${dir === 'rtl' ? 'rotate-180' : ''}`} />
                 </button>
                 
-                <span className="text-primary-600 font-bold text-base sm:text-lg min-w-[20px] text-center">
+                <span className="font-bold text-base sm:text-lg min-w-[20px] text-center" style={{ color: AJIL_BLUE }}>
                   {currentSlide + 1}
                 </span>
                 
                 <button
                   onClick={() => handleNavClick('next')}
-                  className="text-primary-500 hover:text-primary-700 transition-colors p-1"
+                  className="p-1 transition-colors"
+                  style={{ color: AJIL_BLUE }}
                   aria-label="Next"
                 >
                   <ChevronRight className={`w-4 h-4 sm:w-5 sm:h-5 ${dir === 'rtl' ? 'rotate-180' : ''}`} />
@@ -507,18 +616,16 @@ export default function HeroSlider() {
 
       {/* Dot Indicators */}
       <div className="bg-white pt-1 pb-3 sm:pt-2 sm:pb-4">
-        <div className="flex justify-center gap-1.5 sm:gap-2">
+        <div className="flex justify-center gap-2">
           {slides.map((slide, index) => (
             <button
               key={slide.id}
               onClick={() => goToSlide(index)}
-              className={`transition-all duration-300 rounded-full ${
-                index === currentSlide 
-                  ? 'w-6 sm:w-8 h-1.5 sm:h-2' 
-                  : 'w-1.5 sm:w-2 h-1.5 sm:h-2 hover:bg-gray-400'
-              }`}
+              className="transition-all duration-300 rounded-full"
               style={{
-                backgroundColor: index === currentSlide ? currentSlideData.accentColor : '#d1d5db'
+                width: index === currentSlide ? '32px' : '8px',
+                height: '8px',
+                backgroundColor: index === currentSlide ? AJIL_ORANGE : '#d1d5db'
               }}
               aria-label={`Go to slide ${index + 1}`}
             />
