@@ -13,9 +13,7 @@ import {
   Globe,
   ArrowRight,
   ArrowLeft,
-  Sparkles,
-  Clock,
-  MapPin,
+  User,
 } from 'lucide-react'
 import {
   IconCarFinancing,
@@ -37,134 +35,131 @@ import {
   AnimatedAbout,
   AnimatedNews,
 } from '@/components/icons'
-import { AjilLogoMark } from '@/components/icons/AjilLogo'
 
-// Navigation items with icons (static for desktop, animated for mobile)
+// Navigation items with icons
 const navItems = [
   {
     key: 'individuals',
-    labelKey: 'nav.individuals',
+    labelAr: 'الأفراد',
+    labelEn: 'Individuals',
     hasDropdown: true,
     icon: IconPersonalFinancing,
     animatedIcon: AnimatedPersonalFinancing,
-    description: 'Personal financing solutions',
-    descriptionAr: 'حلول التمويل الشخصي',
     dropdownItems: [
       { 
         key: 'car_financing', 
-        labelKey: 'nav.car_financing', 
+        labelAr: 'تمويل السيارات',
+        labelEn: 'Car Financing',
         href: '/individuals/car-financing',
         icon: IconCarFinancing,
         animatedIcon: AnimatedCarFinancing,
-        description: 'Finance your dream car',
-        descriptionAr: 'مول سيارة أحلامك',
       },
       { 
         key: 'personal_financing', 
-        labelKey: 'nav.personal_financing', 
+        labelAr: 'التمويل الشخصي',
+        labelEn: 'Personal Financing',
         href: '/individuals/personal-financing',
         icon: IconPersonalFinancing,
         animatedIcon: AnimatedPersonalFinancing,
-        description: 'Personal cash financing',
-        descriptionAr: 'تمويل نقدي شخصي',
       },
       { 
         key: 'financing_rates', 
-        labelKey: 'nav.financing_rates', 
+        labelAr: 'معدلات التمويل',
+        labelEn: 'Financing Rates',
         href: '/individuals/rates',
         icon: IconLoanCalculator,
         animatedIcon: AnimatedLoanCalculator,
-        description: 'View our competitive rates',
-        descriptionAr: 'اطلع على أسعارنا التنافسية',
       },
     ],
   },
   {
     key: 'business',
-    labelKey: 'nav.business',
+    labelAr: 'الأعمال',
+    labelEn: 'Business',
     hasDropdown: true,
     icon: IconBusinessFinancing,
     animatedIcon: AnimatedBusinessFinancing,
-    description: 'Business financing solutions',
-    descriptionAr: 'حلول تمويل الأعمال',
     dropdownItems: [
       { 
         key: 'cash_financing', 
-        labelKey: 'nav.cash_financing', 
+        labelAr: 'التمويل النقدي',
+        labelEn: 'Cash Financing',
         href: '/business/cash-financing',
         icon: IconLoanCalculator,
         animatedIcon: AnimatedLoanCalculator,
-        description: 'Cash financing for businesses',
-        descriptionAr: 'تمويل نقدي للأعمال',
       },
       { 
         key: 'car_financing', 
-        labelKey: 'nav.car_financing', 
+        labelAr: 'تمويل السيارات',
+        labelEn: 'Car Financing',
         href: '/business/car-financing',
         icon: IconCarFinancing,
         animatedIcon: AnimatedCarFinancing,
-        description: 'Fleet and vehicle financing',
-        descriptionAr: 'تمويل الأسطول والمركبات',
       },
       { 
         key: 'heavy_equipment', 
-        labelKey: 'nav.heavy_equipment', 
+        labelAr: 'المعدات الثقيلة',
+        labelEn: 'Heavy Equipment',
         href: '/business/heavy-equipment',
         icon: IconBusinessFinancing,
         animatedIcon: AnimatedBusinessFinancing,
-        description: 'Heavy equipment financing',
-        descriptionAr: 'تمويل المعدات الثقيلة',
       },
     ],
   },
   {
+    key: 'calculator',
+    labelAr: 'حاسبة التمويل',
+    labelEn: 'Calculator',
+    href: '/calculator',
+    icon: IconLoanCalculator,
+    animatedIcon: AnimatedLoanCalculator,
+  },
+  {
     key: 'offers',
-    labelKey: 'nav.offers',
+    labelAr: 'العروض',
+    labelEn: 'Offers',
     href: '/offers',
     icon: IconOffers,
     animatedIcon: AnimatedOffers,
   },
   {
     key: 'about',
-    labelKey: 'nav.about',
+    labelAr: 'عن أجل',
+    labelEn: 'About',
     hasDropdown: true,
     icon: IconAbout,
     animatedIcon: AnimatedAbout,
-    description: 'Learn about AJIL',
-    descriptionAr: 'تعرف على أجيل',
     dropdownItems: [
       { 
         key: 'our_story', 
-        labelKey: 'nav.our_story', 
+        labelAr: 'قصتنا',
+        labelEn: 'Our Story',
         href: '/about/story',
         icon: AjilSymbol,
         animatedIcon: AnimatedAjilSymbol,
-        description: 'Our journey and mission',
-        descriptionAr: 'رحلتنا ومهمتنا',
       },
       { 
         key: 'news', 
-        labelKey: 'nav.news', 
+        labelAr: 'الأخبار',
+        labelEn: 'News',
         href: '/about/news',
         icon: IconNews,
         animatedIcon: AnimatedNews,
-        description: 'Latest news and updates',
-        descriptionAr: 'آخر الأخبار والتحديثات',
       },
       { 
         key: 'financial_reports', 
-        labelKey: 'nav.financial_reports', 
+        labelAr: 'التقارير المالية',
+        labelEn: 'Financial Reports',
         href: '/about/reports',
         icon: IconLoanCalculator,
         animatedIcon: AnimatedLoanCalculator,
-        description: 'Financial reports and data',
-        descriptionAr: 'التقارير المالية والبيانات',
       },
     ],
   },
   {
     key: 'contact',
-    labelKey: 'nav.contact',
+    labelAr: 'اتصل بنا',
+    labelEn: 'Contact',
     href: '/contact',
     icon: IconCustomerSupport,
     animatedIcon: AnimatedCustomerSupport,
@@ -172,7 +167,7 @@ const navItems = [
 ]
 
 export default function Header() {
-  const { t, language, setLanguage, dir } = useI18n()
+  const { language, setLanguage, dir } = useI18n()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
@@ -180,7 +175,7 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+      setIsScrolled(window.scrollY > 10)
     }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
@@ -206,57 +201,37 @@ export default function Header() {
 
   return (
     <>
-      {/* Premium Top Bar */}
-      <div className="bg-gradient-to-r from-primary-900 via-primary-800 to-primary-900 text-white py-2.5 text-sm relative overflow-hidden">
-        {/* Animated background pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: 'url("data:image/svg+xml,%3Csvg width="20" height="20" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M0 0h20v20H0z" fill="none"/%3E%3Cpath d="M10 0l10 20H0z" fill="%23fff" opacity="0.1"/%3E%3C/svg%3E")',
-            backgroundSize: '20px 20px',
-          }} />
-        </div>
-        
-        <div className="container mx-auto px-4 flex justify-between items-center relative z-10">
-          {/* Left side - Contact info */}
-          <div className="flex items-center gap-6">
-            <motion.a 
-              href="tel:8002442211" 
-              className="flex items-center gap-2 hover:text-secondary-400 transition-colors group"
-              dir="ltr"
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-secondary-500 transition-colors">
-                <Phone className="w-3.5 h-3.5" />
-              </div>
-              <span className="font-bold tracking-wide">800 244 2211</span>
-            </motion.a>
-            
-            <div className="hidden md:flex items-center gap-2 text-white/60">
-              <Clock className="w-3.5 h-3.5" />
-              <span className="text-xs">{language === 'ar' ? 'متاح 24/7' : 'Available 24/7'}</span>
-            </div>
-          </div>
+      {/* Top Bar */}
+      <div className="bg-primary-600 text-white py-2 text-sm">
+        <div className="container mx-auto px-4 flex justify-between items-center">
+          {/* Phone */}
+          <a 
+            href="tel:8002442211" 
+            className="flex items-center gap-2 hover:text-secondary-400 transition-colors"
+            dir="ltr"
+          >
+            <Phone className="w-4 h-4" />
+            <span className="font-semibold">800 244 2211</span>
+          </a>
           
-          {/* Right side - Actions */}
-          <div className="flex items-center gap-3">
+          {/* Right Actions */}
+          <div className="flex items-center gap-4">
             {/* Language Switcher */}
-            <motion.button
+            <button
               onClick={toggleLanguage}
-              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-4 py-1.5 rounded-full transition-all duration-300 backdrop-blur-sm border border-white/10 hover:border-white/20"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              className="flex items-center gap-1.5 hover:text-secondary-400 transition-colors"
             >
               <Globe className="w-4 h-4" />
-              <span className="font-semibold text-xs">{language === 'ar' ? 'EN' : 'عربي'}</span>
-            </motion.button>
+              <span className="font-medium">{language === 'ar' ? 'English' : 'عربي'}</span>
+            </button>
             
-            {/* Login Button */}
+            {/* Login */}
             <Link 
               href="/login" 
-              className="hidden sm:flex items-center gap-2 bg-secondary-500 hover:bg-secondary-600 text-white px-4 py-1.5 rounded-full font-semibold text-xs transition-all duration-300"
+              className="hidden sm:flex items-center gap-1.5 hover:text-secondary-400 transition-colors"
             >
-              <IconPersonalFinancing size={14} />
-              <span>{t('nav.login')}</span>
+              <User className="w-4 h-4" />
+              <span className="font-medium">{language === 'ar' ? 'تسجيل الدخول' : 'Login'}</span>
             </Link>
           </div>
         </div>
@@ -264,246 +239,123 @@ export default function Header() {
 
       {/* Main Header */}
       <header 
-        className={`sticky top-0 z-50 transition-all duration-500 ${
-          isScrolled 
-            ? 'bg-white/98 backdrop-blur-xl shadow-xl shadow-gray-200/50' 
-            : 'bg-white shadow-sm'
+        className={`sticky top-0 z-50 bg-white transition-shadow duration-300 ${
+          isScrolled ? 'shadow-lg' : 'shadow-sm'
         }`}
       >
         <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-16 md:h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-3 group relative">
-              <motion.div 
-                className="relative"
-                whileHover={{ scale: 1.03 }}
-                transition={{ type: 'spring', stiffness: 400 }}
-              >
-                {/* Light background for logo visibility */}
-                <div className="absolute -inset-1 bg-primary-600 rounded-lg opacity-90 group-hover:opacity-100 group-hover:bg-primary-500 transition-all duration-300" />
+            <Link href="/" className="flex items-center">
+              <div className="relative bg-primary-600 rounded-lg p-2">
                 <Image
                   src="/images/AJIL_logo.png"
-                  alt="AJIL Finance Logo"
-                  width={115}
-                  height={40}
-                  className="object-contain relative z-10 p-1.5"
+                  alt="AJIL Finance"
+                  width={90}
+                  height={32}
+                  className="object-contain"
                   priority
                 />
-              </motion.div>
+              </div>
             </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-1">
-              {navItems.map((item) => {
-                const ItemIcon = item.icon
-                return (
-                  <div
-                    key={item.key}
-                    className="relative"
-                    onMouseEnter={() => item.hasDropdown && setActiveDropdown(item.key)}
-                    onMouseLeave={() => setActiveDropdown(null)}
-                  >
-                    {item.href ? (
-                      <Link
-                        href={item.href}
-                        className="group flex items-center gap-2 px-4 py-2.5 text-gray-700 font-semibold text-[15px] rounded-xl hover:bg-primary-50 hover:text-primary-600 transition-all duration-300 relative"
+              {navItems.map((item) => (
+                <div
+                  key={item.key}
+                  className="relative"
+                  onMouseEnter={() => item.hasDropdown && setActiveDropdown(item.key)}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  {item.href ? (
+                    <Link
+                      href={item.href}
+                      className="px-4 py-2 text-gray-700 hover:text-primary-600 font-medium text-sm transition-colors"
+                    >
+                      {language === 'ar' ? item.labelAr : item.labelEn}
+                    </Link>
+                  ) : (
+                    <button
+                      className={`flex items-center gap-1 px-4 py-2 font-medium text-sm transition-colors ${
+                        activeDropdown === item.key ? 'text-primary-600' : 'text-gray-700 hover:text-primary-600'
+                      }`}
+                    >
+                      <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
+                      <ChevronDown 
+                        className={`w-4 h-4 transition-transform duration-200 ${
+                          activeDropdown === item.key ? 'rotate-180' : ''
+                        }`} 
+                      />
+                    </button>
+                  )}
+
+                  {/* Dropdown Menu */}
+                  <AnimatePresence>
+                    {item.hasDropdown && activeDropdown === item.key && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.2 }}
+                        className={`absolute top-full ${dir === 'rtl' ? 'right-0' : 'left-0'} w-56 bg-white rounded-lg shadow-xl border border-gray-100 py-2 mt-1`}
                       >
-                        <ItemIcon size={18} className="text-gray-400 group-hover:text-primary-500 transition-colors" />
-                        <span>{t(item.labelKey)}</span>
-                        {/* Active indicator line */}
-                        <motion.div 
-                          className="absolute bottom-0 left-4 right-4 h-0.5 bg-primary-500 rounded-full"
-                          initial={{ scaleX: 0 }}
-                          whileHover={{ scaleX: 1 }}
-                          transition={{ duration: 0.2 }}
-                        />
-                      </Link>
-                    ) : (
-                      <button
-                        className="group flex items-center gap-2 px-4 py-2.5 text-gray-700 font-semibold text-[15px] rounded-xl hover:bg-primary-50 hover:text-primary-600 transition-all duration-300 relative"
-                      >
-                        <ItemIcon size={18} className="text-gray-400 group-hover:text-primary-500 transition-colors" />
-                        <span>{t(item.labelKey)}</span>
-                        {item.hasDropdown && (
-                          <ChevronDown 
-                            className={`w-4 h-4 text-gray-400 group-hover:text-primary-500 transition-all duration-300 ${
-                              activeDropdown === item.key ? 'rotate-180 text-primary-500' : ''
-                            }`} 
-                          />
-                        )}
-                      </button>
-                    )}
-
-                    {/* Mega Dropdown Menu */}
-                    <AnimatePresence>
-                      {item.hasDropdown && activeDropdown === item.key && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                          transition={{ duration: 0.2, ease: 'easeOut' }}
-                          className={`absolute top-full ${dir === 'rtl' ? 'right-0' : 'left-0'} w-80 bg-white rounded-2xl shadow-2xl shadow-gray-200/50 border border-gray-100 py-4 mt-3 overflow-hidden`}
-                        >
-                          {/* Decorative top gradient */}
-                          <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary-500 via-primary-400 to-secondary-500" />
-                          
-                          {/* Background decoration */}
-                          <div className="absolute top-4 right-4 opacity-5">
-                            <AjilLogoMark size={80} variant="primary" />
-                          </div>
-
-                          {/* Dropdown header */}
-                          <div className="px-5 pb-3 mb-2 border-b border-gray-100">
-                            <div className="flex items-center gap-2">
-                              <div className="w-8 h-8 rounded-lg bg-primary-100 flex items-center justify-center">
-                                <ItemIcon size={18} className="text-primary-600" />
-                              </div>
-                              <div>
-                                <h4 className="font-bold text-gray-900 text-sm">{t(item.labelKey)}</h4>
-                                <p className="text-xs text-gray-500">
-                                  {language === 'ar' ? item.descriptionAr : item.description}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Dropdown items */}
-                          <div className="px-2">
-                            {item.dropdownItems?.map((dropdownItem, index) => {
-                              const DropdownIcon = dropdownItem.icon
-                              return (
-                                <motion.div
-                                  key={dropdownItem.key}
-                                  initial={{ opacity: 0, x: dir === 'rtl' ? 20 : -20 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  transition={{ delay: index * 0.05 }}
-                                >
-                                  <Link
-                                    href={dropdownItem.href}
-                                    className="group flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-gradient-to-r hover:from-primary-50 hover:to-transparent transition-all duration-300"
-                                  >
-                                    <div className="w-10 h-10 rounded-xl bg-gray-100 group-hover:bg-primary-100 flex items-center justify-center transition-colors">
-                                      <DropdownIcon size={20} className="text-gray-500 group-hover:text-primary-600 transition-colors" />
-                                    </div>
-                                    <div className="flex-1">
-                                      <span className="block font-semibold text-gray-700 group-hover:text-primary-600 text-sm transition-colors">
-                                        {t(dropdownItem.labelKey)}
-                                      </span>
-                                      <span className="block text-xs text-gray-400 group-hover:text-gray-500 transition-colors">
-                                        {language === 'ar' ? dropdownItem.descriptionAr : dropdownItem.description}
-                                      </span>
-                                    </div>
-                                    <ArrowIcon className={`w-4 h-4 text-gray-300 group-hover:text-primary-500 transition-all ${dir === 'rtl' ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
-                                  </Link>
-                                </motion.div>
-                              )
-                            })}
-                          </div>
-
-                          {/* Dropdown footer CTA */}
-                          <div className="mx-4 mt-3 pt-3 border-t border-gray-100">
+                        {item.dropdownItems?.map((dropdownItem) => {
+                          const DropdownIcon = dropdownItem.icon
+                          return (
                             <Link
-                              href="/apply"
-                              className="flex items-center justify-center gap-2 w-full py-2.5 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl font-semibold text-sm hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-300"
+                              key={dropdownItem.key}
+                              href={dropdownItem.href}
+                              className="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-primary-50 hover:text-primary-600 transition-colors"
                             >
-                              <Sparkles className="w-4 h-4" />
-                              <span>{language === 'ar' ? 'تقدم الآن' : 'Apply Now'}</span>
+                              <DropdownIcon size={18} className="text-gray-400" />
+                              <span className="font-medium text-sm">
+                                {language === 'ar' ? dropdownItem.labelAr : dropdownItem.labelEn}
+                              </span>
                             </Link>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                )
-              })}
+                          )
+                        })}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
             </nav>
 
-            {/* Desktop CTA Button */}
-            <div className="hidden lg:flex items-center gap-3">
-              {/* Calculator quick link */}
+            {/* Desktop CTA */}
+            <div className="hidden lg:block">
               <Link
-                href="/calculator"
-                className="flex items-center gap-2 px-4 py-2.5 text-gray-600 hover:text-primary-600 font-medium text-sm rounded-xl hover:bg-gray-50 transition-all"
+                href="/apply"
+                className="inline-flex items-center gap-2 bg-secondary-500 hover:bg-secondary-600 text-white px-6 py-2.5 rounded-lg font-semibold text-sm transition-colors"
               >
-                <IconLoanCalculator size={18} />
-                <span>{language === 'ar' ? 'حاسبة التمويل' : 'Calculator'}</span>
+                <span>{language === 'ar' ? 'تقدم بطلبك' : 'Apply Now'}</span>
+                <ArrowIcon className="w-4 h-4" />
               </Link>
-              
-              {/* Main CTA */}
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Link
-                  href="/apply"
-                  className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-primary-600 to-primary-500 text-white px-6 py-3 rounded-xl font-bold text-sm overflow-hidden shadow-lg shadow-primary-500/25 hover:shadow-xl hover:shadow-primary-500/30 transition-all duration-300"
-                >
-                  {/* Animated background */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary-700 to-primary-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  
-                  {/* Shine effect */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                  </div>
-                  
-                  <AjilSymbol size={18} className="relative z-10" />
-                  <span className="relative z-10">{language === 'ar' ? 'تقدم بطلبك' : 'Apply Now'}</span>
-                  <ArrowIcon className={`w-4 h-4 relative z-10 transition-transform ${dir === 'rtl' ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
-                </Link>
-              </motion.div>
             </div>
 
             {/* Mobile Menu Button */}
-            <motion.button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden w-12 h-12 rounded-xl bg-gray-100 hover:bg-primary-100 flex items-center justify-center transition-colors"
-              aria-label="Toggle menu"
-              whileTap={{ scale: 0.95 }}
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="lg:hidden w-10 h-10 flex items-center justify-center text-gray-700"
+              aria-label="Open menu"
             >
-              <AnimatePresence mode="wait">
-                {isMobileMenuOpen ? (
-                  <motion.div
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <X className="w-6 h-6 text-gray-700" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Menu className="w-6 h-6 text-gray-700" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.button>
+              <Menu className="w-6 h-6" />
+            </button>
           </div>
         </div>
       </header>
 
-      {/* Mobile Full-Screen Menu */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 lg:hidden"
-          >
+          <>
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black/50 z-50 lg:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
             />
             
@@ -512,176 +364,145 @@ export default function Header() {
               initial={{ x: dir === 'rtl' ? '-100%' : '100%' }}
               animate={{ x: 0 }}
               exit={{ x: dir === 'rtl' ? '-100%' : '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className={`absolute top-0 ${dir === 'rtl' ? 'left-0' : 'right-0'} w-full max-w-sm h-full bg-white shadow-2xl overflow-y-auto`}
+              transition={{ type: 'tween', duration: 0.3 }}
+              className={`fixed top-0 ${dir === 'rtl' ? 'left-0' : 'right-0'} w-[85%] max-w-sm h-full bg-white z-50 lg:hidden flex flex-col`}
             >
-              {/* Mobile Menu Header */}
-              <div className="sticky top-0 bg-white z-10 px-6 py-5 border-b border-gray-100 flex items-center justify-between">
+              {/* Menu Header */}
+              <div className="flex items-center justify-between p-4 border-b border-gray-100">
                 <div className="bg-primary-600 rounded-lg p-1.5">
                   <Image
                     src="/images/AJIL_logo.png"
-                    alt="AJIL Finance Logo"
+                    alt="AJIL Finance"
                     width={80}
-                    height={30}
+                    height={28}
                     className="object-contain"
                   />
                 </div>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center"
+                  className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-700"
+                  aria-label="Close menu"
                 >
-                  <X className="w-5 h-5 text-gray-600" />
+                  <X className="w-6 h-6" />
                 </button>
               </div>
 
-              {/* Mobile Menu Content */}
-              <div className="px-4 py-6">
-                {navItems.map((item, index) => {
-                  const AnimatedIcon = item.animatedIcon
-                  const isExpanded = mobileActiveDropdown === item.key
-                  
-                  return (
-                    <motion.div
-                      key={item.key}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                      className="mb-2"
-                    >
-                      {item.href ? (
-                        <Link
-                          href={item.href}
-                          className="group flex items-center gap-4 p-4 rounded-2xl hover:bg-primary-50 transition-all duration-300"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          <motion.div 
-                            className="w-12 h-12 rounded-xl bg-primary-100 group-hover:bg-primary-500 flex items-center justify-center transition-colors duration-300"
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                            whileTap={{ scale: 0.95 }}
+              {/* Menu Content */}
+              <div className="flex-1 overflow-y-auto">
+                <nav className="py-2">
+                  {navItems.map((item) => {
+                    const ItemIcon = item.animatedIcon
+                    const isExpanded = mobileActiveDropdown === item.key
+                    
+                    return (
+                      <div key={item.key} className="border-b border-gray-50">
+                        {item.href ? (
+                          <Link
+                            href={item.href}
+                            className="flex items-center gap-3 px-4 py-4 text-gray-700 hover:bg-gray-50 transition-colors"
+                            onClick={() => setIsMobileMenuOpen(false)}
                           >
-                            <AnimatedIcon size={24} className="text-primary-600 group-hover:text-white transition-colors duration-300" />
-                          </motion.div>
-                          <span className="font-bold text-gray-900 group-hover:text-primary-600 text-lg transition-colors duration-300">{t(item.labelKey)}</span>
-                        </Link>
-                      ) : (
-                        <div>
-                          <button
-                            onClick={() => setMobileActiveDropdown(isExpanded ? null : item.key)}
-                            className="group w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-primary-50 transition-all duration-300"
-                          >
-                            <motion.div 
-                              className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${isExpanded ? 'bg-primary-500' : 'bg-primary-100 group-hover:bg-primary-200'}`}
-                              whileHover={{ scale: 1.1, rotate: 5 }}
-                              whileTap={{ scale: 0.95 }}
+                            <div className="w-10 h-10 rounded-lg bg-primary-50 flex items-center justify-center">
+                              <ItemIcon size={20} className="text-primary-600" />
+                            </div>
+                            <span className="font-semibold">
+                              {language === 'ar' ? item.labelAr : item.labelEn}
+                            </span>
+                          </Link>
+                        ) : (
+                          <>
+                            <button
+                              onClick={() => setMobileActiveDropdown(isExpanded ? null : item.key)}
+                              className="w-full flex items-center gap-3 px-4 py-4 text-gray-700 hover:bg-gray-50 transition-colors"
                             >
-                              <AnimatedIcon size={24} className={`transition-colors duration-300 ${isExpanded ? 'text-white' : 'text-primary-600'}`} />
-                            </motion.div>
-                            <span className="font-bold text-gray-900 group-hover:text-primary-600 text-lg flex-1 text-start transition-colors duration-300">{t(item.labelKey)}</span>
-                            <motion.div
-                              animate={{ rotate: isExpanded ? 180 : 0 }}
-                              transition={{ duration: 0.3 }}
-                            >
-                              <ChevronDown className="w-5 h-5 text-gray-400 group-hover:text-primary-500 transition-colors duration-300" />
-                            </motion.div>
-                          </button>
-                          
-                          <AnimatePresence>
-                            {isExpanded && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: 'auto', opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className="overflow-hidden"
-                              >
-                                <div className={`${dir === 'rtl' ? 'pr-8' : 'pl-8'} py-2`}>
-                                  {item.dropdownItems?.map((dropdownItem, idx) => {
-                                    const DropdownAnimatedIcon = dropdownItem.animatedIcon
+                              <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
+                                isExpanded ? 'bg-primary-600' : 'bg-primary-50'
+                              }`}>
+                                <ItemIcon size={20} className={isExpanded ? 'text-white' : 'text-primary-600'} />
+                              </div>
+                              <span className="font-semibold flex-1 text-start">
+                                {language === 'ar' ? item.labelAr : item.labelEn}
+                              </span>
+                              <ChevronDown 
+                                className={`w-5 h-5 text-gray-400 transition-transform duration-200 ${
+                                  isExpanded ? 'rotate-180' : ''
+                                }`}
+                              />
+                            </button>
+                            
+                            {/* Submenu */}
+                            <AnimatePresence>
+                              {isExpanded && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: 'auto', opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="overflow-hidden bg-gray-50"
+                                >
+                                  {item.dropdownItems?.map((subItem) => {
+                                    const SubIcon = subItem.animatedIcon
                                     return (
-                                      <motion.div
-                                        key={dropdownItem.key}
-                                        initial={{ opacity: 0, x: dir === 'rtl' ? 20 : -20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: idx * 0.05 }}
+                                      <Link
+                                        key={subItem.key}
+                                        href={subItem.href}
+                                        className={`flex items-center gap-3 px-4 py-3 ${dir === 'rtl' ? 'pr-8' : 'pl-8'} text-gray-600 hover:text-primary-600 transition-colors`}
+                                        onClick={() => setIsMobileMenuOpen(false)}
                                       >
-                                        <Link
-                                          href={dropdownItem.href}
-                                          className="group/item flex items-center gap-3 p-3 rounded-xl hover:bg-primary-50 transition-all duration-300"
-                                          onClick={() => setIsMobileMenuOpen(false)}
-                                        >
-                                          <motion.div 
-                                            className="w-10 h-10 rounded-lg bg-gray-100 group-hover/item:bg-primary-500 flex items-center justify-center transition-colors duration-300"
-                                            whileHover={{ scale: 1.15, rotate: 10 }}
-                                            whileTap={{ scale: 0.9 }}
-                                          >
-                                            <DropdownAnimatedIcon size={20} className="text-gray-600 group-hover/item:text-white transition-colors duration-300" />
-                                          </motion.div>
-                                          <div>
-                                            <span className="block font-semibold text-gray-800 group-hover/item:text-primary-600 transition-colors duration-300">{t(dropdownItem.labelKey)}</span>
-                                            <span className="block text-xs text-gray-500">
-                                              {language === 'ar' ? dropdownItem.descriptionAr : dropdownItem.description}
-                                            </span>
-                                          </div>
-                                        </Link>
-                                      </motion.div>
+                                        <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
+                                          <SubIcon size={16} className="text-primary-600" />
+                                        </div>
+                                        <span className="font-medium text-sm">
+                                          {language === 'ar' ? subItem.labelAr : subItem.labelEn}
+                                        </span>
+                                      </Link>
                                     )
                                   })}
-                                </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      )}
-                    </motion.div>
-                  )
-                })}
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </>
+                        )}
+                      </div>
+                    )
+                  })}
+                </nav>
+              </div>
 
-                {/* Mobile CTA Section */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 }}
-                  className="mt-6 pt-6 border-t border-gray-100"
+              {/* Menu Footer */}
+              <div className="p-4 border-t border-gray-100 space-y-3">
+                <Link
+                  href="/apply"
+                  className="flex items-center justify-center gap-2 w-full py-3 bg-secondary-500 hover:bg-secondary-600 text-white rounded-lg font-semibold transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <Link
-                    href="/apply"
-                    className="flex items-center justify-center gap-3 w-full py-4 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-2xl font-bold text-lg shadow-lg shadow-primary-500/25"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <Sparkles className="w-5 h-5" />
-                    <span>{language === 'ar' ? 'تقدم بطلبك الآن' : 'Apply Now'}</span>
-                  </Link>
-                  
-                  <Link
-                    href="/calculator"
-                    className="flex items-center justify-center gap-3 w-full py-4 mt-3 bg-gray-100 text-gray-700 rounded-2xl font-bold text-lg"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <IconLoanCalculator size={20} />
-                    <span>{language === 'ar' ? 'حاسبة التمويل' : 'Loan Calculator'}</span>
-                  </Link>
-                </motion.div>
-
-                {/* Mobile Contact Info */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                  className="mt-8 p-4 bg-gray-50 rounded-2xl"
+                  <span>{language === 'ar' ? 'تقدم بطلبك الآن' : 'Apply Now'}</span>
+                  <ArrowIcon className="w-4 h-4" />
+                </Link>
+                
+                <Link
+                  href="/login"
+                  className="flex items-center justify-center gap-2 w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-semibold transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <h4 className="font-bold text-gray-900 mb-4">{language === 'ar' ? 'تواصل معنا' : 'Contact Us'}</h4>
-                  <a href="tel:8002442211" className="flex items-center gap-3 text-gray-600 hover:text-primary-600 mb-3" dir="ltr">
-                    <Phone className="w-5 h-5" />
+                  <User className="w-4 h-4" />
+                  <span>{language === 'ar' ? 'تسجيل الدخول' : 'Login'}</span>
+                </Link>
+                
+                {/* Contact Info */}
+                <div className="pt-3 border-t border-gray-100">
+                  <a 
+                    href="tel:8002442211" 
+                    className="flex items-center gap-2 text-gray-600 hover:text-primary-600 transition-colors"
+                    dir="ltr"
+                  >
+                    <Phone className="w-4 h-4" />
                     <span className="font-semibold">800 244 2211</span>
                   </a>
-                  <div className="flex items-center gap-3 text-gray-600">
-                    <MapPin className="w-5 h-5" />
-                    <span className="text-sm">{language === 'ar' ? 'المملكة العربية السعودية' : 'Saudi Arabia'}</span>
-                  </div>
-                </motion.div>
+                </div>
               </div>
             </motion.div>
-          </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
