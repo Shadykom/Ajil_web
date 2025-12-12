@@ -227,7 +227,7 @@ export default function HeroSlider() {
                     >
                       <SlideIcon className="w-4 h-4 sm:w-5 sm:h-5" style={{ color: currentSlideData.accentColor }} />
                       <span className="text-xs sm:text-sm font-medium text-white/90">
-                        {language === 'ar' ? 'عبداللطيف جميل للتمويل' : 'Abdul Latif Jameel Finance'}
+                        {language === 'ar' ? 'أجل للتمويل' : 'AJIL Finance'}
                       </span>
                     </motion.div>
 
