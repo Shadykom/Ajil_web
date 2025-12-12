@@ -4,45 +4,32 @@ import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
 import Image from 'next/image'
-import { 
-  ArrowLeft,
-  ArrowRight,
-} from 'lucide-react'
 import { IconLoanProducts, AjilSymbol } from '@/components/icons'
+
+// Import local images
+import Ajil1 from '@/Images/Ajil1.jpg'
+import Ajil2 from '@/Images/Ajil2.jpg'
 
 const offers = [
   {
     id: 1,
-    titleAr: 'عروض تمويل تويوتا',
-    titleEn: 'Toyota Financing Offers',
+    titleAr: 'عروض نهاية العام',
+    titleEn: 'Year End Offers',
     descAr: 'استمتع بعروض تمويل حصرية على جميع موديلات تويوتا الجديدة بدون دفعة أولى',
     descEn: 'Enjoy exclusive financing offers on all new Toyota models with no down payment',
     badgeAr: 'عرض محدود',
     badgeEn: 'Limited Offer',
-    image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=1200&h=600&fit=crop',
-    gradient: 'from-blue-900/80 via-blue-900/60 to-transparent',
+    image: Ajil1,
   },
   {
     id: 2,
-    titleAr: 'تمويل نقدي فوري',
-    titleEn: 'Instant Cash Financing',
-    descAr: 'احصل على تمويل نقدي يصل إلى 500,000 ريال بموافقة خلال دقائق',
-    descEn: 'Get cash financing up to 500,000 SAR with approval within minutes',
+    titleAr: 'عروض نهاية العام',
+    titleEn: 'Year End Offers',
+    descAr: 'أول قسطين علينا - 0% دفعة أولى - رسوم إدارية',
+    descEn: 'First two installments on us - 0% down payment - Administrative fees',
     badgeAr: 'جديد',
     badgeEn: 'New',
-    image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=1200&h=600&fit=crop',
-    gradient: 'from-emerald-900/80 via-emerald-900/60 to-transparent',
-  },
-  {
-    id: 3,
-    titleAr: 'عروض رمضان الخاصة',
-    titleEn: 'Ramadan Special Offers',
-    descAr: 'احتفل معنا بشهر رمضان المبارك مع عروض تمويل استثنائية وهدايا قيّمة',
-    descEn: 'Celebrate the holy month of Ramadan with exceptional financing offers and valuable gifts',
-    badgeAr: 'حصري',
-    badgeEn: 'Exclusive',
-    image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=1200&h=600&fit=crop',
-    gradient: 'from-amber-900/80 via-amber-900/60 to-transparent',
+    image: Ajil2,
   },
 ]
 
@@ -75,8 +62,6 @@ export default function Offers() {
   const prevSlide = () => {
     goToSlide((currentSlide - 1 + offers.length) % offers.length)
   }
-
-  const ArrowIconForward = dir === 'rtl' ? ArrowLeft : ArrowRight
 
   return (
     <section 
@@ -132,196 +117,127 @@ export default function Offers() {
           transition={{ duration: 0.6, delay: 0.5 }}
         >
           {/* Main Slider Container */}
-          <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentSlide}
-                initial={{ opacity: 0, x: dir === 'rtl' ? -100 : 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: dir === 'rtl' ? 100 : -100 }}
-                transition={{ duration: 0.5 }}
-                className="relative aspect-[21/9]"
-              >
-                {/* Image */}
-                <Image
-                  src={offers[currentSlide].image}
-                  alt={language === 'ar' ? offers[currentSlide].titleAr : offers[currentSlide].titleEn}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-                
-                {/* Gradient Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-t ${offers[currentSlide].gradient}`} />
-                
-                {/* Content */}
-                <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12">
-                  {/* Badge */}
-                  <motion.span
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="inline-block w-fit bg-secondary-500 text-white px-4 py-1.5 rounded-lg text-sm font-bold mb-4"
-                  >
-                    {language === 'ar' ? offers[currentSlide].badgeAr : offers[currentSlide].badgeEn}
-                  </motion.span>
+          <div className="relative overflow-visible">
+            {/* Slider with rounded top corners */}
+            <div className="relative rounded-t-3xl overflow-hidden">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentSlide}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="relative aspect-[21/9] md:aspect-[3/1]"
+                >
+                  {/* Image - Full width banner style */}
+                  <Image
+                    src={offers[currentSlide].image}
+                    alt={language === 'ar' ? offers[currentSlide].titleAr : offers[currentSlide].titleEn}
+                    fill
+                    className="object-cover object-center"
+                    priority
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
 
-                  {/* Title */}
-                  <motion.h3
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4 max-w-2xl"
-                  >
-                    {language === 'ar' ? offers[currentSlide].titleAr : offers[currentSlide].titleEn}
-                  </motion.h3>
-
-                  {/* Description */}
-                  <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
-                    className="text-lg text-white/80 mb-6 max-w-xl"
-                  >
-                    {language === 'ar' ? offers[currentSlide].descAr : offers[currentSlide].descEn}
-                  </motion.p>
-
-                  {/* CTA Button */}
-                  <motion.a
-                    href="/apply"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="inline-flex items-center gap-2 bg-secondary-500 hover:bg-secondary-600 text-white px-8 py-4 rounded-xl font-bold text-lg w-fit transition-colors duration-300 group"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <span>{t('offers.discover_btn')}</span>
-                    <ArrowIconForward className="w-5 h-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
-                  </motion.a>
+            {/* Bottom Bar with A-Shape Navigation */}
+            <div className="relative">
+              {/* Gold/Amber Bottom Bar */}
+              <div className="h-12 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 flex items-center justify-between px-6">
+                {/* Left side - Phone number */}
+                <div className="flex items-center gap-2 text-white text-sm font-medium">
+                  <span>800 2442 211</span>
+                  <span className="mx-2">|</span>
+                  <span>aljfinance.com</span>
                 </div>
-              </motion.div>
-            </AnimatePresence>
+                
+                {/* Right side - Regulatory text */}
+                <div className="hidden md:block text-white/80 text-xs">
+                  شركة خاضعة لرقابة وإشراف البنك المركزي السعودي
+                </div>
+              </div>
 
-            {/* A-Shape Navigation */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-20">
-              <div className="relative">
-                {/* A-Shape White Background */}
-                <div className="absolute inset-0 flex items-center justify-center">
+              {/* A-Shape Navigation - Centered on top of the bar */}
+              <div className="absolute -top-8 left-1/2 -translate-x-1/2 z-20">
+                <div className="relative">
+                  {/* A-Shape White Background with Shadow */}
                   <svg 
-                    viewBox="0 0 180 80" 
-                    className="w-44 h-20"
+                    viewBox="0 0 120 50" 
+                    className="w-32 h-14 drop-shadow-lg"
                     fill="none"
                   >
                     <path 
-                      d="M90 0 L180 80 L0 80 Z" 
+                      d="M60 0 L120 50 L0 50 Z" 
                       fill="white"
-                      className="drop-shadow-lg"
                     />
                   </svg>
-                </div>
-                
-                {/* Navigation Controls */}
-                <div className="relative flex items-center gap-6 px-8 py-4 pt-6">
-                  {/* Previous Arrow */}
-                  <button
-                    onClick={dir === 'rtl' ? nextSlide : prevSlide}
-                    className="group transition-all duration-300 hover:scale-110"
-                    aria-label="Previous slide"
-                  >
-                    <svg 
-                      viewBox="0 0 24 24" 
-                      className="w-6 h-6 text-secondary-500 group-hover:text-secondary-600 transition-colors"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="square"
-                    >
-                      <path d="M15 6 L9 12 L15 18" />
-                    </svg>
-                  </button>
                   
-                  {/* Slide Number */}
-                  <span className="text-xl font-bold text-secondary-500 min-w-[24px] text-center">
-                    {currentSlide + 1}
-                  </span>
-                  
-                  {/* Next Arrow */}
-                  <button
-                    onClick={dir === 'rtl' ? prevSlide : nextSlide}
-                    className="group transition-all duration-300 hover:scale-110"
-                    aria-label="Next slide"
-                  >
-                    <svg 
-                      viewBox="0 0 24 24" 
-                      className="w-6 h-6 text-secondary-500 group-hover:text-secondary-600 transition-colors"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="square"
-                    >
-                      <path d="M9 6 L15 12 L9 18" />
-                    </svg>
-                  </button>
+                  {/* Navigation Controls - Positioned inside the triangle */}
+                  <div className="absolute inset-0 flex items-center justify-center pt-3">
+                    <div className="flex items-center gap-3">
+                      {/* Previous Arrow */}
+                      <button
+                        onClick={dir === 'rtl' ? nextSlide : prevSlide}
+                        className="group transition-all duration-300 hover:scale-110 p-1"
+                        aria-label="Previous slide"
+                      >
+                        <svg 
+                          viewBox="0 0 24 24" 
+                          className="w-4 h-4 text-secondary-500 group-hover:text-secondary-600 transition-colors"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M15 6 L9 12 L15 18" />
+                        </svg>
+                      </button>
+                      
+                      {/* Slide Number */}
+                      <span className="text-lg font-bold text-secondary-500 min-w-[20px] text-center">
+                        {currentSlide + 1}
+                      </span>
+                      
+                      {/* Next Arrow */}
+                      <button
+                        onClick={dir === 'rtl' ? prevSlide : nextSlide}
+                        className="group transition-all duration-300 hover:scale-110 p-1"
+                        aria-label="Next slide"
+                      >
+                        <svg 
+                          viewBox="0 0 24 24" 
+                          className="w-4 h-4 text-secondary-500 group-hover:text-secondary-600 transition-colors"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M9 6 L15 12 L9 18" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            {/* Progress Bar */}
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
-              <motion.div
-                className="h-full bg-secondary-500"
-                initial={{ width: '0%' }}
-                animate={{ width: '100%' }}
-                transition={{ duration: 5, ease: 'linear' }}
-                key={currentSlide}
-              />
             </div>
           </div>
 
           {/* Dots Navigation */}
-          <div className="flex justify-center gap-3 mt-8">
+          <div className="flex justify-center gap-3 mt-6">
             {offers.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
                 className={`transition-all duration-300 ${
                   index === currentSlide
-                    ? 'w-10 h-3 bg-primary-500 rounded-full'
-                    : 'w-3 h-3 bg-gray-300 hover:bg-gray-400 rounded-full'
+                    ? 'w-8 h-2.5 bg-primary-500 rounded-full'
+                    : 'w-2.5 h-2.5 bg-gray-300 hover:bg-gray-400 rounded-full'
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />
-            ))}
-          </div>
-
-          {/* Thumbnails */}
-          <div className="hidden md:grid grid-cols-3 gap-4 mt-8">
-            {offers.map((offer, index) => (
-              <motion.button
-                key={offer.id}
-                onClick={() => goToSlide(index)}
-                className={`relative rounded-xl overflow-hidden aspect-video group ${
-                  index === currentSlide ? 'ring-2 ring-primary-500 ring-offset-4' : ''
-                }`}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Image
-                  src={offer.image}
-                  alt={language === 'ar' ? offer.titleAr : offer.titleEn}
-                  fill
-                  className="object-cover"
-                />
-                <div className={`absolute inset-0 bg-black/40 ${
-                  index === currentSlide ? 'bg-black/20' : 'group-hover:bg-black/30'
-                } transition-colors duration-300`} />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-white font-bold text-sm md:text-base text-center px-4">
-                    {language === 'ar' ? offer.titleAr : offer.titleEn}
-                  </span>
-                </div>
-              </motion.button>
             ))}
           </div>
         </motion.div>
