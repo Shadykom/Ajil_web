@@ -16,9 +16,9 @@ import {
 const newsArticles = [
   {
     id: 1,
-    titleAr: 'عبداللطيف جميل للتمويل تفوز بجائزتين من منشآت',
+    titleAr: 'أجل للتمويل تفوز بجائزتين من منشآت',
     titleEn: 'Abdul Latif Jameel Finance wins two awards from Monshaat',
-    excerptAr: 'حصدت شركة عبداللطيف جميل للتمويل جائزتين من هيئة المنشآت الصغيرة والمتوسطة تقديراً لجهودها في دعم ريادة الأعمال',
+    excerptAr: 'حصدت شركة أجل للتمويل جائزتين من هيئة المنشآت الصغيرة والمتوسطة تقديراً لجهودها في دعم ريادة الأعمال',
     excerptEn: 'Abdul Latif Jameel Finance has won two awards from the Small and Medium Enterprises Authority in recognition of its efforts in supporting entrepreneurship',
     category: 'awards',
     categoryLabelAr: 'جوائز وإنجازات',
@@ -32,7 +32,7 @@ const newsArticles = [
     id: 2,
     titleAr: 'شراكة استراتيجية مع آنت انترناشيونال لدعم المنشآت',
     titleEn: 'Strategic partnership with Ant International to support enterprises',
-    excerptAr: 'أعلنت عبداللطيف جميل للتمويل عن شراكة جديدة مع آنت انترناشيونال لتقديم حلول مالية مبتكرة',
+    excerptAr: 'أعلنت أجل للتمويل عن شراكة جديدة مع آنت انترناشيونال لتقديم حلول مالية مبتكرة',
     excerptEn: 'Abdul Latif Jameel Finance announced a new partnership with Ant International to provide innovative financial solutions',
     category: 'partnerships',
     categoryLabelAr: 'شراكات',

@@ -3,22 +3,22 @@ import { I18nProvider } from '@/components/providers/I18nProvider'
 import './globals.css'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://aljfinance.com'),
-  title: 'عبداللطيف جميل للتمويل | Abdul Latif Jameel Finance',
-  description: 'شركة عبداللطيف جميل المتحدة للتمويل - حلول تمويلية متوافقة مع الشريعة الإسلامية | Abdul Latif Jameel United Finance Company - Sharia-compliant financing solutions',
-  keywords: 'تمويل, سيارات, تمويل شخصي, تمويل أعمال, السعودية, عبداللطيف جميل, financing, cars, personal loan, business financing, Saudi Arabia',
-  authors: [{ name: 'Abdul Latif Jameel Finance' }],
+  metadataBase: new URL('https://ajil.com'),
+  title: 'أجل للتمويل | AJIL Finance',
+  description: 'شركة أجل للتمويل - حلول تمويلية متوافقة مع الشريعة الإسلامية | AJIL Finance Company - Sharia-compliant financing solutions',
+  keywords: 'تمويل, سيارات, تمويل شخصي, تمويل أعمال, السعودية, أجل للتمويل, AJIL, financing, cars, personal loan, business financing, Saudi Arabia',
+  authors: [{ name: 'AJIL Finance' }],
   openGraph: {
-    title: 'عبداللطيف جميل للتمويل | Abdul Latif Jameel Finance',
+    title: 'أجل للتمويل | AJIL Finance',
     description: 'حلول تمويلية متوافقة مع الشريعة الإسلامية',
-    url: 'https://aljfinance.com',
-    siteName: 'Abdul Latif Jameel Finance',
+    url: 'https://ajil.com',
+    siteName: 'AJIL Finance',
     locale: 'ar_SA',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'عبداللطيف جميل للتمويل',
+    title: 'أجل للتمويل',
     description: 'حلول تمويلية متوافقة مع الشريعة الإسلامية',
   },
   robots: {
@@ -40,7 +40,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#0066b3" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
       </head>
-      <body className="font-cairo antialiased">
+      <body className="font-ge-ss antialiased">
         <I18nProvider defaultLanguage="ar">
           {children}
         </I18nProvider>

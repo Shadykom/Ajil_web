@@ -25,7 +25,6 @@ export const translations = {
     'nav.financing_rates': 'أسعار منتجات التمويل',
     'nav.cash_financing': 'التمويل النقدي',
     'nav.heavy_equipment': 'المعدات الثقيلة',
-    'nav.bab_rizq': 'باب رزق جميل',
     'nav.our_story': 'قصتنا',
     'nav.news': 'الأخبار',
     'nav.financial_reports': 'التقارير المالية',
@@ -98,26 +97,26 @@ export const translations = {
 
     // Newsletter
     'newsletter.title': 'اشترك في نشرتنا البريدية',
-    'newsletter.description': 'كن على اطلاع بآخر العروض والأخبار من عبداللطيف جميل للتمويل',
+    'newsletter.description': 'كن على اطلاع بآخر العروض والأخبار من أجل للتمويل',
     'newsletter.placeholder': 'أدخل بريدك الإلكتروني',
     'newsletter.subscribe': 'اشترك الآن',
     'newsletter.success': 'شكراً لاشتراكك!',
     'newsletter.error': 'حدث خطأ، يرجى المحاولة مرة أخرى',
 
     // Footer
-    'footer.about_text': 'شركة عبداللطيف جميل المتحدة للتمويل، رائدة في تقديم الحلول التمويلية المتوافقة مع الشريعة الإسلامية منذ عام 1979',
+    'footer.about_text': 'شركة أجل للتمويل، رائدة في تقديم الحلول التمويلية المتوافقة مع الشريعة الإسلامية',
     'footer.individuals_financing': 'تمويل الأفراد',
     'footer.business_financing': 'تمويل الأعمال',
     'footer.contact_us': 'تواصل معنا',
-    'footer.copyright': '© 2008-2025 شركة عبداللطيف جميل المتحدة للتمويل - سجل تجاري (4030206631) - خاضعة لإشراف ورقابة البنك المركزي السعودي',
+    'footer.copyright': '© 2008-2025 شركة أجل للتمويل - سجل تجاري (4030206631) - خاضعة لإشراف ورقابة البنك المركزي السعودي',
     'footer.privacy_policy': 'سياسة الخصوصية',
     'footer.terms': 'الشروط والأحكام',
 
     // Common
     'common.phone': '8002442211',
-    'common.email': 'info@aljfinance.com',
+    'common.email': 'info@ajil.com',
     'common.address': 'جدة، المملكة العربية السعودية',
-    'common.brand_name': 'عبداللطيف جميل',
+    'common.brand_name': 'أجل',
     'common.brand_suffix': 'للتمويل',
     'common.loading': 'جاري التحميل...',
   },
@@ -134,7 +133,6 @@ export const translations = {
     'nav.financing_rates': 'Financing Product Rates',
     'nav.cash_financing': 'Cash Financing',
     'nav.heavy_equipment': 'Heavy Equipment',
-    'nav.bab_rizq': 'Bab Rizq Jameel',
     'nav.our_story': 'Our Story',
     'nav.news': 'News',
     'nav.financial_reports': 'Financial Reports',
@@ -207,26 +205,26 @@ export const translations = {
 
     // Newsletter
     'newsletter.title': 'Subscribe to Our Newsletter',
-    'newsletter.description': 'Stay updated with the latest offers and news from Abdul Latif Jameel Finance',
+    'newsletter.description': 'Stay updated with the latest offers and news from AJIL Finance',
     'newsletter.placeholder': 'Enter your email',
     'newsletter.subscribe': 'Subscribe Now',
     'newsletter.success': 'Thank you for subscribing!',
     'newsletter.error': 'An error occurred, please try again',
 
     // Footer
-    'footer.about_text': 'Abdul Latif Jameel United Finance Company, a pioneer in providing Sharia-compliant financing solutions since 1979',
+    'footer.about_text': 'AJIL Finance Company, a pioneer in providing Sharia-compliant financing solutions',
     'footer.individuals_financing': 'Individual Financing',
     'footer.business_financing': 'Business Financing',
     'footer.contact_us': 'Contact Us',
-    'footer.copyright': '© 2008-2025 Abdul Latif Jameel United Finance Company - CR (4030206631) - Licensed by Saudi Central Bank',
+    'footer.copyright': '© 2008-2025 AJIL Finance Company - CR (4030206631) - Licensed by Saudi Central Bank',
     'footer.privacy_policy': 'Privacy Policy',
     'footer.terms': 'Terms & Conditions',
 
     // Common
     'common.phone': '8002442211',
-    'common.email': 'info@aljfinance.com',
+    'common.email': 'info@ajil.com',
     'common.address': 'Jeddah, Saudi Arabia',
-    'common.brand_name': 'Abdul Latif Jameel',
+    'common.brand_name': 'AJIL',
     'common.brand_suffix': 'Finance',
     'common.loading': 'Loading...',
   },

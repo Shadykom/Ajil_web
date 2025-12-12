@@ -1,3 +1,32 @@
+/* GE SS Two Font - Modern Arabic Corporate Font */
+@font-face {
+  font-family: 'GE SS Two';
+  src: url('/fonts/GESSTwo-Light.woff2') format('woff2'),
+       url('/fonts/GESSTwo-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GE SS Two';
+  src: url('/fonts/GESSTwo-Medium.woff2') format('woff2'),
+       url('/fonts/GESSTwo-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GE SS Two';
+  src: url('/fonts/GESSTwo-Bold.woff2') format('woff2'),
+       url('/fonts/GESSTwo-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Fallback to Cairo if GE SS Two is not available */
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
@@ -26,9 +55,22 @@ html {
 }
 
 body {
-  font-family: 'Cairo', sans-serif;
+  font-family: 'GE SS Two', 'Cairo', sans-serif;
   overflow-x: hidden;
   background: var(--bg-white);
+}
+
+/* Font Weight Utility Classes for GE SS Two */
+.font-light {
+  font-weight: 300; /* GE SS Two Light - for body text */
+}
+
+.font-medium {
+  font-weight: 500; /* GE SS Two Medium - for titles */
+}
+
+.font-bold {
+  font-weight: 700; /* GE SS Two Bold - for headings/CTA */
 }
 
 /* Custom Scrollbar */
@@ -315,6 +357,61 @@ body {
   border-radius: 10px;
 }
 
+/* Floating Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Shimmer Animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Morphing Animation */
+@keyframes morph {
+  0%, 100% {
+    border-radius: 60% 40% 30% 70%/60% 30% 70% 40%;
+  }
+  50% {
+    border-radius: 30% 60% 70% 40%/50% 60% 30% 60%;
+  }
+}
+
+/* Gradient Animation */
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Slide Up Animation */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Counter Animation */
 @keyframes countUp {
   from { opacity: 0; transform: translateY(20px); }
@@ -422,6 +519,215 @@ body {
   opacity: 0;
   transform: translateX(100%);
   transition: all 0.3s ease;
+}
+
+/* Navigation Menu Enhancements */
+.nav-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-blue), var(--secondary-orange));
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.nav-item:hover::before {
+  width: 80%;
+}
+
+/* Nav Icon Bounce */
+.nav-icon {
+  transition: transform 0.3s ease;
+}
+
+.nav-item:hover .nav-icon {
+  transform: scale(1.2) translateY(-2px);
+}
+
+/* Dropdown Menu Styles */
+.dropdown-menu {
+  transform-origin: top center;
+}
+
+[dir='rtl'] .dropdown-menu {
+  transform-origin: top right;
+}
+
+/* Dropdown Item Hover Effect */
+.dropdown-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.dropdown-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 102, 179, 0.05), transparent);
+  transition: left 0.5s ease;
+}
+
+.dropdown-item:hover::before {
+  left: 100%;
+}
+
+/* Menu Icon Container */
+.menu-icon-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-icon-container::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(0, 102, 179, 0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.menu-icon-container:hover::after {
+  opacity: 1;
+}
+
+/* Mobile Menu Slide Animation */
+@keyframes slideFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* RTL Mobile Menu */
+[dir='rtl'] .mobile-menu-panel {
+  animation: slideFromLeft 0.3s ease forwards;
+}
+
+[dir='ltr'] .mobile-menu-panel {
+  animation: slideFromRight 0.3s ease forwards;
+}
+
+/* Hamburger Menu Animation */
+.hamburger-line {
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.hamburger-active .hamburger-line:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger-active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-active .hamburger-line:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Sticky Header Shadow Animation */
+.header-scrolled {
+  animation: headerShadow 0.3s ease forwards;
+}
+
+@keyframes headerShadow {
+  from {
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+  to {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* CTA Button Glow Pulse */
+.cta-glow {
+  position: relative;
+}
+
+.cta-glow::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  background: linear-gradient(135deg, var(--primary-blue), var(--secondary-orange));
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  filter: blur(12px);
+  transition: opacity 0.3s ease;
+}
+
+.cta-glow:hover::before {
+  opacity: 0.5;
+  animation: glow-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.05);
+  }
+}
+
+/* Menu Backdrop Blur Enhancement */
+.menu-backdrop {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Navigation Badge */
+.nav-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 8px;
+  height: 8px;
+  background: var(--secondary-orange);
+  border-radius: 50%;
+  animation: badge-pulse 2s ease-in-out infinite;
+}
+
+@keyframes badge-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.7;
+  }
 }
 
 /* Accessibility */
