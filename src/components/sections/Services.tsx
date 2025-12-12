@@ -6,12 +6,9 @@ import { useI18n } from '@/lib/i18n'
 import { 
   ArrowLeft,
   ArrowRight,
+  Sparkles,
+  CheckCircle2,
 } from 'lucide-react'
-import {
-  IconLoanProducts,
-  AjilSymbol,
-  AjilLogoBackground,
-} from '@/components/icons'
 import {
   AnimatedCarFinancing,
   AnimatedPersonalFinancing,
@@ -22,49 +19,129 @@ import {
   AnimatedService247,
 } from '@/components/icons/AnimatedIcons'
 import Link from 'next/link'
-import { AjilDotsMatrix, AjilGeometricAccent } from '@/components/brand/AjilPatterns'
+
+// AJIL Brand Colors
+const AJIL_BLUE = '#00377B'
+const AJIL_BLUE_LIGHT = '#0066b3'
+const AJIL_GOLD = '#F7941D'
 
 type IconComponent = ComponentType<SVGProps<SVGSVGElement> & { size?: number | string }>
+
+// Mini A Shape Component
+function MiniAShape({ size = 24, color = AJIL_GOLD, strokeWidth = 3, filled = false }: { size?: number; color?: string; strokeWidth?: number; filled?: boolean }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100">
+      <path
+        d="M20 80 L50 20 L80 80"
+        fill={filled ? color : 'none'}
+        stroke={color}
+        strokeWidth={strokeWidth * 2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity={filled ? 0.2 : 1}
+      />
+      {!filled && (
+        <path
+          d="M32 60 L68 60"
+          fill="none"
+          stroke={color}
+          strokeWidth={strokeWidth * 1.5}
+          strokeLinecap="round"
+        />
+      )}
+    </svg>
+  )
+}
+
+// Large A Shape for backgrounds
+function LargeAShape({ size = 200, className = '' }: { size?: number; className?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
+      <defs>
+        <linearGradient id="aGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor={AJIL_BLUE} stopOpacity="0.1" />
+          <stop offset="100%" stopColor={AJIL_GOLD} stopOpacity="0.05" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M15 85 L50 15 L85 85 Z"
+        fill="url(#aGradient)"
+        stroke={AJIL_BLUE}
+        strokeWidth="1"
+        strokeOpacity="0.1"
+      />
+      <path
+        d="M25 75 L50 25 L75 75"
+        fill="none"
+        stroke={AJIL_GOLD}
+        strokeWidth="2"
+        strokeOpacity="0.15"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M35 65 L65 65"
+        fill="none"
+        stroke={AJIL_GOLD}
+        strokeWidth="1.5"
+        strokeOpacity="0.1"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
 
 const services: Array<{
   key: string
   icon: IconComponent
-  titleKey: string
-  descKey: string
+  titleAr: string
+  titleEn: string
+  descAr: string
+  descEn: string
+  featuresAr: string[]
+  featuresEn: string[]
   href: string
-  gradient: string
-  iconBg: string
+  accentColor: string
   delay: number
 }> = [
   {
     key: 'car',
     icon: AnimatedCarFinancing,
-    titleKey: 'services.car_title',
-    descKey: 'services.car_desc',
+    titleAr: 'تمويل السيارات',
+    titleEn: 'Car Financing',
+    descAr: 'احصل على سيارة أحلامك مع خيارات تمويل مرنة وأقساط ميسرة تناسب ميزانيتك',
+    descEn: 'Get your dream car with flexible financing options and easy installments that fit your budget',
+    featuresAr: ['موافقة سريعة', 'بدون دفعة أولى', 'تأمين شامل'],
+    featuresEn: ['Quick Approval', 'Zero Down Payment', 'Full Insurance'],
     href: '/individuals/car-financing',
-    gradient: 'from-blue-500 to-cyan-500',
-    iconBg: 'bg-blue-500/10',
+    accentColor: AJIL_GOLD,
     delay: 0,
   },
   {
     key: 'cash',
     icon: AnimatedPersonalFinancing,
-    titleKey: 'services.cash_title',
-    descKey: 'services.cash_desc',
+    titleAr: 'التمويل الشخصي',
+    titleEn: 'Personal Financing',
+    descAr: 'تمويل نقدي سريع لتحقيق أهدافك الشخصية بإجراءات سهلة وسريعة',
+    descEn: 'Quick cash financing to achieve your personal goals with easy and fast procedures',
+    featuresAr: ['بدون كفيل', 'تحويل فوري', 'أقساط مرنة'],
+    featuresEn: ['No Guarantor', 'Instant Transfer', 'Flexible Payments'],
     href: '/individuals/personal-financing',
-    gradient: 'from-green-500 to-emerald-500',
-    iconBg: 'bg-green-500/10',
-    delay: 0.1,
+    accentColor: AJIL_GOLD,
+    delay: 0.15,
   },
   {
     key: 'business',
     icon: AnimatedBusinessFinancing,
-    titleKey: 'services.business_title',
-    descKey: 'services.business_desc',
+    titleAr: 'تمويل الأعمال',
+    titleEn: 'Business Financing',
+    descAr: 'حلول تمويلية متكاملة لتنمية أعمالك وتوسيع نشاطك التجاري',
+    descEn: 'Complete financing solutions to grow your business and expand your commercial activities',
+    featuresAr: ['حلول مخصصة', 'شروط مرنة', 'دعم متواصل'],
+    featuresEn: ['Custom Solutions', 'Flexible Terms', 'Ongoing Support'],
     href: '/business/cash-financing',
-    gradient: 'from-purple-500 to-violet-500',
-    iconBg: 'bg-purple-500/10',
-    delay: 0.2,
+    accentColor: AJIL_GOLD,
+    delay: 0.3,
   },
 ]
 
@@ -72,123 +149,387 @@ function ServiceCard({
   service, 
   index,
   dir,
-  t
+  language
 }: { 
   service: typeof services[0]
   index: number
   dir: string
-  t: (key: string) => string
+  language: string
 }) {
   const cardRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(cardRef, { once: true, margin: '-100px' })
+  const isInView = useInView(cardRef, { once: true, margin: '-50px' })
   const Icon = service.icon
   const ArrowIcon = dir === 'rtl' ? ArrowLeft : ArrowRight
 
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.6, delay: service.delay }}
-      className="group relative"
+      initial={{ opacity: 0, y: 80, rotateX: 10 }}
+      animate={isInView ? { opacity: 1, y: 0, rotateX: 0 } : { opacity: 0, y: 80, rotateX: 10 }}
+      transition={{ duration: 0.8, delay: service.delay, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="group relative perspective-1000"
     >
-      <div className="relative bg-white rounded-3xl p-8 shadow-card hover:shadow-card-hover transition-all duration-500 border border-gray-100 overflow-hidden h-full">
-        {/* Animated Border Top */}
+      {/* Main Card */}
+      <div className="relative h-full">
+        {/* Glowing border effect */}
         <div 
-          className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${service.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-${dir === 'rtl' ? 'right' : 'left'}`}
+          className="absolute -inset-[2px] rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"
+          style={{ 
+            background: `linear-gradient(135deg, ${AJIL_BLUE}40, ${AJIL_GOLD}60, ${AJIL_BLUE}40)`,
+          }}
         />
-
-        {/* Background Glow on Hover */}
-        <div 
-          className={`absolute -top-20 -right-20 w-40 h-40 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-10 rounded-full blur-3xl transition-opacity duration-500`}
-        />
-
-        {/* Icon */}
-        <motion.div 
-          className={`relative w-20 h-20 ${service.iconBg} rounded-2xl flex items-center justify-center mb-6 overflow-hidden`}
-          whileHover={{ scale: 1.1, rotate: 5 }}
-          transition={{ type: 'spring', stiffness: 400 }}
-        >
-          <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-          <Icon size={40} className="text-primary-500 group-hover:text-white relative z-10 transition-colors duration-500" />
-        </motion.div>
-
-        {/* Content */}
-        <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-primary-600 transition-colors duration-300">
-          {t(service.titleKey)}
-        </h3>
         
-        <p className="text-gray-500 leading-relaxed mb-6">
-          {t(service.descKey)}
-        </p>
-
-        {/* CTA Link */}
-        <Link 
-          href={service.href}
-          className={`inline-flex items-center gap-2 text-primary-600 font-semibold group/link hover:gap-4 transition-all duration-300`}
+        {/* Card body */}
+        <div 
+          className="relative h-full rounded-[2rem] overflow-hidden transition-all duration-500 group-hover:translate-y-[-8px] group-hover:shadow-2xl"
+          style={{ 
+            background: 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)',
+            boxShadow: '0 10px 40px rgba(0,55,123,0.08), 0 0 0 1px rgba(0,55,123,0.05)',
+          }}
         >
-          <span>{t('services.apply_btn')}</span>
-          <ArrowIcon className="w-4 h-4 transition-transform group-hover/link:translate-x-1 rtl:group-hover/link:-translate-x-1" />
-        </Link>
+          {/* Top A-shaped accent bar */}
+          <div className="relative h-2 overflow-hidden">
+            <svg viewBox="0 0 400 20" className="w-full h-full" preserveAspectRatio="none">
+              <path 
+                d="M0,20 L200,0 L400,20 Z" 
+                fill={AJIL_BLUE}
+              />
+              <path 
+                d="M100,18 L200,5 L300,18" 
+                fill="none"
+                stroke={AJIL_GOLD}
+                strokeWidth="3"
+              />
+            </svg>
+          </div>
 
-        {/* Card Number */}
-        <div className={`absolute bottom-6 ${dir === 'rtl' ? 'left-6' : 'right-6'} text-8xl font-black text-gray-50 group-hover:text-gray-100 transition-colors duration-300 select-none`}>
-          0{index + 1}
+          {/* Background A Shape decorations */}
+          <div className="absolute top-8 right-4 opacity-[0.04] group-hover:opacity-[0.08] transition-opacity duration-500">
+            <LargeAShape size={180} />
+          </div>
+          <motion.div 
+            className="absolute bottom-4 left-4 opacity-[0.03]"
+            animate={{ rotate: [0, 5, 0] }}
+            transition={{ duration: 8, repeat: Infinity }}
+          >
+            <LargeAShape size={100} />
+          </motion.div>
+
+          {/* Content */}
+          <div className="relative p-8 pt-6">
+            {/* Icon Container with A-shape frame */}
+            <div className="relative mb-8">
+              <motion.div 
+                className="relative w-24 h-24"
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+              >
+                {/* A-shaped background */}
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+                  <defs>
+                    <linearGradient id={`iconGrad-${index}`} x1="0%" y1="100%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor={AJIL_BLUE} stopOpacity="0.1" />
+                      <stop offset="100%" stopColor={AJIL_GOLD} stopOpacity="0.2" />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M15 85 L50 10 L85 85 Z"
+                    fill={`url(#iconGrad-${index})`}
+                    className="group-hover:fill-[#00377B15] transition-all duration-300"
+                  />
+                  <path
+                    d="M15 85 L50 10 L85 85"
+                    fill="none"
+                    stroke={AJIL_BLUE}
+                    strokeWidth="2"
+                    strokeOpacity="0.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <motion.path
+                    d="M28 65 L72 65"
+                    fill="none"
+                    stroke={AJIL_GOLD}
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    initial={{ pathLength: 0 }}
+                    animate={isInView ? { pathLength: 1 } : { pathLength: 0 }}
+                    transition={{ duration: 0.8, delay: service.delay + 0.5 }}
+                  />
+                </svg>
+                
+                {/* Icon */}
+                <div className="absolute inset-0 flex items-center justify-center pt-4">
+                  <Icon 
+                    size={44} 
+                    className="transition-colors duration-300"
+                    style={{ color: AJIL_BLUE }}
+                  />
+                </div>
+
+                {/* Floating mini A */}
+                <motion.div 
+                  className="absolute -top-2 -right-2"
+                  animate={{ y: [0, -5, 0], rotate: [0, 10, 0] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  <div 
+                    className="w-8 h-8 rounded-full flex items-center justify-center shadow-lg"
+                    style={{ backgroundColor: AJIL_GOLD }}
+                  >
+                    <MiniAShape size={14} color="white" strokeWidth={2} />
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              {/* Service number with A accent */}
+              <div 
+                className={`absolute top-0 ${dir === 'rtl' ? 'left-0' : 'right-0'} flex items-center gap-1`}
+              >
+                <span 
+                  className="text-6xl font-black opacity-[0.06] group-hover:opacity-[0.1] transition-opacity"
+                  style={{ color: AJIL_BLUE }}
+                >
+                  0{index + 1}
+                </span>
+              </div>
+            </div>
+
+            {/* Title */}
+            <h3 
+              className="text-2xl font-bold mb-4 transition-colors duration-300 group-hover:text-[#0066b3]"
+              style={{ color: AJIL_BLUE }}
+            >
+              {language === 'ar' ? service.titleAr : service.titleEn}
+            </h3>
+            
+            {/* Description */}
+            <p className="text-gray-500 leading-relaxed mb-6">
+              {language === 'ar' ? service.descAr : service.descEn}
+            </p>
+
+            {/* Features list with A checkmarks */}
+            <div className="space-y-3 mb-8">
+              {(language === 'ar' ? service.featuresAr : service.featuresEn).map((feature, i) => (
+                <motion.div 
+                  key={i}
+                  className="flex items-center gap-3"
+                  initial={{ opacity: 0, x: dir === 'rtl' ? 20 : -20 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.4, delay: service.delay + 0.3 + i * 0.1 }}
+                >
+                  <div 
+                    className="w-6 h-6 rounded-lg flex items-center justify-center"
+                    style={{ backgroundColor: `${AJIL_GOLD}15` }}
+                  >
+                    <MiniAShape size={12} color={AJIL_GOLD} strokeWidth={2} />
+                  </div>
+                  <span className="text-sm text-gray-600 font-medium">{feature}</span>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* CTA Button with A shape */}
+            <Link 
+              href={service.href}
+              className="group/btn relative inline-flex items-center gap-3 px-6 py-3 rounded-xl font-bold overflow-hidden transition-all duration-300"
+              style={{ backgroundColor: `${AJIL_BLUE}08` }}
+            >
+              {/* Hover fill */}
+              <div 
+                className="absolute inset-0 translate-x-[-100%] group-hover/btn:translate-x-0 transition-transform duration-500"
+                style={{ backgroundColor: AJIL_GOLD }}
+              />
+              
+              <MiniAShape size={18} color={AJIL_BLUE} strokeWidth={2} />
+              <span 
+                className="relative z-10 group-hover/btn:text-gray-900 transition-colors duration-300"
+                style={{ color: AJIL_BLUE }}
+              >
+                {language === 'ar' ? 'تقدم الآن' : 'Apply Now'}
+              </span>
+              <ArrowIcon 
+                className="w-4 h-4 relative z-10 group-hover/btn:translate-x-1 rtl:group-hover/btn:-translate-x-1 transition-all duration-300 group-hover/btn:text-gray-900"
+                style={{ color: AJIL_BLUE }}
+              />
+            </Link>
+          </div>
+
+          {/* Bottom A-wave accent */}
+          <div className="absolute bottom-0 left-0 right-0">
+            <svg viewBox="0 0 400 30" className="w-full" preserveAspectRatio="none">
+              <path 
+                d="M0,30 L0,25 Q100,30 200,15 Q300,30 400,25 L400,30 Z" 
+                fill={`${AJIL_GOLD}10`}
+                className="group-hover:fill-[#F7941D20] transition-colors duration-500"
+              />
+              <path 
+                d="M150,25 L200,12 L250,25" 
+                fill="none"
+                stroke={AJIL_GOLD}
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                opacity="0.3"
+                className="group-hover:opacity-60 transition-opacity duration-500"
+              />
+            </svg>
+          </div>
         </div>
       </div>
     </motion.div>
   )
 }
 
+function FeatureCard({ 
+  label, 
+  Icon, 
+  index, 
+  isInView 
+}: { 
+  label: string
+  Icon: IconComponent
+  index: number
+  isInView: boolean 
+}) {
+  return (
+    <motion.div
+      className="group relative"
+      initial={{ opacity: 0, y: 30, scale: 0.9 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.9 }}
+      transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
+      whileHover={{ y: -10, scale: 1.05 }}
+    >
+      {/* Card */}
+      <div 
+        className="relative p-6 rounded-2xl overflow-hidden transition-all duration-500"
+        style={{ 
+          background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+          boxShadow: '0 4px 20px rgba(0,55,123,0.06)',
+        }}
+      >
+        {/* A-shaped top accent */}
+        <div className="absolute top-0 left-0 right-0 h-1 overflow-hidden">
+          <svg viewBox="0 0 200 10" className="w-full h-full" preserveAspectRatio="none">
+            <path 
+              d="M0,10 L100,0 L200,10" 
+              fill={AJIL_GOLD}
+              opacity="0.5"
+              className="group-hover:opacity-100 transition-opacity duration-300"
+            />
+          </svg>
+        </div>
+
+        {/* Background A */}
+        <div className="absolute -bottom-4 -right-4 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
+          <MiniAShape size={80} color={AJIL_BLUE} strokeWidth={1} />
+        </div>
+
+        {/* Icon with A frame */}
+        <div className="relative w-16 h-16 mx-auto mb-4">
+          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+            <path
+              d="M20 80 L50 15 L80 80 Z"
+              fill={`${AJIL_BLUE}08`}
+              className="group-hover:fill-[#00377B15] transition-colors duration-300"
+            />
+            <path
+              d="M35 60 L65 60"
+              fill="none"
+              stroke={AJIL_GOLD}
+              strokeWidth="3"
+              strokeLinecap="round"
+              opacity="0.5"
+              className="group-hover:opacity-100 transition-opacity duration-300"
+            />
+          </svg>
+          <div className="absolute inset-0 flex items-center justify-center pt-2">
+            <Icon 
+              size={28} 
+              className="transition-colors duration-300"
+              style={{ color: AJIL_BLUE }}
+            />
+          </div>
+        </div>
+
+        {/* Label */}
+        <span 
+          className="block text-sm font-bold text-center transition-colors duration-300"
+          style={{ color: AJIL_BLUE }}
+        >
+          {label}
+        </span>
+      </div>
+    </motion.div>
+  )
+}
+
 export default function Services() {
-  const { t, dir } = useI18n()
+  const { t, dir, language } = useI18n()
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
+
+  const features = [
+    { labelAr: 'موافقة سريعة', labelEn: 'Quick Approval', Icon: AnimatedQuickApproval },
+    { labelAr: 'أقساط مرنة', labelEn: 'Flexible Payments', Icon: AnimatedFlexiblePayments },
+    { labelAr: 'متوافق مع الشريعة', labelEn: 'Sharia Compliant', Icon: AnimatedShariaCompliant },
+    { labelAr: 'خدمة 24/7', labelEn: '24/7 Service', Icon: AnimatedService247 },
+  ]
 
   return (
     <section 
       ref={sectionRef}
       id="services"
-      className="relative py-24 bg-gradient-to-b from-gray-50 to-white overflow-hidden"
+      className="relative py-24 md:py-32 overflow-hidden"
+      style={{ background: 'linear-gradient(180deg, #f8fafc 0%, #ffffff 50%, #f8fafc 100%)' }}
     >
-      {/* Background Decorations */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-primary-500/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary-500/5 rounded-full blur-3xl" />
-      
-      {/* AJIL Logo Background Decorations */}
-      <div className="absolute top-10 right-0 opacity-[0.02]">
-        <AjilLogoBackground size={350} animated />
-      </div>
-      <div className="absolute bottom-10 left-0 opacity-[0.015] -rotate-12">
-        <AjilLogoBackground size={300} animated />
-      </div>
+      {/* Background A Shape Decorations */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Large floating A shapes */}
+        <motion.div 
+          className="absolute -top-20 -right-20"
+          animate={{ rotate: [0, 10, 0], y: [0, 20, 0] }}
+          transition={{ duration: 20, repeat: Infinity }}
+        >
+          <LargeAShape size={400} />
+        </motion.div>
+        <motion.div 
+          className="absolute -bottom-20 -left-20"
+          animate={{ rotate: [0, -10, 0], y: [0, -20, 0] }}
+          transition={{ duration: 25, repeat: Infinity }}
+        >
+          <LargeAShape size={350} />
+        </motion.div>
 
-      {/* AJIL Branded Patterns */}
-      <AjilDotsMatrix color="mixed" opacity={0.04} density="normal" />
-      <AjilGeometricAccent 
-        className="top-20 right-10"
-        size={100}
-        variant="corner"
-        color="primary"
-      />
-      <AjilGeometricAccent 
-        className="bottom-32 left-5"
-        size={80}
-        variant="float"
-        color="secondary"
-      />
+        {/* Gradient orbs */}
+        <div 
+          className="absolute top-1/4 right-0 w-[500px] h-[500px] rounded-full blur-3xl"
+          style={{ background: `radial-gradient(circle, ${AJIL_BLUE}06 0%, transparent 70%)` }}
+        />
+        <div 
+          className="absolute bottom-1/4 left-0 w-[400px] h-[400px] rounded-full blur-3xl"
+          style={{ background: `radial-gradient(circle, ${AJIL_GOLD}06 0%, transparent 70%)` }}
+        />
 
-      {/* Floating Elements */}
-      <motion.div
-        className="absolute top-20 right-10 w-20 h-20 bg-primary-500/10 rounded-full"
-        animate={{ y: [0, -20, 0], rotate: [0, 180, 360] }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-      />
-      <motion.div
-        className="absolute bottom-20 left-10 w-16 h-16 bg-secondary-500/10 rounded-xl"
-        animate={{ y: [0, 20, 0], rotate: [0, -180, -360] }}
-        transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-      />
+        {/* Floating mini A shapes */}
+        {[
+          { x: '10%', y: '20%', size: 40, delay: 0 },
+          { x: '85%', y: '30%', size: 30, delay: 2 },
+          { x: '15%', y: '70%', size: 35, delay: 4 },
+          { x: '90%', y: '75%', size: 45, delay: 1 },
+          { x: '50%', y: '10%', size: 25, delay: 3 },
+        ].map((item, i) => (
+          <motion.div
+            key={i}
+            className="absolute opacity-[0.06]"
+            style={{ left: item.x, top: item.y }}
+            animate={{ y: [0, -15, 0], rotate: [0, 10, 0] }}
+            transition={{ duration: 6 + i, repeat: Infinity, delay: item.delay }}
+          >
+            <MiniAShape size={item.size} color={i % 2 === 0 ? AJIL_BLUE : AJIL_GOLD} strokeWidth={1.5} />
+          </motion.div>
+        ))}
+      </div>
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
@@ -198,31 +539,65 @@ export default function Services() {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.6 }}
         >
-          {/* Badge */}
+          {/* Badge with A shape */}
           <motion.div 
-            className="inline-flex items-center gap-2 bg-primary-50 text-primary-600 px-5 py-2 rounded-full text-sm font-semibold mb-6"
+            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full text-sm font-semibold mb-6"
+            style={{ backgroundColor: `${AJIL_BLUE}08`, color: AJIL_BLUE }}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.4, delay: 0.2 }}
           >
-            <IconLoanProducts size={16} />
+            <MiniAShape size={18} color={AJIL_GOLD} strokeWidth={2} />
             <span>{t('services.badge')}</span>
-            <AjilSymbol size={16} />
+            <Sparkles className="w-4 h-4" style={{ color: AJIL_GOLD }} />
           </motion.div>
 
-          {/* Title */}
-          <motion.h2 
-            className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6"
+          {/* Title with A accent */}
+          <motion.div
+            className="relative inline-block"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            {t('services.title')}
-          </motion.h2>
+            <h2 
+              className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-2"
+              style={{ color: AJIL_BLUE }}
+            >
+              {t('services.title')}
+            </h2>
+            {/* A-shaped underline */}
+            <svg 
+              className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-48 h-6"
+              viewBox="0 0 200 25"
+              preserveAspectRatio="none"
+            >
+              <motion.path
+                d="M0 20 L100 5 L200 20"
+                fill="none"
+                stroke={AJIL_GOLD}
+                strokeWidth="4"
+                strokeLinecap="round"
+                initial={{ pathLength: 0 }}
+                animate={isInView ? { pathLength: 1 } : { pathLength: 0 }}
+                transition={{ duration: 1, delay: 0.5 }}
+              />
+              <motion.path
+                d="M50 18 L100 8 L150 18"
+                fill="none"
+                stroke={AJIL_BLUE}
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeOpacity="0.3"
+                initial={{ pathLength: 0 }}
+                animate={isInView ? { pathLength: 1 } : { pathLength: 0 }}
+                transition={{ duration: 0.8, delay: 0.7 }}
+              />
+            </svg>
+          </motion.div>
 
           {/* Description */}
           <motion.p 
-            className="text-lg text-gray-500 leading-relaxed"
+            className="text-lg text-gray-500 leading-relaxed mt-8 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -232,49 +607,76 @@ export default function Services() {
         </motion.div>
 
         {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
           {services.map((service, index) => (
             <ServiceCard 
               key={service.key}
               service={service}
               index={index}
               dir={dir}
-              t={t}
+              language={language}
             />
           ))}
         </div>
 
-        {/* Additional Features */}
+        {/* Features Grid */}
         <motion.div 
-          className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          className="relative"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
-          {[
-            { label: language === 'ar' ? 'موافقة سريعة' : 'Quick Approval', Icon: AnimatedQuickApproval, color: 'text-emerald-600 bg-emerald-50', hoverBg: 'group-hover:bg-emerald-500', animDelay: 0 },
-            { label: language === 'ar' ? 'أقساط مرنة' : 'Flexible Payments', Icon: AnimatedFlexiblePayments, color: 'text-blue-600 bg-blue-50', hoverBg: 'group-hover:bg-blue-500', animDelay: 0.1 },
-            { label: language === 'ar' ? 'متوافق مع الشريعة' : 'Sharia Compliant', Icon: AnimatedShariaCompliant, color: 'text-violet-600 bg-violet-50', hoverBg: 'group-hover:bg-violet-500', animDelay: 0.2 },
-            { label: language === 'ar' ? 'خدمة على مدار الساعة' : '24/7 Service', Icon: AnimatedService247, color: 'text-amber-600 bg-amber-50', hoverBg: 'group-hover:bg-amber-500', animDelay: 0.3 },
-          ].map((feature, index) => (
+          {/* Features header */}
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-3">
+              <div className="h-[2px] w-12" style={{ backgroundColor: AJIL_GOLD }} />
+              <span className="text-sm font-bold uppercase tracking-wider" style={{ color: AJIL_BLUE }}>
+                {language === 'ar' ? 'مميزاتنا' : 'Our Features'}
+              </span>
+              <div className="h-[2px] w-12" style={{ backgroundColor: AJIL_GOLD }} />
+            </div>
+          </div>
+
+          {/* Features cards */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {features.map((feature, index) => (
+              <FeatureCard
+                key={index}
+                label={language === 'ar' ? feature.labelAr : feature.labelEn}
+                Icon={feature.Icon}
+                index={index}
+                isInView={isInView}
+              />
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Bottom CTA */}
+        <motion.div 
+          className="text-center mt-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, delay: 1 }}
+        >
+          <Link
+            href="/calculator"
+            className="group inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-lg text-white transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            style={{ 
+              backgroundColor: AJIL_BLUE,
+              boxShadow: `0 10px 30px ${AJIL_BLUE}30`
+            }}
+          >
+            <MiniAShape size={20} color="rgba(255,255,255,0.5)" strokeWidth={2} />
+            <span>{language === 'ar' ? 'احسب تمويلك الآن' : 'Calculate Your Financing'}</span>
             <motion.div
-              key={index}
-              className="flex flex-col items-center gap-4 p-6 bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 group cursor-pointer"
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.4, delay: 0.7 + index * 0.1 }}
-              whileHover={{ y: -8, scale: 1.02 }}
+              animate={{ x: [0, 5, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
             >
-              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center ${feature.color} ${feature.hoverBg} group-hover:text-white transition-all duration-300 shadow-sm`}>
-                <feature.Icon size={32} delay={feature.animDelay} />
-              </div>
-              <span className="text-sm font-bold text-gray-700 text-center group-hover:text-gray-900 transition-colors">{feature.label}</span>
+              {dir === 'rtl' ? <ArrowLeft className="w-5 h-5" /> : <ArrowRight className="w-5 h-5" />}
             </motion.div>
-          ))}
+          </Link>
         </motion.div>
       </div>
     </section>
   )
 }
-
-const language = 'ar' // Default for server-side rendering
