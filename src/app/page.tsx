@@ -2,6 +2,7 @@
 
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import PromoSlider from '@/components/sections/PromoSlider'
 import Hero from '@/components/sections/Hero'
 import Services from '@/components/sections/Services'
 import Offers from '@/components/sections/Offers'
@@ -14,6 +15,7 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <Header />
+      <PromoSlider />
       <Hero />
       <Services />
       <Offers />
