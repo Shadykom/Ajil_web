@@ -4,47 +4,24 @@ import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
 import Image from 'next/image'
-import { 
-  ChevronLeft, 
-  ChevronRight, 
-  ArrowLeft,
-  ArrowRight,
-} from 'lucide-react'
 import { IconLoanProducts, AjilSymbol } from '@/components/icons'
+
+// Import local images
+import Ajil1 from '@/Images/Ajil1.jpg'
+import Ajil2 from '@/Images/Ajil2.jpg'
 
 const offers = [
   {
     id: 1,
-    titleAr: 'عروض تمويل تويوتا',
-    titleEn: 'Toyota Financing Offers',
-    descAr: 'استمتع بعروض تمويل حصرية على جميع موديلات تويوتا الجديدة بدون دفعة أولى',
-    descEn: 'Enjoy exclusive financing offers on all new Toyota models with no down payment',
-    badgeAr: 'عرض محدود',
-    badgeEn: 'Limited Offer',
-    image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=1200&h=600&fit=crop',
-    gradient: 'from-blue-900/80 via-blue-900/60 to-transparent',
+    titleAr: 'عروض نهاية العام',
+    titleEn: 'Year End Offers',
+    image: Ajil1,
   },
   {
     id: 2,
-    titleAr: 'تمويل نقدي فوري',
-    titleEn: 'Instant Cash Financing',
-    descAr: 'احصل على تمويل نقدي يصل إلى 500,000 ريال بموافقة خلال دقائق',
-    descEn: 'Get cash financing up to 500,000 SAR with approval within minutes',
-    badgeAr: 'جديد',
-    badgeEn: 'New',
-    image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=1200&h=600&fit=crop',
-    gradient: 'from-emerald-900/80 via-emerald-900/60 to-transparent',
-  },
-  {
-    id: 3,
-    titleAr: 'عروض رمضان الخاصة',
-    titleEn: 'Ramadan Special Offers',
-    descAr: 'احتفل معنا بشهر رمضان المبارك مع عروض تمويل استثنائية وهدايا قيّمة',
-    descEn: 'Celebrate the holy month of Ramadan with exceptional financing offers and valuable gifts',
-    badgeAr: 'حصري',
-    badgeEn: 'Exclusive',
-    image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=1200&h=600&fit=crop',
-    gradient: 'from-amber-900/80 via-amber-900/60 to-transparent',
+    titleAr: 'عروض نهاية العام',
+    titleEn: 'Year End Offers',
+    image: Ajil2,
   },
 ]
 
@@ -52,17 +29,18 @@ export default function Offers() {
   const { t, language, dir } = useI18n()
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+  const [isHovered, setIsHovered] = useState(false)
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
 
   // Auto-play
   useEffect(() => {
-    if (!isAutoPlaying) return
+    if (!isAutoPlaying || isHovered) return
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % offers.length)
     }, 5000)
     return () => clearInterval(interval)
-  }, [isAutoPlaying])
+  }, [isAutoPlaying, isHovered])
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index)
@@ -78,24 +56,28 @@ export default function Offers() {
     goToSlide((currentSlide - 1 + offers.length) % offers.length)
   }
 
-  const ArrowIconForward = dir === 'rtl' ? ArrowLeft : ArrowRight
-
   return (
     <section 
       ref={sectionRef}
-      className="relative py-24 bg-white overflow-hidden"
+      className="relative py-20 bg-gradient-to-b from-gray-50 to-white overflow-hidden"
     >
-      <div className="container mx-auto px-4">
+      {/* Background Decorations */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary-500/5 rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-secondary-500/5 rounded-full blur-3xl" />
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
         <motion.div 
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="text-center max-w-3xl mx-auto mb-12"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.6 }}
         >
           {/* Badge */}
           <motion.div 
-            className="inline-flex items-center gap-2 bg-secondary-50 text-secondary-600 px-5 py-2 rounded-full text-sm font-semibold mb-6"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-primary-500/10 to-secondary-500/10 text-primary-600 px-5 py-2.5 rounded-full text-sm font-semibold mb-6 border border-primary-500/20"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.4, delay: 0.2 }}
@@ -107,7 +89,7 @@ export default function Offers() {
 
           {/* Title */}
           <motion.h2 
-            className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6"
+            className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -128,155 +110,145 @@ export default function Offers() {
 
         {/* Slider */}
         <motion.div 
-          className="relative"
+          className="relative max-w-6xl mx-auto"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.6, delay: 0.5 }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
           {/* Main Slider Container */}
-          <div className="relative rounded-3xl overflow-hidden shadow-2xl">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentSlide}
-                initial={{ opacity: 0, x: dir === 'rtl' ? -100 : 100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: dir === 'rtl' ? 100 : -100 }}
-                transition={{ duration: 0.5 }}
-                className="relative aspect-[21/9]"
-              >
-                {/* Image */}
-                <Image
-                  src={offers[currentSlide].image}
-                  alt={language === 'ar' ? offers[currentSlide].titleAr : offers[currentSlide].titleEn}
-                  fill
-                  className="object-cover"
-                  priority
+          <div className="relative group">
+            {/* Glow Effect */}
+            <div className="absolute -inset-4 bg-gradient-to-r from-primary-500/20 via-secondary-500/20 to-primary-500/20 rounded-[2rem] blur-2xl opacity-0 group-hover:opacity-60 transition-opacity duration-700" />
+            
+            {/* Slider Frame */}
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-gray-900/10">
+              {/* Image Slider */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentSlide}
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className="relative aspect-[21/9] md:aspect-[2.5/1]"
+                >
+                  <Image
+                    src={offers[currentSlide].image}
+                    alt={language === 'ar' ? offers[currentSlide].titleAr : offers[currentSlide].titleEn}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Side Navigation Buttons */}
+              <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4 md:px-6 pointer-events-none">
+                {/* Previous Button */}
+                <motion.button
+                  onClick={dir === 'rtl' ? nextSlide : prevSlide}
+                  className="pointer-events-auto w-12 h-12 md:w-14 md:h-14 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:bg-white group/btn"
+                  whileHover={{ x: -3 }}
+                  whileTap={{ scale: 0.95 }}
+                  aria-label="Previous slide"
+                >
+                  <svg 
+                    viewBox="0 0 24 24" 
+                    className="w-5 h-5 md:w-6 md:h-6 text-primary-600 group-hover/btn:text-primary-700 transition-colors"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M15 6 L9 12 L15 18" />
+                  </svg>
+                </motion.button>
+
+                {/* Next Button */}
+                <motion.button
+                  onClick={dir === 'rtl' ? prevSlide : nextSlide}
+                  className="pointer-events-auto w-12 h-12 md:w-14 md:h-14 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 hover:bg-white group/btn"
+                  whileHover={{ x: 3 }}
+                  whileTap={{ scale: 0.95 }}
+                  aria-label="Next slide"
+                >
+                  <svg 
+                    viewBox="0 0 24 24" 
+                    className="w-5 h-5 md:w-6 md:h-6 text-primary-600 group-hover/btn:text-primary-700 transition-colors"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M9 6 L15 12 L9 18" />
+                  </svg>
+                </motion.button>
+              </div>
+
+              {/* Bottom Floating Navigation */}
+              <div className="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 z-20">
+                <motion.div 
+                  className="flex items-center gap-2 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-full shadow-xl border border-white/50"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  {/* Slide Indicators */}
+                  <div className="flex items-center gap-2">
+                    {offers.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => goToSlide(index)}
+                        className="relative group/dot"
+                        aria-label={`Go to slide ${index + 1}`}
+                      >
+                        <motion.div
+                          className={`h-2.5 rounded-full transition-all duration-500 ${
+                            index === currentSlide
+                              ? 'w-8 bg-gradient-to-r from-primary-500 to-primary-600'
+                              : 'w-2.5 bg-gray-300 hover:bg-gray-400'
+                          }`}
+                          layoutId="activeIndicator"
+                        />
+                        {index === currentSlide && (
+                          <motion.div
+                            className="absolute inset-0 rounded-full bg-primary-400/50"
+                            initial={{ scale: 1 }}
+                            animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                          />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                  
+                  {/* Divider */}
+                  <div className="w-px h-5 bg-gray-200 mx-2" />
+                  
+                  {/* Slide Counter */}
+                  <div className="flex items-center gap-1.5 text-sm font-semibold">
+                    <span className="text-primary-600">{currentSlide + 1}</span>
+                    <span className="text-gray-400">/</span>
+                    <span className="text-gray-500">{offers.length}</span>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Progress Bar */}
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/10">
+                <motion.div
+                  className="h-full bg-gradient-to-r from-primary-500 to-secondary-500"
+                  initial={{ width: '0%' }}
+                  animate={{ width: '100%' }}
+                  transition={{ duration: 5, ease: 'linear' }}
+                  key={currentSlide}
                 />
-                
-                {/* Gradient Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-t ${offers[currentSlide].gradient}`} />
-                
-                {/* Content */}
-                <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12">
-                  {/* Badge */}
-                  <motion.span
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="inline-block w-fit bg-secondary-500 text-white px-4 py-1.5 rounded-lg text-sm font-bold mb-4"
-                  >
-                    {language === 'ar' ? offers[currentSlide].badgeAr : offers[currentSlide].badgeEn}
-                  </motion.span>
-
-                  {/* Title */}
-                  <motion.h3
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4 max-w-2xl"
-                  >
-                    {language === 'ar' ? offers[currentSlide].titleAr : offers[currentSlide].titleEn}
-                  </motion.h3>
-
-                  {/* Description */}
-                  <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
-                    className="text-lg text-white/80 mb-6 max-w-xl"
-                  >
-                    {language === 'ar' ? offers[currentSlide].descAr : offers[currentSlide].descEn}
-                  </motion.p>
-
-                  {/* CTA Button */}
-                  <motion.a
-                    href="/apply"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="inline-flex items-center gap-2 bg-secondary-500 hover:bg-secondary-600 text-white px-8 py-4 rounded-xl font-bold text-lg w-fit transition-colors duration-300 group"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <span>{t('offers.discover_btn')}</span>
-                    <ArrowIconForward className="w-5 h-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
-                  </motion.a>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Navigation Arrows */}
-            <button
-              onClick={dir === 'rtl' ? nextSlide : prevSlide}
-              className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 z-10"
-              aria-label="Previous slide"
-            >
-              <ChevronRight className="w-6 h-6 text-gray-800" />
-            </button>
-            <button
-              onClick={dir === 'rtl' ? prevSlide : nextSlide}
-              className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 z-10"
-              aria-label="Next slide"
-            >
-              <ChevronLeft className="w-6 h-6 text-gray-800" />
-            </button>
-
-            {/* Progress Bar */}
-            <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
-              <motion.div
-                className="h-full bg-secondary-500"
-                initial={{ width: '0%' }}
-                animate={{ width: '100%' }}
-                transition={{ duration: 5, ease: 'linear' }}
-                key={currentSlide}
-              />
+              </div>
             </div>
-          </div>
-
-          {/* Dots Navigation */}
-          <div className="flex justify-center gap-3 mt-8">
-            {offers.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`transition-all duration-300 ${
-                  index === currentSlide
-                    ? 'w-10 h-3 bg-primary-500 rounded-full'
-                    : 'w-3 h-3 bg-gray-300 hover:bg-gray-400 rounded-full'
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-
-          {/* Thumbnails */}
-          <div className="hidden md:grid grid-cols-3 gap-4 mt-8">
-            {offers.map((offer, index) => (
-              <motion.button
-                key={offer.id}
-                onClick={() => goToSlide(index)}
-                className={`relative rounded-xl overflow-hidden aspect-video group ${
-                  index === currentSlide ? 'ring-2 ring-primary-500 ring-offset-4' : ''
-                }`}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Image
-                  src={offer.image}
-                  alt={language === 'ar' ? offer.titleAr : offer.titleEn}
-                  fill
-                  className="object-cover"
-                />
-                <div className={`absolute inset-0 bg-black/40 ${
-                  index === currentSlide ? 'bg-black/20' : 'group-hover:bg-black/30'
-                } transition-colors duration-300`} />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-white font-bold text-sm md:text-base text-center px-4">
-                    {language === 'ar' ? offer.titleAr : offer.titleEn}
-                  </span>
-                </div>
-              </motion.button>
-            ))}
           </div>
         </motion.div>
       </div>
