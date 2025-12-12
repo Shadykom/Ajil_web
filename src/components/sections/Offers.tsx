@@ -5,8 +5,6 @@ import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { useI18n } from '@/lib/i18n'
 import Image from 'next/image'
 import { 
-  ChevronLeft, 
-  ChevronRight, 
   ArrowLeft,
   ArrowRight,
 } from 'lucide-react'
@@ -205,21 +203,69 @@ export default function Offers() {
               </motion.div>
             </AnimatePresence>
 
-            {/* Navigation Arrows */}
-            <button
-              onClick={dir === 'rtl' ? nextSlide : prevSlide}
-              className="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 z-10"
-              aria-label="Previous slide"
-            >
-              <ChevronRight className="w-6 h-6 text-gray-800" />
-            </button>
-            <button
-              onClick={dir === 'rtl' ? prevSlide : nextSlide}
-              className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 z-10"
-              aria-label="Next slide"
-            >
-              <ChevronLeft className="w-6 h-6 text-gray-800" />
-            </button>
+            {/* A-Shape Navigation */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-20">
+              <div className="relative">
+                {/* A-Shape White Background */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <svg 
+                    viewBox="0 0 180 80" 
+                    className="w-44 h-20"
+                    fill="none"
+                  >
+                    <path 
+                      d="M90 0 L180 80 L0 80 Z" 
+                      fill="white"
+                      className="drop-shadow-lg"
+                    />
+                  </svg>
+                </div>
+                
+                {/* Navigation Controls */}
+                <div className="relative flex items-center gap-6 px-8 py-4 pt-6">
+                  {/* Previous Arrow */}
+                  <button
+                    onClick={dir === 'rtl' ? nextSlide : prevSlide}
+                    className="group transition-all duration-300 hover:scale-110"
+                    aria-label="Previous slide"
+                  >
+                    <svg 
+                      viewBox="0 0 24 24" 
+                      className="w-6 h-6 text-secondary-500 group-hover:text-secondary-600 transition-colors"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="square"
+                    >
+                      <path d="M15 6 L9 12 L15 18" />
+                    </svg>
+                  </button>
+                  
+                  {/* Slide Number */}
+                  <span className="text-xl font-bold text-secondary-500 min-w-[24px] text-center">
+                    {currentSlide + 1}
+                  </span>
+                  
+                  {/* Next Arrow */}
+                  <button
+                    onClick={dir === 'rtl' ? prevSlide : nextSlide}
+                    className="group transition-all duration-300 hover:scale-110"
+                    aria-label="Next slide"
+                  >
+                    <svg 
+                      viewBox="0 0 24 24" 
+                      className="w-6 h-6 text-secondary-500 group-hover:text-secondary-600 transition-colors"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="square"
+                    >
+                      <path d="M9 6 L15 12 L9 18" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
 
             {/* Progress Bar */}
             <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
