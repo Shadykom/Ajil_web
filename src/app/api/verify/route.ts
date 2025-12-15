@@ -6,32 +6,64 @@ type VerifyStatus = 'approved' | 'pending' | 'revoked' | 'expired' | 'invalid' |
 
 type Candidate = {
   table: string
-  tokenColumn: string
-  statusColumn?: string
+  tokenColumns: string[]
+  statusColumns?: string[]
   approvedValues?: string[]
   revokedValues?: string[]
   suspendedValues?: string[]
-  expiresAtColumn?: string
-  revokedAtColumn?: string
-  suspendedAtColumn?: string
-  activeColumn?: string
-  approvedAtColumn?: string
-  idColumn?: string
+  expiresAtColumns?: string[]
+  revokedAtColumns?: string[]
+  suspendedAtColumns?: string[]
+  activeColumns?: string[]
+  approvedAtColumns?: string[]
+  idColumns?: string[]
 }
 
 function getCandidatesFromEnv(): Candidate[] {
   const table = process.env.VERIFICATION_TABLE?.trim()
-  const tokenColumn = process.env.VERIFICATION_TOKEN_COLUMN?.trim()
-  if (table && tokenColumn) {
+  const tokenColumnsRaw =
+    process.env.VERIFICATION_TOKEN_COLUMNS?.trim() || process.env.VERIFICATION_TOKEN_COLUMN?.trim() || ''
+
+  const tokenColumns = tokenColumnsRaw
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+
+  if (table && tokenColumns.length) {
     return [
       {
         table,
-        tokenColumn,
-        statusColumn: process.env.VERIFICATION_STATUS_COLUMN?.trim() || undefined,
-        expiresAtColumn: process.env.VERIFICATION_EXPIRES_AT_COLUMN?.trim() || undefined,
-        activeColumn: process.env.VERIFICATION_ACTIVE_COLUMN?.trim() || undefined,
-        approvedAtColumn: process.env.VERIFICATION_APPROVED_AT_COLUMN?.trim() || undefined,
-        idColumn: process.env.VERIFICATION_ID_COLUMN?.trim() || undefined,
+        tokenColumns,
+        statusColumns: (process.env.VERIFICATION_STATUS_COLUMNS?.trim() ||
+          process.env.VERIFICATION_STATUS_COLUMN?.trim() ||
+          '')
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean),
+        expiresAtColumns: (process.env.VERIFICATION_EXPIRES_AT_COLUMNS?.trim() ||
+          process.env.VERIFICATION_EXPIRES_AT_COLUMN?.trim() ||
+          '')
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean),
+        activeColumns: (process.env.VERIFICATION_ACTIVE_COLUMNS?.trim() ||
+          process.env.VERIFICATION_ACTIVE_COLUMN?.trim() ||
+          '')
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean),
+        approvedAtColumns: (process.env.VERIFICATION_APPROVED_AT_COLUMNS?.trim() ||
+          process.env.VERIFICATION_APPROVED_AT_COLUMN?.trim() ||
+          '')
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean),
+        idColumns: (process.env.VERIFICATION_ID_COLUMNS?.trim() ||
+          process.env.VERIFICATION_ID_COLUMN?.trim() ||
+          '')
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean),
         approvedValues: (process.env.VERIFICATION_APPROVED_VALUES || '')
           .split(',')
           .map((s) => s.trim())
@@ -51,42 +83,40 @@ function getCandidatesFromEnv(): Candidate[] {
 }
 
 function defaultCandidates(): Candidate[] {
+  const common: Omit<Candidate, 'table'> = {
+    tokenColumns: ['token', 'qr_token', 'verification_token', 'public_token', 'code', 'reference', 'uuid', 'id'],
+    statusColumns: ['status', 'license_status', 'state'],
+    approvedValues: ['approved', 'active', 'valid'],
+    revokedValues: ['revoked'],
+    suspendedValues: ['suspended'],
+    expiresAtColumns: ['expires_at', 'expires_on', 'expiry_date', 'valid_until', 'valid_to', 'end_date'],
+    revokedAtColumns: ['revoked_at'],
+    suspendedAtColumns: ['suspended_at'],
+    activeColumns: ['is_active', 'active', 'enabled'],
+    approvedAtColumns: ['approved_at', 'activated_at', 'issued_at'],
+    idColumns: ['id', 'license_id'],
+  }
+
   return [
     {
       table: 'licenses',
-      tokenColumn: 'token',
-      statusColumn: 'status',
-      approvedValues: ['approved', 'active', 'valid'],
-      revokedValues: ['revoked'],
-      suspendedValues: ['suspended'],
-      expiresAtColumn: 'expires_at',
-      activeColumn: 'is_active',
-      approvedAtColumn: 'approved_at',
-      idColumn: 'id',
+      ...common,
     },
     {
       table: 'license_verifications',
-      tokenColumn: 'token',
-      statusColumn: 'status',
-      approvedValues: ['approved', 'active', 'valid'],
-      revokedValues: ['revoked'],
-      suspendedValues: ['suspended'],
-      expiresAtColumn: 'expires_at',
-      revokedAtColumn: 'revoked_at',
-      suspendedAtColumn: 'suspended_at',
-      approvedAtColumn: 'approved_at',
-      idColumn: 'id',
+      ...common,
     },
     {
       table: 'verification_tokens',
-      tokenColumn: 'token',
-      statusColumn: 'status',
-      approvedValues: ['approved', 'active', 'valid'],
-      revokedValues: ['revoked'],
-      suspendedValues: ['suspended'],
-      expiresAtColumn: 'expires_at',
-      idColumn: 'id',
+      ...common,
     },
+    // Tables commonly found in license-based apps (matching your Supabase list)
+    { table: 'active_licenses', ...common },
+    { table: 'user_renewable_licenses', ...common },
+    { table: 'vehicle_licenses', ...common },
+    { table: 'vehicle_wrapping_licenses', ...common },
+    { table: 'advertisement_licenses', ...common },
+    { table: 'vertical_signs_licenses', ...common },
   ]
 }
 
@@ -107,22 +137,30 @@ function isTruthy(value: unknown): boolean {
   return false
 }
 
+function firstColumnValue(row: Record<string, unknown>, columns?: string[]): unknown {
+  if (!columns?.length) return undefined
+  for (const c of columns) {
+    if (Object.prototype.hasOwnProperty.call(row, c)) return row[c]
+  }
+  return undefined
+}
+
 function deriveStatus(row: Record<string, unknown>, c: Candidate): VerifyStatus {
   const now = new Date()
 
-  const expiresAt = c.expiresAtColumn ? asDate(row[c.expiresAtColumn]) : null
+  const expiresAt = asDate(firstColumnValue(row, c.expiresAtColumns))
   if (expiresAt && expiresAt.getTime() < now.getTime()) return 'expired'
 
-  const revokedAt = c.revokedAtColumn ? asDate(row[c.revokedAtColumn]) : null
+  const revokedAt = asDate(firstColumnValue(row, c.revokedAtColumns))
   if (revokedAt) return 'revoked'
 
-  const suspendedAt = c.suspendedAtColumn ? asDate(row[c.suspendedAtColumn]) : null
+  const suspendedAt = asDate(firstColumnValue(row, c.suspendedAtColumns))
   if (suspendedAt) return 'revoked'
 
-  const active = c.activeColumn ? row[c.activeColumn] : undefined
+  const active = firstColumnValue(row, c.activeColumns)
   if (typeof active !== 'undefined' && !isTruthy(active)) return 'revoked'
 
-  const statusRaw = c.statusColumn ? row[c.statusColumn] : undefined
+  const statusRaw = firstColumnValue(row, c.statusColumns)
   const status = typeof statusRaw === 'string' ? statusRaw.toLowerCase().trim() : ''
 
   if (status) {
@@ -141,15 +179,15 @@ function deriveStatus(row: Record<string, unknown>, c: Candidate): VerifyStatus 
     return 'pending'
   }
 
-  const approvedAt = c.approvedAtColumn ? asDate(row[c.approvedAtColumn]) : null
+  const approvedAt = asDate(firstColumnValue(row, c.approvedAtColumns))
   if (approvedAt) return 'approved'
 
   return 'pending'
 }
 
 function pickReference(row: Record<string, unknown>, c: Candidate): string | undefined {
-  const idCol = c.idColumn
-  if (idCol && typeof row[idCol] !== 'undefined') return String(row[idCol])
+  const idColValue = firstColumnValue(row, c.idColumns)
+  if (typeof idColValue !== 'undefined') return String(idColValue)
   if (typeof row.id !== 'undefined') return String(row.id)
   if (typeof row.license_id !== 'undefined') return String(row.license_id)
   if (typeof row.reference !== 'undefined') return String(row.reference)
@@ -184,42 +222,47 @@ export async function GET(request: Request) {
   let lastError: unknown = null
   for (const c of candidates) {
     try {
-      const { data, error } = await supabase
-        .from(c.table)
-        // Don't select everything to reduce accidental exposure.
-        .select('*')
-        .eq(c.tokenColumn, token)
-        .limit(1)
-        .maybeSingle()
+      // Try each possible token column for this table.
+      for (const tokenColumn of c.tokenColumns) {
+        const { data, error } = await supabase
+          .from(c.table)
+          // We keep select('*') since we don't know schema; response is still limited to one row.
+          .select('*')
+          .eq(tokenColumn, token)
+          .limit(1)
+          .maybeSingle()
 
-      if (error) {
-        // If this table doesn't exist (common when not configured), try next.
-        const msg = String((error as any)?.message || error)
-        if (
-          /does not exist/i.test(msg) ||
-          /relation .* does not exist/i.test(msg) ||
-          /schema cache/i.test(msg)
-        ) {
+        if (error) {
+          // If this table doesn't exist or column is missing, try next.
+          const msg = String((error as any)?.message || error)
+          if (
+            /does not exist/i.test(msg) ||
+            /relation .* does not exist/i.test(msg) ||
+            /schema cache/i.test(msg) ||
+            /column .* does not exist/i.test(msg) ||
+            /could not find the .* column/i.test(msg)
+          ) {
+            lastError = error
+            continue
+          }
+
+          // If anonymous key cannot read because of RLS, this will likely fail.
           lastError = error
           continue
         }
 
-        // If anonymous key cannot read because of RLS, this will likely fail.
-        lastError = error
-        continue
+        if (!data) continue
+
+        const row = data as unknown as Record<string, unknown>
+        const status = deriveStatus(row, c)
+
+        return NextResponse.json({
+          ok: true,
+          status,
+          reference: pickReference(row, c),
+          usingServiceRole: hasServiceRoleKey(),
+        })
       }
-
-      if (!data) continue
-
-      const row = data as unknown as Record<string, unknown>
-      const status = deriveStatus(row, c)
-
-      return NextResponse.json({
-        ok: true,
-        status,
-        reference: pickReference(row, c),
-        usingServiceRole: hasServiceRoleKey(),
-      })
     } catch (e) {
       lastError = e
     }
