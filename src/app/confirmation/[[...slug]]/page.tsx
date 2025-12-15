@@ -1,12 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import PageHero from '@/components/shared/PageHero'
 import { AShapeSection, AShapeCard, AJIL_BLUE } from '@/components/shared/PageStyles'
 import { useI18n } from '@/lib/i18n'
-import { CheckCircle2, FileText, Home, Info, ShieldCheck } from 'lucide-react'
+import { normalizeVerificationToken } from '@/lib/verification'
+import { AlertTriangle, CheckCircle2, Clock, FileText, Home, Info, ShieldAlert, ShieldCheck } from 'lucide-react'
 
 type ConfirmationPageProps = {
   params?: { slug?: string[] }
@@ -32,14 +33,17 @@ export default function ConfirmationPage({ params, searchParams }: ConfirmationP
   const slug = params?.slug?.filter(Boolean) ?? []
   const sp = useMemo(() => normalizeSearchParams(searchParams), [searchParams])
 
-  const reference =
+  const rawReference =
+    sp.token ||
+    sp.t ||
     sp.reference ||
     sp.ref ||
     sp.id ||
-    sp.token ||
     sp.contractId ||
     sp.licenseId ||
     (slug.length ? slug.join('/') : '')
+
+  const reference = useMemo(() => normalizeVerificationToken(rawReference), [rawReference])
 
   const docType = (sp.type || sp.doc || (slug[0] ?? '')).toLowerCase()
   const docTypeLabel =
@@ -54,6 +58,59 @@ export default function ConfirmationPage({ params, searchParams }: ConfirmationP
         : language === 'ar'
           ? 'مستند'
           : 'Document'
+
+  const [loading, setLoading] = useState(false)
+  const [verify, setVerify] = useState<{
+    ok: boolean
+    status: 'approved' | 'pending' | 'revoked' | 'expired' | 'invalid' | 'error'
+    reason?: string
+    message?: string
+    reference?: string
+  } | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    async function run() {
+      if (!reference) {
+        setVerify({
+          ok: false,
+          status: 'invalid',
+          reason: 'missing_token',
+        })
+        return
+      }
+
+      setLoading(true)
+      try {
+        const res = await fetch(`/api/verify?token=${encodeURIComponent(reference)}`, {
+          method: 'GET',
+          headers: { Accept: 'application/json' },
+          cache: 'no-store',
+        })
+        const json = (await res.json()) as any
+        if (!cancelled) setVerify(json)
+      } catch (e) {
+        if (!cancelled) {
+          setVerify({
+            ok: false,
+            status: 'error',
+            reason: 'network_or_server_error',
+            message: e instanceof Error ? e.message : 'Unknown error',
+          })
+        }
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    }
+    run()
+    return () => {
+      cancelled = true
+    }
+  }, [reference])
+
+  const status = verify?.status
+  const isApproved = status === 'approved'
+  const StatusIcon = isApproved ? CheckCircle2 : status === 'pending' ? Clock : ShieldAlert
 
   return (
     <main className="min-h-screen" dir={dir}>
@@ -76,17 +133,27 @@ export default function ConfirmationPage({ params, searchParams }: ConfirmationP
                   className="shrink-0 rounded-2xl p-3"
                   style={{ backgroundColor: `${AJIL_BLUE}0D` }}
                 >
-                  <CheckCircle2 className="w-7 h-7" style={{ color: AJIL_BLUE }} />
+                  <StatusIcon className="w-7 h-7" style={{ color: AJIL_BLUE }} />
                 </div>
 
                 <div className="flex-1">
                   <h2 className="text-xl md:text-2xl font-extrabold text-gray-900 mb-2">
-                    {language === 'ar' ? 'تم فتح صفحة التأكيد بنجاح' : 'Confirmation page opened'}
+                    {loading
+                      ? language === 'ar'
+                        ? 'جارٍ التحقق...'
+                        : 'Verifying...'
+                      : isApproved
+                        ? language === 'ar'
+                          ? 'تم التحقق: صالح'
+                          : 'Verified: valid'
+                        : language === 'ar'
+                          ? 'تعذر التحقق'
+                          : 'Verification failed'}
                   </h2>
                   <p className="text-gray-600 leading-relaxed">
                     {language === 'ar'
-                      ? 'إذا كنت تمسح رمز QR من عقد أو ترخيص، يجب أن ترى هنا بيانات المرجع. إذا لم تظهر البيانات، فقد يكون الرابط غير مكتمل أو تم نسخه بشكل خاطئ.'
-                      : 'If you scanned a QR from a contract or license, you should see a reference below. If not, the QR link may be incomplete or copied incorrectly.'}
+                      ? 'امسح رمز QR مرة أخرى إذا كانت الكاميرا/التطبيق يغير الرابط. هذه الصفحة تتحقق من حالة الترخيص/المستند بناءً على الرمز.'
+                      : 'Re-scan if the scanner app alters the URL. This page verifies the license/document status based on the token.'}
                   </p>
                 </div>
               </div>
@@ -113,13 +180,76 @@ export default function ConfirmationPage({ params, searchParams }: ConfirmationP
                   </div>
                 </div>
 
-                <div className="rounded-xl border border-amber-100 bg-amber-50 p-4">
+                {loading ? (
+                  <div className="rounded-xl border border-blue-100 bg-blue-50 p-4">
+                    <div className="flex items-start gap-2">
+                      <Clock className="w-4 h-4 mt-0.5 text-blue-700" />
+                      <p className="text-sm text-blue-900 leading-relaxed">
+                        {language === 'ar'
+                          ? 'جارٍ التحقق من حالة الترخيص...'
+                          : 'Checking license status...'}
+                      </p>
+                    </div>
+                  </div>
+                ) : isApproved ? (
+                  <div className="rounded-xl border border-emerald-100 bg-emerald-50 p-4">
+                    <div className="flex items-start gap-2">
+                      <CheckCircle2 className="w-4 h-4 mt-0.5 text-emerald-700" />
+                      <p className="text-sm text-emerald-900 leading-relaxed">
+                        {language === 'ar'
+                          ? 'الترخيص/المستند صالح.'
+                          : 'This license/document is valid.'}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="rounded-xl border border-amber-100 bg-amber-50 p-4">
+                    <div className="flex items-start gap-2">
+                      <AlertTriangle className="w-4 h-4 mt-0.5 text-amber-700" />
+                      <div className="text-sm text-amber-900 leading-relaxed">
+                        <p className="font-bold mb-2">
+                          {language === 'ar' ? 'أسباب محتملة:' : 'Possible reasons:'}
+                        </p>
+                        <ul className="list-disc pl-5 space-y-1">
+                          <li>
+                            {language === 'ar'
+                              ? 'الرابط/الرمز غير صحيح أو تم تغييره أثناء المسح.'
+                              : 'Incorrect QR code or token (scanner altered the URL).'}
+                          </li>
+                          <li>
+                            {language === 'ar'
+                              ? 'الرابط انتهت صلاحيته (Expired).'
+                              : 'Invalid or expired verification link.'}
+                          </li>
+                          <li>
+                            {language === 'ar'
+                              ? 'الترخيص لم تتم الموافقة عليه بعد (Pending).'
+                              : 'License not yet approved.'}
+                          </li>
+                          <li>
+                            {language === 'ar'
+                              ? 'الترخيص تم سحبه أو تعليقه (Revoked/Suspended).'
+                              : 'License has been revoked or suspended.'}
+                          </li>
+                        </ul>
+                        {verify?.reason ? (
+                          <p className="mt-3 text-xs text-amber-800">
+                            {language === 'ar' ? 'تفاصيل فنية: ' : 'Technical detail: '}
+                            <span className="font-mono">{verify.reason}</span>
+                          </p>
+                        ) : null}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="rounded-xl border border-gray-100 bg-gray-50 p-4">
                   <div className="flex items-start gap-2">
-                    <Info className="w-4 h-4 mt-0.5 text-amber-700" />
-                    <p className="text-sm text-amber-900 leading-relaxed">
+                    <Info className="w-4 h-4 mt-0.5 text-gray-600" />
+                    <p className="text-sm text-gray-700 leading-relaxed">
                       {language === 'ar'
-                        ? 'ملاحظة: هذه الصفحة تمنع خطأ 404 عند مسح رموز QR. إذا كان المطلوب هو “تحقق فعلي” من العقد/الترخيص (مثلاً عبر رقم عقد أو رمز تحقق)، يلزم ربط هذه الصفحة بقاعدة البيانات/النظام المصدر الذي يصدر العقود.'
-                        : 'Note: This page prevents 404s when scanning QR codes. If you need real verification (e.g., validate a contract/license by ID or token), we’ll need to connect this page to the system that issues those documents.'}
+                        ? 'إذا كانت الحالة “خطأ” فغالباً يلزم ضبط إعدادات التحقق (جدول/أعمدة قاعدة البيانات) أو توفير مفتاح خدمة Supabase على الخادم.'
+                        : 'If the status shows “error”, verification likely needs configuration (table/columns) or a Supabase service role key on the server.'}
                     </p>
                   </div>
                 </div>

@@ -1,0 +1,23 @@
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const serviceRoleKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY ||
+  process.env.SUPABASE_SERVICE_KEY ||
+  process.env.SUPABASE_SERVICE_ROLE ||
+  ''
+const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+
+export function getSupabaseServerClient() {
+  // Prefer service role (server-side only) so verification can work
+  // even when RLS blocks anonymous reads.
+  const key = serviceRoleKey || anonKey
+  return createClient(supabaseUrl, key, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  })
+}
+
+export function hasServiceRoleKey() {
+  return Boolean(serviceRoleKey)
+}
+
