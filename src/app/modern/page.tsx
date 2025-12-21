@@ -1262,20 +1262,20 @@ function ModernHeader() {
                   {item.href ? (
                     <Link
                       href={item.href}
-                      className="flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300"
+                      className="flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300 hover:opacity-80"
                       style={{ 
-                        color: isScrolled ? '#00377B' : '#F7941D',
-                        textShadow: isScrolled ? 'none' : '0 2px 4px rgba(0,0,0,0.5)'
+                        color: isScrolled ? '#00377B' : '#FFB347',
+                        textShadow: isScrolled ? 'none' : '1px 1px 3px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.3)'
                       }}
                     >
                       <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
                     </Link>
                   ) : (
                     <button
-                      className="flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300"
+                      className="flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300 hover:opacity-80"
                       style={{ 
-                        color: isScrolled ? '#00377B' : '#F7941D',
-                        textShadow: isScrolled ? 'none' : '0 2px 4px rgba(0,0,0,0.5)'
+                        color: isScrolled ? '#00377B' : '#FFB347',
+                        textShadow: isScrolled ? 'none' : '1px 1px 3px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.3)'
                       }}
                     >
                       <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
