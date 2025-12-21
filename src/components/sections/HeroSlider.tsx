@@ -336,7 +336,9 @@ export default function HeroSlider() {
   const { language, dir } = useI18n()
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+  const [videoLoaded, setVideoLoaded] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % slides.length)
@@ -405,16 +407,38 @@ export default function HeroSlider() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
-            {/* AJIL Branded Background */}
-            <div 
-              className="absolute inset-0"
-              style={{
-                background: `linear-gradient(135deg, ${AJIL_BLUE} 0%, ${AJIL_BLUE_LIGHT} 50%, ${AJIL_BLUE} 100%)`,
-              }}
-            />
+            {/* Video Background */}
+            <div className="absolute inset-0">
+              {/* Fallback gradient background (shows while video loads or if video fails) */}
+              <div 
+                className={`absolute inset-0 transition-opacity duration-1000 ${videoLoaded ? 'opacity-0' : 'opacity-100'}`}
+                style={{
+                  background: `linear-gradient(135deg, ${AJIL_BLUE} 0%, ${AJIL_BLUE_LIGHT} 50%, ${AJIL_BLUE} 100%)`,
+                }}
+              />
+              
+              {/* Background Video */}
+              <video
+                ref={videoRef}
+                autoPlay
+                muted
+                loop
+                playsInline
+                onLoadedData={() => setVideoLoaded(true)}
+                className="absolute inset-0 w-full h-full object-cover"
+                poster="/videos/hero-poster.jpg"
+              >
+                {/* Add your video source here - supports multiple formats for browser compatibility */}
+                <source src="/videos/hero-video.mp4" type="video/mp4" />
+                <source src="/videos/hero-video.webm" type="video/webm" />
+              </video>
+              
+              {/* Dark overlay for text readability */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60" />
+            </div>
             
             {/* Decorative Elements */}
-            <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
               {/* Large A shapes */}
               <motion.div 
                 className="absolute -top-20 -right-20 md:top-0 md:right-0"
@@ -455,18 +479,6 @@ export default function HeroSlider() {
               <div 
                 className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-20 blur-3xl"
                 style={{ background: `radial-gradient(circle, ${AJIL_GOLD}30 0%, transparent 70%)` }}
-              />
-              
-              {/* Grid pattern */}
-              <div 
-                className="absolute inset-0 opacity-[0.03]"
-                style={{
-                  backgroundImage: `
-                    linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
-                  `,
-                  backgroundSize: '50px 50px',
-                }}
               />
             </div>
 
