@@ -1264,11 +1264,8 @@ function ModernHeader() {
                       href={item.href}
                       className={cn(
                         "flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300 hover:opacity-80",
-                        isScrolled ? "text-[#00377B]" : "text-[#FFB347]"
+                        isScrolled ? "text-[#00377B]" : "text-[#F7941D]"
                       )}
-                      style={{ 
-                        textShadow: isScrolled ? 'none' : '0 0 8px rgba(247,148,29,0.6), 0 0 16px rgba(247,148,29,0.4), 1px 1px 2px rgba(0,0,0,0.5)'
-                      }}
                     >
                       <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
                     </Link>
@@ -1276,11 +1273,8 @@ function ModernHeader() {
                     <button
                       className={cn(
                         "flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300 hover:opacity-80",
-                        isScrolled ? "text-[#00377B]" : "text-[#FFB347]"
+                        isScrolled ? "text-[#00377B]" : "text-[#F7941D]"
                       )}
-                      style={{ 
-                        textShadow: isScrolled ? 'none' : '0 0 8px rgba(247,148,29,0.6), 0 0 16px rgba(247,148,29,0.4), 1px 1px 2px rgba(0,0,0,0.5)'
-                      }}
                     >
                       <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
                       <ChevronDown 
