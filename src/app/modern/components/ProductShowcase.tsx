@@ -18,6 +18,14 @@ import {
   Shield,
   Percent,
 } from 'lucide-react';
+import {
+  AnimatedCarFinancing,
+  AnimatedPersonalFinancing,
+  AnimatedBusinessFinancing,
+  IconCarFinancing,
+  IconPersonalFinancing,
+  IconBusinessFinancing,
+} from '@/components/icons';
 
 interface Product {
   id: string;
@@ -48,8 +56,9 @@ const products: Product[] = [
     descriptionEn: 'Get your dream car with comfortable, flexible installments that fit your budget',
     featuresAr: ['موافقة سريعة خلال 24 ساعة', 'تأمين شامل مجاني', 'خدمة التوصيل للمنزل'],
     featuresEn: ['Quick approval within 24 hours', 'Free comprehensive insurance', 'Home delivery service'],
-    image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&q=80',
-    video: 'https://cdn.coverr.co/videos/coverr-driving-a-car-on-a-highway-8442/1080p.mp4',
+    // Real luxury car - Toyota Land Cruiser / Premium sedan popular in Saudi
+    image: 'https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=1200&q=80',
+    video: 'https://cdn.coverr.co/videos/coverr-driving-through-city-at-night-4405/1080p.mp4',
     color: '#0066B3',
     gradient: 'from-[#0066B3] to-[#00377B]',
     href: '/individuals/car-financing',
@@ -66,7 +75,8 @@ const products: Product[] = [
     descriptionEn: 'Achieve your financial goals with quick personal financing without guarantees',
     featuresAr: ['بدون كفيل أو ضمانات', 'صرف فوري للمبلغ', 'أقساط ثابتة طوال المدة'],
     featuresEn: ['No guarantor or collateral', 'Instant disbursement', 'Fixed installments throughout'],
-    image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&q=80',
+    // Saudi professional/family lifestyle
+    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=1200&q=80',
     color: '#F7941D',
     gradient: 'from-[#F7941D] to-[#E5850A]',
     href: '/individuals/personal-financing',
@@ -83,7 +93,8 @@ const products: Product[] = [
     descriptionEn: 'Grow your business with financing solutions designed specifically for your needs',
     featuresAr: ['حلول مخصصة للشركات', 'فترات سداد مرنة', 'دعم متخصص للأعمال'],
     featuresEn: ['Custom solutions for companies', 'Flexible repayment periods', 'Dedicated business support'],
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80',
+    // Modern Saudi business district - Riyadh style
+    image: 'https://images.unsplash.com/photo-1565623006220-9f9e61fa4e3f?w=1200&q=80',
     color: '#00377B',
     gradient: 'from-[#00377B] to-[#001D40]',
     href: '/business/cash-financing',
@@ -100,6 +111,7 @@ const products: Product[] = [
     descriptionEn: 'Get the heavy equipment you need to expand your business',
     featuresAr: ['تمويل جميع أنواع المعدات', 'شروط ميسرة', 'تأمين شامل على المعدات'],
     featuresEn: ['Finance all types of equipment', 'Easy terms', 'Comprehensive equipment insurance'],
+    // Heavy equipment / construction
     image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&q=80',
     color: '#4DA3E0',
     gradient: 'from-[#4DA3E0] to-[#0066B3]',
@@ -151,7 +163,7 @@ export default function ProductShowcase() {
           </p>
         </motion.div>
 
-        {/* Product Tabs */}
+        {/* Product Tabs - Gold text on active (blue) tabs for visibility */}
         <div className="flex justify-center mb-12">
           <div className="inline-flex bg-gray-100 p-2 rounded-2xl">
             {products.map((product) => {
@@ -162,7 +174,7 @@ export default function ProductShowcase() {
                   key={product.id}
                   onClick={() => setActiveProduct(product)}
                   className={`relative px-6 py-3 rounded-xl font-semibold text-sm flex items-center gap-2 transition-colors ${
-                    isActive ? 'text-white' : 'text-[#00377B] hover:bg-white/50'
+                    isActive ? 'text-[#F7941D]' : 'text-[#00377B] hover:bg-white/50'
                   }`}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -174,7 +186,7 @@ export default function ProductShowcase() {
                       transition={{ type: 'spring', duration: 0.5 }}
                     />
                   )}
-                  <Icon className="w-4 h-4 relative z-10" />
+                  <Icon className={`w-4 h-4 relative z-10 ${isActive ? 'text-[#F7941D]' : ''}`} />
                   <span className="relative z-10 hidden sm:inline">
                     {language === 'ar' ? product.titleAr : product.titleEn}
                   </span>
