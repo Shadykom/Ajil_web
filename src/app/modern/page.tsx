@@ -1266,8 +1266,13 @@ function ModernHeader() {
                         "flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300 hover:opacity-80",
                         isScrolled ? "text-[#00377B]" : "text-[#F7941D]"
                       )}
+                      style={{
+                        textShadow: isScrolled ? 'none' : '0 1px 3px rgba(0,0,0,0.5)'
+                      }}
                     >
-                      <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
+                      <span className={isScrolled ? "text-[#00377B]" : "text-[#F7941D]"}>
+                        {language === 'ar' ? item.labelAr : item.labelEn}
+                      </span>
                     </Link>
                   ) : (
                     <button
@@ -1275,11 +1280,17 @@ function ModernHeader() {
                         "flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300 hover:opacity-80",
                         isScrolled ? "text-[#00377B]" : "text-[#F7941D]"
                       )}
+                      style={{
+                        textShadow: isScrolled ? 'none' : '0 1px 3px rgba(0,0,0,0.5)'
+                      }}
                     >
-                      <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
+                      <span className={isScrolled ? "text-[#00377B]" : "text-[#F7941D]"}>
+                        {language === 'ar' ? item.labelAr : item.labelEn}
+                      </span>
                       <ChevronDown 
                         className={cn(
                           'w-4 h-4 transition-transform duration-200',
+                          isScrolled ? 'text-[#00377B]' : 'text-[#F7941D]',
                           activeDropdown === item.key ? 'rotate-180' : ''
                         )} 
                       />
