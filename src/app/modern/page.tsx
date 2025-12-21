@@ -1234,17 +1234,17 @@ function ModernHeader() {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-16 md:h-[72px]">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-3">
+            <Link href="/" className="flex items-center">
               <div 
-                className="relative rounded-lg overflow-hidden transition-all duration-300"
+                className="relative rounded-lg overflow-hidden transition-all duration-300 h-10 md:h-12"
                 style={{ backgroundColor: COLORS.navy }}
               >
                 <Image
                   src="/images/AJIL_logo.png"
                   alt="AJIL Finance"
-                  width={100}
-                  height={36}
-                  className="object-contain p-2"
+                  width={80}
+                  height={32}
+                  className="object-contain p-1.5 h-full w-auto"
                   priority
                 />
               </div>
@@ -1642,9 +1642,9 @@ function ModernFooter() {
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-6">
               <AjilLogoMark size={50} animated={false} />
-              <span className="text-3xl font-bold">{language === 'ar' ? 'أجل للتمويل' : 'AJIL Finance'}</span>
+              <span className="text-3xl font-bold text-[#F7941D]">{language === 'ar' ? 'أجل للتمويل' : 'AJIL Finance'}</span>
             </div>
-            <p className="text-white/70 mb-6 max-w-md">
+            <p className="text-[#F7941D]/80 mb-6 max-w-md">
               {language === 'ar'
                 ? 'شركة أجل للتمويل، رائدة في تقديم الحلول التمويلية المتوافقة مع الشريعة الإسلامية في المملكة العربية السعودية.'
                 : 'AJIL Finance Company, a pioneer in providing Sharia-compliant financing solutions in Saudi Arabia.'}
@@ -1654,10 +1654,10 @@ function ModernFooter() {
                 <a
                   key={social}
                   href={`https://${social}.com/ajilfinance`}
-                  className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-[#F7941D] transition-colors"
+                  className="w-10 h-10 rounded-xl bg-[#F7941D]/20 border border-[#F7941D]/30 flex items-center justify-center hover:bg-[#F7941D] transition-colors"
                 >
                   <span className="sr-only">{social}</span>
-                  <div className="w-5 h-5 bg-white rounded-sm" />
+                  <div className="w-5 h-5 bg-[#F7941D] rounded-sm" />
                 </a>
               ))}
             </div>
@@ -1665,7 +1665,7 @@ function ModernFooter() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-bold text-lg mb-6">{language === 'ar' ? 'روابط سريعة' : 'Quick Links'}</h4>
+            <h4 className="font-bold text-lg mb-6 text-[#F7941D]">{language === 'ar' ? 'روابط سريعة' : 'Quick Links'}</h4>
             <ul className="space-y-3">
               {[
                 { label: language === 'ar' ? 'عن أجل' : 'About Us', href: '/about/story' },
@@ -1674,7 +1674,7 @@ function ModernFooter() {
                 { label: language === 'ar' ? 'اتصل بنا' : 'Contact', href: '/contact' },
               ].map((link, i) => (
                 <li key={i}>
-                  <Link href={link.href} className="text-white/70 hover:text-[#F7941D] transition-colors">
+                  <Link href={link.href} className="text-[#F7941D]/70 hover:text-[#F7941D] transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -1684,17 +1684,17 @@ function ModernFooter() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-bold text-lg mb-6">{language === 'ar' ? 'تواصل معنا' : 'Contact Us'}</h4>
+            <h4 className="font-bold text-lg mb-6 text-[#F7941D]">{language === 'ar' ? 'تواصل معنا' : 'Contact Us'}</h4>
             <ul className="space-y-4">
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-[#F7941D]" />
-                <a href="tel:8002442211" className="text-white/70 hover:text-white" dir="ltr">
+                <a href="tel:8002442211" className="text-[#F7941D]/70 hover:text-[#F7941D]" dir="ltr">
                   800 244 2211
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <MessageCircle className="w-5 h-5 text-[#F7941D]" />
-                <a href="mailto:info@ajil.com" className="text-white/70 hover:text-white">
+                <a href="mailto:info@ajil.com" className="text-[#F7941D]/70 hover:text-[#F7941D]">
                   info@ajil.com
                 </a>
               </li>
@@ -1703,15 +1703,15 @@ function ModernFooter() {
         </div>
 
         {/* Bottom */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-white/50 text-sm">
+        <div className="pt-8 border-t border-[#F7941D]/20 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-[#F7941D]/60 text-sm">
             {language === 'ar'
               ? '© 2008-2025 شركة أجل للتمويل - جميع الحقوق محفوظة'
               : '© 2008-2025 AJIL Finance Company - All Rights Reserved'}
           </p>
           <div className="flex items-center gap-6 text-sm">
-            <Link href="/privacy" className="text-white/50 hover:text-white">{language === 'ar' ? 'الخصوصية' : 'Privacy'}</Link>
-            <Link href="/terms" className="text-white/50 hover:text-white">{language === 'ar' ? 'الشروط' : 'Terms'}</Link>
+            <Link href="/privacy" className="text-[#F7941D]/60 hover:text-[#F7941D]">{language === 'ar' ? 'الخصوصية' : 'Privacy'}</Link>
+            <Link href="/terms" className="text-[#F7941D]/60 hover:text-[#F7941D]">{language === 'ar' ? 'الشروط' : 'Terms'}</Link>
           </div>
         </div>
       </div>
