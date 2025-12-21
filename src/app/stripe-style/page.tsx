@@ -32,6 +32,7 @@ import { cn } from '@/lib/utils';
 // Import the new connected products components
 import ConnectedProducts from './components/ConnectedProducts';
 import StripeConnectedProducts from './components/StripeConnectedProducts';
+import StripeProductGrid from './components/StripeProductGrid';
 
 // AJIL Brand Colors
 const COLORS = {
@@ -670,8 +671,8 @@ export default function StripeStyleHomepage() {
     <main className="min-h-screen bg-[#0A0A1A]">
       <StripeStyleHeader />
       <HeroSection />
+      <StripeProductGrid />
       <StripeConnectedProducts />
-      <ConnectedProducts />
       <FeaturesSection />
       <CTASection />
       <StripeStyleFooter />
