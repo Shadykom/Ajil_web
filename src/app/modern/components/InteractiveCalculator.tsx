@@ -170,13 +170,14 @@ export default function InteractiveCalculator() {
                       }}
                       className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all ${
                         isActive
-                          ? 'bg-[#00377B] shadow-lg'
+                          ? 'bg-[#00377B] shadow-lg text-[#F7941D]'
                           : 'text-[#00377B] hover:bg-white/50'
                       }`}
-                      style={isActive ? { color: '#F7941D' } : {}}
                     >
-                      <Icon className="w-5 h-5" style={isActive ? { color: '#F7941D' } : { color: '#00377B' }} />
-                      <span>{language === 'ar' ? type.labelAr : type.labelEn}</span>
+                      <Icon className={`w-5 h-5 ${isActive ? 'text-[#F7941D]' : 'text-[#00377B]'}`} />
+                      <span className={isActive ? 'text-[#F7941D]' : 'text-[#00377B]'}>
+                        {language === 'ar' ? type.labelAr : type.labelEn}
+                      </span>
                     </button>
                   );
                 })}
