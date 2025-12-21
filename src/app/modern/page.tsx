@@ -391,13 +391,9 @@ function HeroSection() {
           muted={isMuted}
           playsInline
           className="w-full h-full object-cover"
-          poster="https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=1920&q=80"
         >
-          {/* Premium car driving video - Saudi Arabia style */}
-          <source
-            src="https://cdn.coverr.co/videos/coverr-driving-through-city-at-night-4405/1080p.mp4"
-            type="video/mp4"
-          />
+          {/* Local hero video */}
+          <source src="/videos/hero-video.mp4" type="video/mp4" />
         </video>
         {/* Gradient Overlay for better text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#00377B]/70 via-[#00377B]/50 to-[#00377B]/80" />
@@ -1055,12 +1051,8 @@ function CTASection() {
           muted
           playsInline
           className="w-full h-full object-cover"
-          poster="https://images.unsplash.com/photo-1560472355-536de3962603?w=1920&q=80"
         >
-          <source
-            src="https://cdn.coverr.co/videos/coverr-driving-through-city-at-night-4405/1080p.mp4"
-            type="video/mp4"
-          />
+          <source src="/videos/hero-video.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-r from-[#00377B]/95 to-[#0066B3]/90" />
       </div>
@@ -1231,19 +1223,27 @@ function ModernHeader() {
           <div className="flex justify-between items-center h-16 md:h-[72px]">
             {/* Logo */}
             <Link href="/modern" className="flex items-center gap-3">
-              <div className={cn(
-                'relative rounded-lg overflow-hidden transition-all duration-300',
-                isScrolled ? '' : 'bg-white/10 backdrop-blur-sm'
-              )} style={{ backgroundColor: isScrolled ? COLORS.navy : 'transparent' }}>
+              {isScrolled ? (
+                <div className="relative rounded-lg overflow-hidden" style={{ backgroundColor: COLORS.navy }}>
+                  <Image
+                    src="/images/AJIL_logo.png"
+                    alt="AJIL Finance"
+                    width={100}
+                    height={36}
+                    className="object-contain p-2"
+                    priority
+                  />
+                </div>
+              ) : (
                 <Image
-                  src="/images/AJIL_logo.png"
+                  src="/images/AJIL_logo_white.png"
                   alt="AJIL Finance"
-                  width={100}
-                  height={36}
-                  className="object-contain p-2"
+                  width={120}
+                  height={44}
+                  className="object-contain"
                   priority
                 />
-              </div>
+              )}
             </Link>
 
             {/* Desktop Navigation - With dropdown menus */}
@@ -1258,23 +1258,21 @@ function ModernHeader() {
                   {item.href ? (
                     <Link
                       href={item.href}
-                      className={cn(
-                        'flex items-center gap-1.5 px-4 py-6 font-medium text-sm transition-colors hover:text-[#F7941D]',
-                        isScrolled 
-                          ? (activeDropdown === item.key ? 'text-[#0066B3]' : 'text-gray-700')
-                          : 'text-white'
-                      )}
+                      className="flex items-center gap-1.5 px-4 py-6 font-semibold text-sm transition-colors"
+                      style={{ 
+                        color: isScrolled ? COLORS.navy : COLORS.gold,
+                        textShadow: isScrolled ? 'none' : '0 1px 2px rgba(0,0,0,0.3)'
+                      }}
                     >
                       <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
                     </Link>
                   ) : (
                     <button
-                      className={cn(
-                        'flex items-center gap-1.5 px-4 py-6 font-medium text-sm transition-colors',
-                        isScrolled 
-                          ? (activeDropdown === item.key ? 'text-[#0066B3]' : 'text-gray-700')
-                          : 'text-white'
-                      )}
+                      className="flex items-center gap-1.5 px-4 py-6 font-semibold text-sm transition-colors"
+                      style={{ 
+                        color: isScrolled ? COLORS.navy : COLORS.gold,
+                        textShadow: isScrolled ? 'none' : '0 1px 2px rgba(0,0,0,0.3)'
+                      }}
                     >
                       <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
                       <ChevronDown 
@@ -1373,12 +1371,12 @@ function ModernHeader() {
               {/* Switch to Classic Homepage */}
               <Link
                 href="/"
-                className={cn(
-                  'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all hover:opacity-90 border-2',
-                  isScrolled 
-                    ? 'border-[#00377B] text-[#00377B]'
-                    : 'border-white/50 text-white hover:bg-white/10'
-                )}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all hover:opacity-90 border-2"
+                style={{ 
+                  borderColor: isScrolled ? COLORS.navy : COLORS.gold, 
+                  color: isScrolled ? COLORS.navy : COLORS.gold,
+                  textShadow: isScrolled ? 'none' : '0 1px 2px rgba(0,0,0,0.3)'
+                }}
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
@@ -1411,13 +1409,12 @@ function ModernHeader() {
               onClick={() => setIsMobileMenuOpen(true)}
               className={cn(
                 'lg:hidden w-10 h-10 rounded-lg flex items-center justify-center transition-colors',
-                isScrolled 
-                  ? 'bg-[#00377B]/10 text-[#00377B]'
-                  : 'bg-white/10 text-white'
+                isScrolled ? '' : 'bg-black/20'
               )}
+              style={isScrolled ? { backgroundColor: `${COLORS.navy}10` } : {}}
               aria-label="Open menu"
             >
-              <Menu className="w-5 h-5" />
+              <Menu className="w-5 h-5" style={{ color: isScrolled ? COLORS.navy : COLORS.gold }} />
             </button>
           </div>
         </div>
