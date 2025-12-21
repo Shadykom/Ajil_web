@@ -337,6 +337,7 @@ export default function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
   const [videoLoaded, setVideoLoaded] = useState(false)
+  const [videoError, setVideoError] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -411,27 +412,29 @@ export default function HeroSlider() {
             <div className="absolute inset-0">
               {/* Fallback gradient background (shows while video loads or if video fails) */}
               <div 
-                className={`absolute inset-0 transition-opacity duration-1000 ${videoLoaded ? 'opacity-0' : 'opacity-100'}`}
+                className={`absolute inset-0 transition-opacity duration-1000 ${videoLoaded && !videoError ? 'opacity-0' : 'opacity-100'}`}
                 style={{
                   background: `linear-gradient(135deg, ${AJIL_BLUE} 0%, ${AJIL_BLUE_LIGHT} 50%, ${AJIL_BLUE} 100%)`,
                 }}
               />
               
               {/* Background Video */}
-              <video
-                ref={videoRef}
-                autoPlay
-                muted
-                loop
-                playsInline
-                onLoadedData={() => setVideoLoaded(true)}
-                className="absolute inset-0 w-full h-full object-cover"
-                poster="/videos/hero-poster.jpg"
-              >
-                {/* Add your video source here - supports multiple formats for browser compatibility */}
-                <source src="/videos/hero-video.mp4" type="video/mp4" />
-                <source src="/videos/hero-video.webm" type="video/webm" />
-              </video>
+              {!videoError && (
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  onLoadedData={() => setVideoLoaded(true)}
+                  onCanPlay={() => setVideoLoaded(true)}
+                  onError={() => setVideoError(true)}
+                  className="absolute inset-0 w-full h-full object-cover"
+                >
+                  {/* Local video file (downloaded from Google Drive) */}
+                  <source src="/videos/hero-video.mp4" type="video/mp4" />
+                </video>
+              )}
               
               {/* Dark overlay for text readability */}
               <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60" />
