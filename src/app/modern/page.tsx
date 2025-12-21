@@ -236,6 +236,16 @@ const navItems = [
         icon: IconLoanCalculator,
         animatedIcon: AnimatedLoanCalculator,
       },
+      { 
+        key: 'classic_design', 
+        labelAr: 'التصميم الكلاسيكي',
+        labelEn: 'Classic Design',
+        descAr: 'جرّب التصميم السابق',
+        descEn: 'Try the classic layout',
+        href: '/classic',
+        icon: IconAbout,
+        animatedIcon: AnimatedAbout,
+      },
     ],
   },
   {
@@ -391,13 +401,9 @@ function HeroSection() {
           muted={isMuted}
           playsInline
           className="w-full h-full object-cover"
-          poster="https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=1920&q=80"
         >
-          {/* Premium car driving video - Saudi Arabia style */}
-          <source
-            src="https://cdn.coverr.co/videos/coverr-driving-through-city-at-night-4405/1080p.mp4"
-            type="video/mp4"
-          />
+          {/* Local hero video */}
+          <source src="/videos/hero-video.mp4" type="video/mp4" />
         </video>
         {/* Gradient Overlay for better text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#00377B]/70 via-[#00377B]/50 to-[#00377B]/80" />
@@ -639,8 +645,8 @@ function ServicesSection() {
       description: language === 'ar'
         ? 'نمِّ أعمالك مع خيارات تمويل متنوعة'
         : 'Grow your business with diverse financing options',
-      // Modern Saudi business district
-      image: 'https://images.unsplash.com/photo-1565623006220-9f9e61fa4e3f?w=800&q=80',
+      // Modern business/office building
+      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80',
       color: '#F7941D',
       href: '/business/cash-financing',
     },
@@ -1055,12 +1061,8 @@ function CTASection() {
           muted
           playsInline
           className="w-full h-full object-cover"
-          poster="https://images.unsplash.com/photo-1560472355-536de3962603?w=1920&q=80"
         >
-          <source
-            src="https://cdn.coverr.co/videos/coverr-driving-through-city-at-night-4405/1080p.mp4"
-            type="video/mp4"
-          />
+          <source src="/videos/hero-video.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-r from-[#00377B]/95 to-[#0066B3]/90" />
       </div>
@@ -1145,6 +1147,8 @@ function ModernHeader() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+    // Check initial scroll position
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -1230,17 +1234,17 @@ function ModernHeader() {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-16 md:h-[72px]">
             {/* Logo */}
-            <Link href="/modern" className="flex items-center gap-3">
-              <div className={cn(
-                'relative rounded-lg overflow-hidden transition-all duration-300',
-                isScrolled ? '' : 'bg-white/10 backdrop-blur-sm'
-              )} style={{ backgroundColor: isScrolled ? COLORS.navy : 'transparent' }}>
+            <Link href="/" className="flex items-center">
+              <div 
+                className="relative rounded-lg overflow-hidden transition-all duration-300 h-10 md:h-12"
+                style={{ backgroundColor: COLORS.navy }}
+              >
                 <Image
                   src="/images/AJIL_logo.png"
                   alt="AJIL Finance"
-                  width={100}
-                  height={36}
-                  className="object-contain p-2"
+                  width={80}
+                  height={32}
+                  className="object-contain p-1.5 h-full w-auto"
                   priority
                 />
               </div>
@@ -1259,27 +1263,34 @@ function ModernHeader() {
                     <Link
                       href={item.href}
                       className={cn(
-                        'flex items-center gap-1.5 px-4 py-6 font-medium text-sm transition-colors hover:text-[#F7941D]',
-                        isScrolled 
-                          ? (activeDropdown === item.key ? 'text-[#0066B3]' : 'text-gray-700')
-                          : 'text-white'
+                        "flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300 hover:opacity-80",
+                        isScrolled ? "text-[#00377B]" : "text-[#F7941D]"
                       )}
+                      style={{
+                        textShadow: isScrolled ? 'none' : '0 1px 3px rgba(0,0,0,0.5)'
+                      }}
                     >
-                      <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
+                      <span className={isScrolled ? "text-[#00377B]" : "text-[#F7941D]"}>
+                        {language === 'ar' ? item.labelAr : item.labelEn}
+                      </span>
                     </Link>
                   ) : (
                     <button
                       className={cn(
-                        'flex items-center gap-1.5 px-4 py-6 font-medium text-sm transition-colors',
-                        isScrolled 
-                          ? (activeDropdown === item.key ? 'text-[#0066B3]' : 'text-gray-700')
-                          : 'text-white'
+                        "flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300 hover:opacity-80",
+                        isScrolled ? "text-[#00377B]" : "text-[#F7941D]"
                       )}
+                      style={{
+                        textShadow: isScrolled ? 'none' : '0 1px 3px rgba(0,0,0,0.5)'
+                      }}
                     >
-                      <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
+                      <span className={isScrolled ? "text-[#00377B]" : "text-[#F7941D]"}>
+                        {language === 'ar' ? item.labelAr : item.labelEn}
+                      </span>
                       <ChevronDown 
                         className={cn(
                           'w-4 h-4 transition-transform duration-200',
+                          isScrolled ? 'text-[#00377B]' : 'text-[#F7941D]',
                           activeDropdown === item.key ? 'rotate-180' : ''
                         )} 
                       />
@@ -1370,27 +1381,11 @@ function ModernHeader() {
 
             {/* Desktop Actions */}
             <div className="hidden lg:flex items-center gap-3">
-              {/* Switch to Classic Homepage */}
-              <Link
-                href="/"
-                className={cn(
-                  'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all hover:opacity-90 border-2',
-                  isScrolled 
-                    ? 'border-[#00377B] text-[#00377B]'
-                    : 'border-white/50 text-white hover:bg-white/10'
-                )}
-              >
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                </svg>
-                <span>{language === 'ar' ? 'الصفحة الكلاسيكية' : 'Classic Design'}</span>
-              </Link>
-              
               {/* Language Toggle - Only when not scrolled (top bar has it when scrolled) */}
               {!isScrolled && (
                 <button
                   onClick={() => setLanguage(language === 'ar' ? 'en' : 'ar')}
-                  className="px-4 py-2 rounded-xl font-medium bg-white/10 text-white hover:bg-white/20 transition-colors"
+                  className="px-4 py-2 rounded-xl font-bold bg-[#F7941D]/20 text-[#F7941D] hover:bg-[#F7941D]/30 transition-colors border border-[#F7941D]/50"
                 >
                   {language === 'ar' ? 'EN' : 'عربي'}
                 </button>
@@ -1398,8 +1393,7 @@ function ModernHeader() {
               
               <Link
                 href="/apply"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all hover:opacity-90 hover:scale-105 text-gray-900"
-                style={{ backgroundColor: COLORS.gold }}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all hover:opacity-90 hover:scale-105 text-gray-900 bg-[#F7941D]"
               >
                 <MiniAShape size={16} color="rgba(0,0,0,0.2)" />
                 <span>{language === 'ar' ? 'تقدم بطلبك' : 'Apply Now'}</span>
@@ -1412,12 +1406,15 @@ function ModernHeader() {
               className={cn(
                 'lg:hidden w-10 h-10 rounded-lg flex items-center justify-center transition-colors',
                 isScrolled 
-                  ? 'bg-[#00377B]/10 text-[#00377B]'
-                  : 'bg-white/10 text-white'
+                  ? 'bg-[#00377B]/10' 
+                  : 'bg-[#F7941D]/20 border border-[#F7941D]/50'
               )}
               aria-label="Open menu"
             >
-              <Menu className="w-5 h-5" />
+              <Menu className={cn(
+                "w-5 h-5",
+                isScrolled ? "text-[#00377B]" : "text-[#F7941D]"
+              )} />
             </button>
           </div>
         </div>
@@ -1580,19 +1577,6 @@ function ModernHeader() {
 
               {/* Menu Footer */}
               <div className="p-4 border-t border-gray-100">
-                {/* Switch to Classic */}
-                <Link
-                  href="/"
-                  className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold border-2 mb-3 transition-colors"
-                  style={{ borderColor: COLORS.navy, color: COLORS.navy }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                  </svg>
-                  <span>{language === 'ar' ? 'جرّب التصميم الكلاسيكي' : 'Try Classic Design'}</span>
-                </Link>
-                
                 {/* Apply Button with A shape */}
                 <Link
                   href="/apply"
@@ -1663,9 +1647,9 @@ function ModernFooter() {
           <div className="md:col-span-2">
             <div className="flex items-center gap-3 mb-6">
               <AjilLogoMark size={50} animated={false} />
-              <span className="text-3xl font-bold">{language === 'ar' ? 'أجل للتمويل' : 'AJIL Finance'}</span>
+              <span className="text-3xl font-bold text-[#F7941D]">{language === 'ar' ? 'أجل للتمويل' : 'AJIL Finance'}</span>
             </div>
-            <p className="text-white/70 mb-6 max-w-md">
+            <p className="text-[#F7941D]/80 mb-6 max-w-md">
               {language === 'ar'
                 ? 'شركة أجل للتمويل، رائدة في تقديم الحلول التمويلية المتوافقة مع الشريعة الإسلامية في المملكة العربية السعودية.'
                 : 'AJIL Finance Company, a pioneer in providing Sharia-compliant financing solutions in Saudi Arabia.'}
@@ -1675,10 +1659,10 @@ function ModernFooter() {
                 <a
                   key={social}
                   href={`https://${social}.com/ajilfinance`}
-                  className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-[#F7941D] transition-colors"
+                  className="w-10 h-10 rounded-xl bg-[#F7941D]/20 border border-[#F7941D]/30 flex items-center justify-center hover:bg-[#F7941D] transition-colors"
                 >
                   <span className="sr-only">{social}</span>
-                  <div className="w-5 h-5 bg-white rounded-sm" />
+                  <div className="w-5 h-5 bg-[#F7941D] rounded-sm" />
                 </a>
               ))}
             </div>
@@ -1686,7 +1670,7 @@ function ModernFooter() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-bold text-lg mb-6">{language === 'ar' ? 'روابط سريعة' : 'Quick Links'}</h4>
+            <h4 className="font-bold text-lg mb-6 text-[#F7941D]">{language === 'ar' ? 'روابط سريعة' : 'Quick Links'}</h4>
             <ul className="space-y-3">
               {[
                 { label: language === 'ar' ? 'عن أجل' : 'About Us', href: '/about/story' },
@@ -1695,7 +1679,7 @@ function ModernFooter() {
                 { label: language === 'ar' ? 'اتصل بنا' : 'Contact', href: '/contact' },
               ].map((link, i) => (
                 <li key={i}>
-                  <Link href={link.href} className="text-white/70 hover:text-[#F7941D] transition-colors">
+                  <Link href={link.href} className="text-[#F7941D]/70 hover:text-[#F7941D] transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -1705,17 +1689,17 @@ function ModernFooter() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-bold text-lg mb-6">{language === 'ar' ? 'تواصل معنا' : 'Contact Us'}</h4>
+            <h4 className="font-bold text-lg mb-6 text-[#F7941D]">{language === 'ar' ? 'تواصل معنا' : 'Contact Us'}</h4>
             <ul className="space-y-4">
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-[#F7941D]" />
-                <a href="tel:8002442211" className="text-white/70 hover:text-white" dir="ltr">
+                <a href="tel:8002442211" className="text-[#F7941D]/70 hover:text-[#F7941D]" dir="ltr">
                   800 244 2211
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <MessageCircle className="w-5 h-5 text-[#F7941D]" />
-                <a href="mailto:info@ajil.com" className="text-white/70 hover:text-white">
+                <a href="mailto:info@ajil.com" className="text-[#F7941D]/70 hover:text-[#F7941D]">
                   info@ajil.com
                 </a>
               </li>
@@ -1724,15 +1708,15 @@ function ModernFooter() {
         </div>
 
         {/* Bottom */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-white/50 text-sm">
+        <div className="pt-8 border-t border-[#F7941D]/20 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-[#F7941D]/60 text-sm">
             {language === 'ar'
               ? '© 2008-2025 شركة أجل للتمويل - جميع الحقوق محفوظة'
               : '© 2008-2025 AJIL Finance Company - All Rights Reserved'}
           </p>
           <div className="flex items-center gap-6 text-sm">
-            <Link href="/privacy" className="text-white/50 hover:text-white">{language === 'ar' ? 'الخصوصية' : 'Privacy'}</Link>
-            <Link href="/terms" className="text-white/50 hover:text-white">{language === 'ar' ? 'الشروط' : 'Terms'}</Link>
+            <Link href="/privacy" className="text-[#F7941D]/60 hover:text-[#F7941D]">{language === 'ar' ? 'الخصوصية' : 'Privacy'}</Link>
+            <Link href="/terms" className="text-[#F7941D]/60 hover:text-[#F7941D]">{language === 'ar' ? 'الشروط' : 'Terms'}</Link>
           </div>
         </div>
       </div>

@@ -171,34 +171,36 @@ export default function BranchesPreview() {
             viewport={{ once: true }}
           >
             <div className="relative aspect-[4/3] bg-gradient-to-br from-[#00377B] to-[#001D40] rounded-3xl overflow-hidden shadow-2xl">
-              {/* Saudi Arabia Map SVG */}
+              {/* Saudi Arabia Map SVG - Accurate KSA outline */}
               <svg
                 viewBox="0 0 800 600"
-                className="absolute inset-0 w-full h-full p-8"
+                className="absolute inset-0 w-full h-full p-6"
               >
-                {/* Simplified Saudi Arabia map outline */}
                 <defs>
                   <linearGradient id="mapGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#0066B3" stopOpacity="0.3" />
-                    <stop offset="100%" stopColor="#00377B" stopOpacity="0.1" />
+                    <stop offset="0%" stopColor="#00377B" stopOpacity="0.4" />
+                    <stop offset="100%" stopColor="#001D40" stopOpacity="0.2" />
                   </linearGradient>
                 </defs>
+                
+                {/* Accurate Saudi Arabia Map Path */}
                 <path
-                  d="M150,100 Q200,80 300,90 L400,100 Q500,110 550,150 L600,200 Q650,250 680,350 L700,450 Q680,500 600,520 L500,540 Q400,550 300,530 L200,500 Q120,450 100,350 L90,250 Q100,150 150,100 Z"
+                  d="M580,95 L620,100 L660,115 L685,140 L700,170 L710,200 L715,235 L710,270 L695,300 L680,325 L660,345 L640,360 L615,375 L585,395 L560,420 L540,450 L520,475 L495,495 L465,510 L430,520 L395,525 L360,530 L325,535 L290,540 L255,540 L220,535 L190,525 L165,510 L145,490 L130,465 L120,435 L115,400 L110,365 L105,330 L100,295 L95,260 L95,225 L100,195 L110,170 L125,150 L145,135 L170,120 L200,110 L235,105 L270,100 L305,95 L340,92 L375,90 L410,90 L445,92 L480,95 L515,95 L550,95 L580,95 Z
+                  M255,540 L240,560 L220,575 L195,580 L170,575 L150,560 L140,540 L145,520 L160,505 L180,500 L200,505 L215,515 L230,530 L255,540 Z"
                   fill="url(#mapGrad)"
                   stroke="#F7941D"
-                  strokeWidth="2"
-                  strokeOpacity="0.5"
+                  strokeWidth="2.5"
+                  strokeLinejoin="round"
                 />
                 
                 {/* City markers */}
-                {branches.map((branch, index) => {
-                  // Simplified coordinates mapping for display
+                {branches.map((branch) => {
+                  // Coordinates mapping for KSA map
                   const positions: Record<string, { x: number; y: number }> = {
-                    'Riyadh': { x: 400, y: 320 },
-                    'Jeddah': { x: 200, y: 380 },
-                    'Dammam': { x: 550, y: 280 },
-                    'Makkah': { x: 180, y: 350 },
+                    'Riyadh': { x: 480, y: 340 },
+                    'Jeddah': { x: 220, y: 420 },
+                    'Dammam': { x: 620, y: 280 },
+                    'Makkah': { x: 200, y: 385 },
                   };
                   const pos = positions[branch.cityEn] || { x: 400, y: 300 };
                   const isSelected = selectedBranch?.id === branch.id;
@@ -208,19 +210,19 @@ export default function BranchesPreview() {
                       <motion.circle
                         cx={pos.x}
                         cy={pos.y}
-                        r={isSelected ? 20 : 12}
-                        fill={isSelected ? '#F7941D' : '#0066B3'}
+                        r={isSelected ? 18 : 10}
+                        fill={isSelected ? '#F7941D' : '#4DA3E0'}
                         className="cursor-pointer"
                         onClick={() => setSelectedBranch(branch)}
-                        whileHover={{ scale: 1.2 }}
-                        animate={{ scale: isSelected ? [1, 1.1, 1] : 1 }}
-                        transition={{ duration: 1, repeat: isSelected ? Infinity : 0 }}
+                        whileHover={{ scale: 1.3 }}
+                        animate={{ scale: isSelected ? [1, 1.15, 1] : 1 }}
+                        transition={{ duration: 1.2, repeat: isSelected ? Infinity : 0 }}
                       />
                       {isSelected && (
                         <motion.circle
                           cx={pos.x}
                           cy={pos.y}
-                          r="30"
+                          r="28"
                           fill="none"
                           stroke="#F7941D"
                           strokeWidth="2"
@@ -231,11 +233,11 @@ export default function BranchesPreview() {
                       )}
                       <text
                         x={pos.x}
-                        y={pos.y + 35}
+                        y={pos.y + 32}
                         textAnchor="middle"
                         fill="white"
-                        fontSize="14"
-                        fontWeight="bold"
+                        fontSize="13"
+                        fontWeight="600"
                       >
                         {language === 'ar' ? branch.cityAr : branch.cityEn}
                       </text>

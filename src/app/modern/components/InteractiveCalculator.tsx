@@ -168,14 +168,16 @@ export default function InteractiveCalculator() {
                         setFinanceType(type.id);
                         setAmount(Math.min(amount, maxAmountByType[type.id]));
                       }}
-                      className={`flex-1 py-3 px-4 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all ${
+                      className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all ${
                         isActive
-                          ? 'bg-[#00377B] text-[#F7941D] shadow-lg'
+                          ? 'bg-[#00377B] shadow-lg text-[#F7941D]'
                           : 'text-[#00377B] hover:bg-white/50'
                       }`}
                     >
-                      <Icon className={`w-4 h-4 ${isActive ? 'text-[#F7941D]' : ''}`} />
-                      <span className="hidden sm:inline">{language === 'ar' ? type.labelAr : type.labelEn}</span>
+                      <Icon className={`w-5 h-5 ${isActive ? 'text-[#F7941D]' : 'text-[#00377B]'}`} />
+                      <span className={isActive ? 'text-[#F7941D]' : 'text-[#00377B]'}>
+                        {language === 'ar' ? type.labelAr : type.labelEn}
+                      </span>
                     </button>
                   );
                 })}

@@ -297,15 +297,18 @@ export default function Header() {
 
       {/* Main Header */}
       <header 
-        className={`sticky top-0 z-50 bg-white transition-shadow duration-300 ${
-          isScrolled ? 'shadow-lg' : 'shadow'
+        className={`sticky top-0 z-50 transition-all duration-300 ${
+          isScrolled ? 'bg-white shadow-lg' : 'bg-transparent'
         }`}
       >
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-16 md:h-[72px]">
             {/* Logo */}
             <Link href="/" className="flex items-center">
-              <div className="relative rounded-lg overflow-hidden" style={{ backgroundColor: AJIL_BLUE }}>
+              <div 
+                className="relative rounded-lg overflow-hidden transition-all duration-300"
+                style={{ backgroundColor: AJIL_BLUE }}
+              >
                 <Image
                   src="/images/AJIL_logo.png"
                   alt="AJIL Finance"
@@ -329,15 +332,21 @@ export default function Header() {
                   {item.href ? (
                     <Link
                       href={item.href}
-                      className="flex items-center gap-1.5 px-4 py-6 font-medium text-sm transition-colors hover:text-[#0066b3]"
-                      style={{ color: activeDropdown === item.key ? AJIL_BLUE_LIGHT : '#374151' }}
+                      className="flex items-center gap-1.5 px-4 py-6 font-semibold text-sm transition-colors"
+                      style={{ 
+                        color: isScrolled ? AJIL_BLUE : AJIL_GOLD,
+                        textShadow: isScrolled ? 'none' : '0 1px 2px rgba(0,0,0,0.3)'
+                      }}
                     >
                       <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
                     </Link>
                   ) : (
                     <button
-                      className="flex items-center gap-1.5 px-4 py-6 font-medium text-sm transition-colors"
-                      style={{ color: activeDropdown === item.key ? AJIL_BLUE_LIGHT : '#374151' }}
+                      className="flex items-center gap-1.5 px-4 py-6 font-semibold text-sm transition-colors"
+                      style={{ 
+                        color: isScrolled ? AJIL_BLUE : AJIL_GOLD,
+                        textShadow: isScrolled ? 'none' : '0 1px 2px rgba(0,0,0,0.3)'
+                      }}
                     >
                       <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
                       <ChevronDown 
@@ -433,17 +442,6 @@ export default function Header() {
 
             {/* Desktop CTA */}
             <div className="hidden lg:flex items-center gap-3">
-              {/* Switch to Modern Homepage */}
-              <Link
-                href="/modern"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all hover:opacity-90 border-2"
-                style={{ borderColor: AJIL_BLUE, color: AJIL_BLUE }}
-              >
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                </svg>
-                <span>{language === 'ar' ? 'التصميم الحديث' : 'Modern Design'}</span>
-              </Link>
               <Link
                 href="/apply"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all hover:opacity-90 hover:scale-105"
@@ -457,11 +455,13 @@ export default function Header() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden w-10 h-10 rounded-lg flex items-center justify-center transition-colors"
-              style={{ backgroundColor: `${AJIL_BLUE}10` }}
+              className={`lg:hidden w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
+                isScrolled ? '' : 'bg-black/20'
+              }`}
+              style={isScrolled ? { backgroundColor: `${AJIL_BLUE}10` } : {}}
               aria-label="Open menu"
             >
-              <Menu className="w-5 h-5" style={{ color: AJIL_BLUE }} />
+              <Menu className="w-5 h-5" style={{ color: isScrolled ? AJIL_BLUE : AJIL_GOLD }} />
             </button>
           </div>
         </div>
@@ -621,19 +621,6 @@ export default function Header() {
 
               {/* Menu Footer */}
               <div className="p-4 border-t border-gray-100">
-                {/* Switch to Modern */}
-                <Link
-                  href="/modern"
-                  className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold border-2 mb-3 transition-colors"
-                  style={{ borderColor: AJIL_BLUE, color: AJIL_BLUE }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                  </svg>
-                  <span>{language === 'ar' ? 'جرّب التصميم الحديث' : 'Try Modern Design'}</span>
-                </Link>
-                
                 {/* Apply Button with A shape */}
                 <Link
                   href="/apply"
