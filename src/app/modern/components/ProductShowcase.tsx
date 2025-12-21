@@ -56,9 +56,8 @@ const products: Product[] = [
     descriptionEn: 'Get your dream car with comfortable, flexible installments that fit your budget',
     featuresAr: ['موافقة سريعة خلال 24 ساعة', 'تأمين شامل مجاني', 'خدمة التوصيل للمنزل'],
     featuresEn: ['Quick approval within 24 hours', 'Free comprehensive insurance', 'Home delivery service'],
-    // Real luxury car - Toyota Land Cruiser / Premium sedan popular in Saudi
-    image: 'https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=1200&q=80',
-    video: 'https://cdn.coverr.co/videos/coverr-driving-through-city-at-night-4405/1080p.mp4',
+    // Luxury white car
+    image: 'https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=1200&q=80',
     color: '#0066B3',
     gradient: 'from-[#0066B3] to-[#00377B]',
     href: '/individuals/car-financing',
@@ -93,8 +92,8 @@ const products: Product[] = [
     descriptionEn: 'Grow your business with financing solutions designed specifically for your needs',
     featuresAr: ['حلول مخصصة للشركات', 'فترات سداد مرنة', 'دعم متخصص للأعمال'],
     featuresEn: ['Custom solutions for companies', 'Flexible repayment periods', 'Dedicated business support'],
-    // Modern Saudi business district - Riyadh style
-    image: 'https://images.unsplash.com/photo-1565623006220-9f9e61fa4e3f?w=1200&q=80',
+    // Modern business district
+    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80',
     color: '#00377B',
     gradient: 'from-[#00377B] to-[#001D40]',
     href: '/business/cash-financing',
