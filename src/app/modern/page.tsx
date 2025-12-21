@@ -246,6 +246,16 @@ const navItems = [
         icon: IconAbout,
         animatedIcon: AnimatedAbout,
       },
+      { 
+        key: 'stripe_style', 
+        labelAr: 'التصميم العصري',
+        labelEn: 'Stripe Style',
+        descAr: 'تجربة تفاعلية جديدة',
+        descEn: 'New interactive experience',
+        href: '/stripe-style',
+        icon: IconOffers,
+        animatedIcon: AnimatedOffers,
+      },
     ],
   },
   {
@@ -1724,6 +1734,80 @@ function ModernFooter() {
   );
 }
 
+// Floating Stripe Style Button
+function FloatingStripeButton() {
+  const { language } = useI18n();
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsVisible(window.scrollY > 300);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.8, y: 20 }}
+          className="fixed bottom-6 right-6 z-50"
+        >
+          <Link href="/stripe-style">
+            <motion.button
+              className="group relative flex items-center gap-3 px-5 py-3.5 rounded-2xl text-white font-bold shadow-2xl overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, #0A0A1A 0%, #00377B 100%)',
+                boxShadow: '0 10px 40px rgba(0,55,123,0.4), 0 0 20px rgba(247,148,29,0.2)',
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {/* Animated gradient border */}
+              <div 
+                className="absolute inset-0 rounded-2xl opacity-50 group-hover:opacity-100 transition-opacity"
+                style={{
+                  background: 'linear-gradient(135deg, #F7941D, #22D3EE, #F7941D)',
+                  padding: '2px',
+                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMaskComposite: 'xor',
+                  maskComposite: 'exclude',
+                }}
+              />
+              
+              {/* Glow effect */}
+              <motion.div
+                className="absolute inset-0 rounded-2xl"
+                style={{
+                  background: 'radial-gradient(circle at center, rgba(247,148,29,0.3) 0%, transparent 70%)',
+                }}
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.5, 0.8, 0.5],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              />
+              
+              <Sparkles className="w-5 h-5 text-[#F7941D] relative z-10" />
+              <span className="relative z-10">
+                {language === 'ar' ? 'جرّب التصميم الجديد' : 'Try New Design'}
+              </span>
+              <ArrowRight className="w-4 h-4 text-[#F7941D] relative z-10 group-hover:translate-x-1 transition-transform rtl:rotate-180 rtl:group-hover:-translate-x-1" />
+            </motion.button>
+          </Link>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 // Main Modern Homepage
 export default function ModernHomepage() {
   return (
@@ -1742,6 +1826,7 @@ export default function ModernHomepage() {
       <PartnersAchievements />
       <CTASection />
       <ModernFooter />
+      <FloatingStripeButton />
     </main>
   );
 }
