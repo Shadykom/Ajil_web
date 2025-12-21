@@ -635,8 +635,8 @@ function ServicesSection() {
       description: language === 'ar'
         ? 'نمِّ أعمالك مع خيارات تمويل متنوعة'
         : 'Grow your business with diverse financing options',
-      // Modern Saudi business district
-      image: 'https://images.unsplash.com/photo-1565623006220-9f9e61fa4e3f?w=800&q=80',
+      // Modern business/office building
+      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80',
       color: '#F7941D',
       href: '/business/cash-financing',
     },
@@ -1223,27 +1223,19 @@ function ModernHeader() {
           <div className="flex justify-between items-center h-16 md:h-[72px]">
             {/* Logo */}
             <Link href="/modern" className="flex items-center gap-3">
-              {isScrolled ? (
-                <div className="relative rounded-lg overflow-hidden" style={{ backgroundColor: COLORS.navy }}>
-                  <Image
-                    src="/images/AJIL_logo.png"
-                    alt="AJIL Finance"
-                    width={100}
-                    height={36}
-                    className="object-contain p-2"
-                    priority
-                  />
-                </div>
-              ) : (
+              <div 
+                className="relative rounded-lg overflow-hidden transition-all duration-300"
+                style={{ backgroundColor: COLORS.navy }}
+              >
                 <Image
-                  src="/images/AJIL_logo_white.png"
+                  src="/images/AJIL_logo.png"
                   alt="AJIL Finance"
-                  width={120}
-                  height={44}
-                  className="object-contain"
+                  width={100}
+                  height={36}
+                  className="object-contain p-2"
                   priority
                 />
-              )}
+              </div>
             </Link>
 
             {/* Desktop Navigation - With dropdown menus */}

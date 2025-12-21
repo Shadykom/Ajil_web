@@ -305,27 +305,19 @@ export default function Header() {
           <div className="flex justify-between items-center h-16 md:h-[72px]">
             {/* Logo */}
             <Link href="/" className="flex items-center">
-              {isScrolled ? (
-                <div className="relative rounded-lg overflow-hidden" style={{ backgroundColor: AJIL_BLUE }}>
-                  <Image
-                    src="/images/AJIL_logo.png"
-                    alt="AJIL Finance"
-                    width={100}
-                    height={36}
-                    className="object-contain p-2"
-                    priority
-                  />
-                </div>
-              ) : (
+              <div 
+                className="relative rounded-lg overflow-hidden transition-all duration-300"
+                style={{ backgroundColor: AJIL_BLUE }}
+              >
                 <Image
-                  src="/images/AJIL_logo_white.png"
+                  src="/images/AJIL_logo.png"
                   alt="AJIL Finance"
-                  width={120}
-                  height={44}
-                  className="object-contain"
+                  width={100}
+                  height={36}
+                  className="object-contain p-2"
                   priority
                 />
-              )}
+              </div>
             </Link>
 
             {/* Desktop Navigation */}
