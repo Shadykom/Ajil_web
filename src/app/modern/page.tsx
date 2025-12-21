@@ -236,6 +236,16 @@ const navItems = [
         icon: IconLoanCalculator,
         animatedIcon: AnimatedLoanCalculator,
       },
+      { 
+        key: 'classic_design', 
+        labelAr: 'التصميم الكلاسيكي',
+        labelEn: 'Classic Design',
+        descAr: 'جرّب التصميم السابق',
+        descEn: 'Try the classic layout',
+        href: '/classic',
+        icon: IconAbout,
+        animatedIcon: AnimatedAbout,
+      },
     ],
   },
   {
@@ -1222,7 +1232,7 @@ function ModernHeader() {
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center h-16 md:h-[72px]">
             {/* Logo */}
-            <Link href="/modern" className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-3">
               <div 
                 className="relative rounded-lg overflow-hidden transition-all duration-300"
                 style={{ backgroundColor: COLORS.navy }}
@@ -1360,22 +1370,6 @@ function ModernHeader() {
 
             {/* Desktop Actions */}
             <div className="hidden lg:flex items-center gap-3">
-              {/* Switch to Classic Homepage */}
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all hover:opacity-90 border-2"
-                style={{ 
-                  borderColor: isScrolled ? COLORS.navy : COLORS.gold, 
-                  color: isScrolled ? COLORS.navy : COLORS.gold,
-                  textShadow: isScrolled ? 'none' : '0 1px 2px rgba(0,0,0,0.3)'
-                }}
-              >
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                </svg>
-                <span>{language === 'ar' ? 'الصفحة الكلاسيكية' : 'Classic Design'}</span>
-              </Link>
-              
               {/* Language Toggle - Only when not scrolled (top bar has it when scrolled) */}
               {!isScrolled && (
                 <button
@@ -1569,19 +1563,6 @@ function ModernHeader() {
 
               {/* Menu Footer */}
               <div className="p-4 border-t border-gray-100">
-                {/* Switch to Classic */}
-                <Link
-                  href="/"
-                  className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold border-2 mb-3 transition-colors"
-                  style={{ borderColor: COLORS.navy, color: COLORS.navy }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                  </svg>
-                  <span>{language === 'ar' ? 'جرّب التصميم الكلاسيكي' : 'Try Classic Design'}</span>
-                </Link>
-                
                 {/* Apply Button with A shape */}
                 <Link
                   href="/apply"
