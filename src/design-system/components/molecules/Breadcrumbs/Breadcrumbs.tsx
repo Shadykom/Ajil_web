@@ -75,8 +75,8 @@ export function Breadcrumbs({
           className={cn(
             'text-sm',
             isLast
-              ? 'font-semibold text-neutral-800 dark:text-neutral-200'
-              : 'text-neutral-500 dark:text-neutral-400'
+              ? 'font-semibold text-primary-800 dark:text-primary-200'
+              : 'text-primary-500 dark:text-primary-400'
           )}
           aria-current={isLast ? 'page' : undefined}
         >
@@ -90,7 +90,7 @@ export function Breadcrumbs({
         key={index}
         href={item.href}
         className={cn(
-          'text-sm text-neutral-500 dark:text-neutral-400',
+          'text-sm text-primary-500 dark:text-primary-400',
           'hover:text-primary-600 dark:hover:text-primary-400',
           'transition-colors duration-150'
         )}

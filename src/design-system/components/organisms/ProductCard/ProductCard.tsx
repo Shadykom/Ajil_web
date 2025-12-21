@@ -165,11 +165,11 @@ export function ProductCard({
             </div>
           )}
 
-          <h3 className="text-xl font-bold text-neutral-800 dark:text-neutral-100 mb-2 group-hover:text-primary-600 transition-colors">
+          <h3 className="text-xl font-bold text-primary-800 dark:text-primary-100 mb-2 group-hover:text-primary-600 transition-colors">
             {displayTitle}
           </h3>
 
-          <p className="text-neutral-600 dark:text-neutral-400 text-sm line-clamp-2 mb-4">
+          <p className="text-primary-600 dark:text-primary-400 text-sm line-clamp-2 mb-4">
             {displayDescription}
           </p>
 
@@ -179,10 +179,10 @@ export function ProductCard({
               {features.slice(0, 3).map((feature, index) => (
                 <li
                   key={index}
-                  className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400"
+                  className="flex items-center gap-2 text-sm text-primary-600 dark:text-primary-400"
                 >
                   {feature.icon || (
-                    <CheckCircle className="w-4 h-4 text-green-500 shrink-0" />
+                    <CheckCircle className="w-4 h-4 text-primary-500 shrink-0" />
                   )}
                   <span>{language === 'ar' && feature.textAr ? feature.textAr : feature.text}</span>
                 </li>

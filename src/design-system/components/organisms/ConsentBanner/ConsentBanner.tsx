@@ -209,7 +209,7 @@ export function ConsentBanner({
                 >
                   <div className="container mx-auto px-4 py-6">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-lg font-bold text-neutral-800 dark:text-neutral-100 flex items-center gap-2">
+                      <h3 className="text-lg font-bold text-primary-800 dark:text-primary-100 flex items-center gap-2">
                         <Settings className="w-5 h-5 text-primary-500" />
                         {language === 'ar' ? 'إعدادات ملفات تعريف الارتباط' : 'Cookie Preferences'}
                       </h3>
@@ -235,10 +235,10 @@ export function ConsentBanner({
                         >
                           <div className="flex items-start justify-between gap-4">
                             <div className="flex-1">
-                              <h4 className="font-semibold text-neutral-800 dark:text-neutral-100">
+                              <h4 className="font-semibold text-primary-800 dark:text-primary-100">
                                 {language === 'ar' ? category.nameAr : category.name}
                               </h4>
-                              <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">
+                              <p className="text-sm text-primary-500 dark:text-primary-400 mt-1">
                                 {language === 'ar' ? category.descriptionAr : category.description}
                               </p>
                             </div>
@@ -292,12 +292,12 @@ export function ConsentBanner({
                     <Cookie className="w-6 h-6 text-primary-600 dark:text-primary-400" />
                   </div>
                   <div>
-                    <h2 className="font-bold text-neutral-800 dark:text-neutral-100 mb-1">
+                    <h2 className="font-bold text-primary-800 dark:text-primary-100 mb-1">
                       {language === 'ar' 
                         ? 'نحن نستخدم ملفات تعريف الارتباط' 
                         : 'We use cookies'}
                     </h2>
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400 max-w-2xl">
+                    <p className="text-sm text-primary-600 dark:text-primary-400 max-w-2xl">
                       {language === 'ar'
                         ? 'نستخدم ملفات تعريف الارتباط لتحسين تجربتك وتحليل استخدام الموقع. وفقاً لنظام حماية البيانات الشخصية (PDPL)، نحتاج موافقتك لاستخدام بعض هذه الملفات.'
                         : 'We use cookies to enhance your experience and analyze site usage. In accordance with PDPL, we need your consent for certain cookies.'}

@@ -228,10 +228,10 @@ export function CTABlock({
           </span>
         )}
 
-        <h3 className="text-xl md:text-2xl font-bold mb-2">{displayTitle}</h3>
+        <h3 className="text-xl md:text-2xl font-bold text-primary-800 mb-2">{displayTitle}</h3>
 
         {displaySubtitle && (
-          <p className="text-neutral-600 mb-6">{displaySubtitle}</p>
+          <p className="text-primary-600 mb-6">{displaySubtitle}</p>
         )}
 
         <div className="flex flex-wrap gap-3">
@@ -246,7 +246,7 @@ export function CTABlock({
   if (variant === 'inline') {
     return (
       <div className={cn('flex flex-wrap items-center gap-4', className)}>
-        <span className="text-lg font-medium">{displayTitle}</span>
+        <span className="text-lg font-medium text-primary-800">{displayTitle}</span>
         {renderAction(primaryAction, true)}
         {secondaryAction && renderAction(secondaryAction, false)}
       </div>

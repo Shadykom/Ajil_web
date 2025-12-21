@@ -60,11 +60,11 @@ export const semanticColorsLight = {
     accent: brandColors.secondary[500],
     accentSubtle: brandColors.secondary[50],
   },
-  // Foreground/Text
+  // Foreground/Text - Blue primary text
   foreground: {
-    primary: brandColors.neutral[900],
-    secondary: brandColors.neutral[600],
-    tertiary: brandColors.neutral[500],
+    primary: brandColors.primary[800], // Blue text as primary
+    secondary: brandColors.primary[600], // Blue secondary text
+    tertiary: brandColors.primary[500], // Blue tertiary text
     disabled: brandColors.neutral[400],
     inverse: brandColors.neutral[0],
     brand: brandColors.primary[600],

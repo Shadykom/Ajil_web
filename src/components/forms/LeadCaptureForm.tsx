@@ -432,11 +432,11 @@ export function LeadCaptureForm({
         >
           {/* Step Header */}
           <div className="mb-6">
-            <h3 className="text-xl font-bold text-neutral-800 dark:text-neutral-100">
+            <h3 className="text-xl font-bold text-primary-800 dark:text-primary-100">
               {language === 'ar' ? currentStepData.titleAr : currentStepData.title}
             </h3>
             {currentStepData.description && (
-              <p className="text-neutral-500 dark:text-neutral-400 mt-1">
+              <p className="text-primary-500 dark:text-primary-400 mt-1">
                 {language === 'ar' ? currentStepData.descriptionAr : currentStepData.description}
               </p>
             )}
@@ -678,9 +678,9 @@ export function LeadCaptureForm({
                     type="checkbox"
                     checked={formData.consentTerms}
                     onChange={(e) => updateField('consentTerms', e.target.checked)}
-                    className="mt-1 w-5 h-5 rounded border-neutral-300 text-primary-500 focus:ring-primary-500"
+                    className="mt-1 w-5 h-5 rounded border-primary-300 text-primary-500 focus:ring-primary-500"
                   />
-                  <span className="text-sm text-neutral-600 dark:text-neutral-400">
+                  <span className="text-sm text-primary-600 dark:text-primary-400">
                     {language === 'ar'
                       ? 'أوافق على الشروط والأحكام'
                       : 'I agree to the Terms and Conditions'}
@@ -703,9 +703,9 @@ export function LeadCaptureForm({
                     type="checkbox"
                     checked={formData.consentPDPL}
                     onChange={(e) => updateField('consentPDPL', e.target.checked)}
-                    className="mt-1 w-5 h-5 rounded border-neutral-300 text-primary-500 focus:ring-primary-500"
+                    className="mt-1 w-5 h-5 rounded border-primary-300 text-primary-500 focus:ring-primary-500"
                   />
-                  <span className="text-sm text-neutral-600 dark:text-neutral-400">
+                  <span className="text-sm text-primary-600 dark:text-primary-400">
                     {language === 'ar'
                       ? 'أوافق على معالجة بياناتي الشخصية وفقاً لنظام حماية البيانات الشخصية'
                       : 'I consent to the processing of my personal data in accordance with PDPL'}
@@ -727,9 +727,9 @@ export function LeadCaptureForm({
                   type="checkbox"
                   checked={formData.consentMarketing}
                   onChange={(e) => updateField('consentMarketing', e.target.checked)}
-                  className="mt-1 w-5 h-5 rounded border-neutral-300 text-primary-500 focus:ring-primary-500"
+                  className="mt-1 w-5 h-5 rounded border-primary-300 text-primary-500 focus:ring-primary-500"
                 />
-                <span className="text-sm text-neutral-600 dark:text-neutral-400">
+                <span className="text-sm text-primary-600 dark:text-primary-400">
                   {language === 'ar'
                     ? 'أرغب في تلقي العروض والأخبار من أجل للتمويل'
                     : 'I would like to receive offers and news from AJIL Finance'}

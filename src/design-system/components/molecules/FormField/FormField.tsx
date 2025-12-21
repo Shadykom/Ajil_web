@@ -101,7 +101,7 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
               <label
                 htmlFor={htmlFor}
                 className={cn(
-                  'text-sm font-medium text-neutral-700 dark:text-neutral-300',
+                  'text-sm font-medium text-primary-700 dark:text-primary-300',
                   'flex items-center gap-1'
                 )}
               >
@@ -121,7 +121,7 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
             {hint && (
               <button
                 type="button"
-                className="text-neutral-400 hover:text-neutral-600 transition-colors"
+                className="text-primary-400 hover:text-primary-600 transition-colors"
                 aria-label={hint}
                 tabIndex={-1}
               >
@@ -179,7 +179,7 @@ export const FormField = forwardRef<HTMLDivElement, FormFieldProps>(
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 id={`${htmlFor}-helper`}
-                className="text-sm text-neutral-500"
+                className="text-sm text-primary-500"
               >
                 {helperText}
               </motion.p>

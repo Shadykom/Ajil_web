@@ -114,7 +114,7 @@ export function DisclosureBlock({
 
         {/* Title */}
         <div className="flex-1 min-w-0">
-          <h4 className="font-semibold text-neutral-800 dark:text-neutral-100">
+          <h4 className="font-semibold text-primary-800 dark:text-primary-100">
             {displayTitle}
           </h4>
           {displayBadge && (
@@ -146,7 +146,7 @@ export function DisclosureBlock({
             className="overflow-hidden"
           >
             <div className="px-4 pb-4 pt-0">
-              <div className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              <div className="text-sm text-primary-600 dark:text-primary-400 leading-relaxed">
                 {content}
               </div>
             </div>

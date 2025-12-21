@@ -5,9 +5,15 @@ const config: Config = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/design-system/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/templates/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
+      // Blue text as default
+      textColor: {
+        DEFAULT: '#00377B', // AJIL Navy Blue
+      },
       colors: {
         primary: {
           50: '#e6f0f8',
@@ -18,7 +24,7 @@ const config: Config = {
           500: '#0066b3',
           600: '#00528f',
           700: '#003d6b',
-          800: '#002948',
+          800: '#00377B', // AJIL Navy
           900: '#001424',
         },
         secondary: {

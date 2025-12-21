@@ -125,34 +125,34 @@ export function NewsCard({
           {/* Content */}
           <div className="p-5">
             {/* Date & Reading time */}
-            <div className="flex items-center gap-4 text-xs text-neutral-500 dark:text-neutral-400 mb-3">
+            <div className="flex items-center gap-4 text-xs text-primary-500 dark:text-primary-400 mb-3">
               <span className="flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5" />
+                <Calendar className="w-3.5 h-3.5 text-primary-500" />
                 {formattedDate}
               </span>
               {readingTime && (
                 <span className="flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5" />
+                  <Clock className="w-3.5 h-3.5 text-primary-500" />
                   {language === 'ar' ? `${readingTime} دقائق للقراءة` : `${readingTime} min read`}
                 </span>
               )}
             </div>
 
             {/* Title */}
-            <h3 className="text-lg font-bold text-neutral-800 dark:text-neutral-100 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors">
+            <h3 className="text-lg font-bold text-primary-800 dark:text-primary-100 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors">
               {displayTitle}
             </h3>
 
             {/* Excerpt */}
-            <p className="text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2 mb-4">
+            <p className="text-sm text-primary-600 dark:text-primary-400 line-clamp-2 mb-4">
               {displayExcerpt}
             </p>
 
             {/* Author & Read more */}
             <div className="flex items-center justify-between">
               {displayAuthor && (
-                <span className="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400">
-                  <User className="w-4 h-4" />
+                <span className="flex items-center gap-2 text-sm text-primary-500 dark:text-primary-400">
+                  <User className="w-4 h-4 text-primary-500" />
                   {displayAuthor}
                 </span>
               )}

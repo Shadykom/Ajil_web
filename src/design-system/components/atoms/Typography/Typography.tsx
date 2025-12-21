@@ -116,12 +116,12 @@ const variantStyles: Record<TypographyVariant, string> = {
   caption: 'text-xs leading-normal',
 };
 
-// Color styles
+// Color styles - Blue as default text color
 const colorStyles: Record<TypographyColor, string> = {
-  default: 'text-neutral-900 dark:text-neutral-50',
-  primary: 'text-neutral-900 dark:text-neutral-50',
-  secondary: 'text-neutral-600 dark:text-neutral-300',
-  tertiary: 'text-neutral-500 dark:text-neutral-400',
+  default: 'text-primary-800 dark:text-primary-200',
+  primary: 'text-primary-800 dark:text-primary-200',
+  secondary: 'text-primary-600 dark:text-primary-300',
+  tertiary: 'text-primary-500 dark:text-primary-400',
   brand: 'text-primary-600 dark:text-primary-400',
   accent: 'text-secondary-700 dark:text-secondary-400',
   success: 'text-green-600 dark:text-green-400',

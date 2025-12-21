@@ -325,11 +325,11 @@ export function LoanCalculator({
           {typeIcons[type]}
         </div>
         <div>
-          <h2 className="text-2xl font-bold text-neutral-800 dark:text-neutral-100">
+          <h2 className="text-2xl font-bold text-primary-800 dark:text-primary-100">
             {displayName}
           </h2>
           {displayDescription && (
-            <p className="text-sm text-neutral-500 dark:text-neutral-400">
+            <p className="text-sm text-primary-500 dark:text-primary-400">
               {displayDescription}
             </p>
           )}
@@ -343,9 +343,9 @@ export function LoanCalculator({
         {/* Input Panel */}
         <div className="space-y-6">
           {/* Amount Slider */}
-          <div className="bg-white dark:bg-neutral-900 rounded-2xl p-6 border border-neutral-200 dark:border-neutral-800">
+          <div className="bg-white dark:bg-neutral-900 rounded-2xl p-6 border border-primary-200 dark:border-primary-800">
             <div className="flex items-center justify-between mb-4">
-              <label className="font-semibold text-neutral-700 dark:text-neutral-300">
+              <label className="font-semibold text-primary-700 dark:text-primary-300">
                 {language === 'ar' ? 'مبلغ التمويل' : 'Financing Amount'}
               </label>
               <Badge color="primary" variant="soft">
@@ -368,9 +368,9 @@ export function LoanCalculator({
           </div>
 
           {/* Tenure Slider */}
-          <div className="bg-white dark:bg-neutral-900 rounded-2xl p-6 border border-neutral-200 dark:border-neutral-800">
+          <div className="bg-white dark:bg-neutral-900 rounded-2xl p-6 border border-primary-200 dark:border-primary-800">
             <div className="flex items-center justify-between mb-4">
-              <label className="font-semibold text-neutral-700 dark:text-neutral-300">
+              <label className="font-semibold text-primary-700 dark:text-primary-300">
                 {language === 'ar' ? 'مدة التمويل' : 'Financing Tenure'}
               </label>
               <Badge color="primary" variant="soft">
@@ -394,9 +394,9 @@ export function LoanCalculator({
 
           {/* Down Payment (if applicable) */}
           {config.minDownPayment !== undefined && (
-            <div className="bg-white dark:bg-neutral-900 rounded-2xl p-6 border border-neutral-200 dark:border-neutral-800">
+            <div className="bg-white dark:bg-neutral-900 rounded-2xl p-6 border border-primary-200 dark:border-primary-800">
               <div className="flex items-center justify-between mb-4">
-                <label className="font-semibold text-neutral-700 dark:text-neutral-300">
+                <label className="font-semibold text-primary-700 dark:text-primary-300">
                   {language === 'ar' ? 'الدفعة الأولى' : 'Down Payment'}
                 </label>
                 <Badge color="secondary" variant="soft">

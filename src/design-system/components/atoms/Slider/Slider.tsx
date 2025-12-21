@@ -209,10 +209,10 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
         {/* Min/Max Labels */}
         {showMinMax && (
           <div className="flex justify-between mb-2">
-            <span className={cn('text-neutral-500', sizeStyles[size].label)}>
+            <span className={cn('text-primary-500', sizeStyles[size].label)}>
               {formatMinMax(min)}
             </span>
-            <span className={cn('text-neutral-500', sizeStyles[size].label)}>
+            <span className={cn('text-primary-500', sizeStyles[size].label)}>
               {formatMinMax(max)}
             </span>
           </div>
@@ -326,7 +326,7 @@ export const Slider = forwardRef<HTMLDivElement, SliderProps>(
         {/* Current value display (alternative to tooltip) */}
         {showValue && !showTooltip && !isDragging && (
           <div className="mt-2 text-center">
-            <span className={cn('font-semibold text-neutral-700', sizeStyles[size].label)}>
+            <span className={cn('font-semibold text-primary-700', sizeStyles[size].label)}>
               {formatValue(value)}
             </span>
           </div>

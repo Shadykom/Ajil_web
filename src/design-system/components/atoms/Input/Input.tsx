@@ -121,7 +121,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label 
             htmlFor={inputId} 
-            className="text-sm font-medium text-neutral-700"
+            className="text-sm font-medium text-primary-700"
           >
             {label}
             {required && <span className="text-red-500 mr-1 rtl:ml-1 rtl:mr-0">*</span>}
@@ -132,7 +132,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         <div className={containerStyles}>
           {/* Left addon */}
           {leftAddon && (
-            <span className="flex items-center text-neutral-500 shrink-0">
+            <span className="flex items-center text-primary-500 shrink-0">
               {leftAddon}
             </span>
           )}
@@ -146,8 +146,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             className={cn(
               'flex-1 min-w-0',
               'bg-transparent border-0 outline-none',
-              'placeholder:text-neutral-400',
-              'text-neutral-900',
+              'placeholder:text-primary-300',
+              'text-primary-800', // Blue text
               disabled && 'cursor-not-allowed'
             )}
             onFocus={(e) => {
@@ -201,7 +201,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
           {/* Right addon */}
           {rightAddon && !isPasswordType && (
-            <span className="flex items-center text-neutral-500 shrink-0">
+            <span className="flex items-center text-primary-500 shrink-0">
               {rightAddon}
             </span>
           )}

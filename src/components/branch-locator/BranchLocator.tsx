@@ -254,7 +254,7 @@ export function BranchLocator({
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="flex-1">
             <div className="flex items-center gap-2">
-              <h3 className="font-bold text-neutral-800 dark:text-neutral-100">
+              <h3 className="font-bold text-primary-800 dark:text-primary-100">
                 {displayName}
               </h3>
               {branch.isMainBranch && (
@@ -263,8 +263,8 @@ export function BranchLocator({
                 </Badge>
               )}
             </div>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400 flex items-center gap-1 mt-1">
-              <MapPin className="w-4 h-4 shrink-0" />
+            <p className="text-sm text-primary-500 dark:text-primary-400 flex items-center gap-1 mt-1">
+              <MapPin className="w-4 h-4 shrink-0 text-primary-500" />
               {displayAddress}, {displayCity}
             </p>
           </div>
@@ -278,7 +278,7 @@ export function BranchLocator({
         </div>
 
         {/* Hours */}
-        <div className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400 mb-3">
+        <div className="flex items-center gap-2 text-sm text-primary-600 dark:text-primary-400 mb-3">
           <Clock className="w-4 h-4 text-primary-500" />
           <span>{displayHours}</span>
         </div>
@@ -325,16 +325,16 @@ export function BranchLocator({
         {(branch.hasAccessibility || branch.hasParking) && (
           <div className="flex items-center gap-3 mt-3 pt-3 border-t border-neutral-200 dark:border-neutral-800">
             {branch.hasAccessibility && (
-              <span className="text-xs text-neutral-500 flex items-center gap-1">
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <span className="text-xs text-primary-500 flex items-center gap-1">
+                <svg className="w-4 h-4 text-primary-500" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 2a2 2 0 100 4 2 2 0 000-4zm6 7h-3.9l-2.1 5.4-2.1-5.4H6a2 2 0 00-2 2v6a2 2 0 004 0v-4h.9l2.1 5.4V22a2 2 0 004 0v-4.6l2.1-5.4h.9v4a2 2 0 004 0v-6a2 2 0 00-2-2z"/>
                 </svg>
                 {language === 'ar' ? 'وصول ذوي الاحتياجات' : 'Accessible'}
               </span>
             )}
             {branch.hasParking && (
-              <span className="text-xs text-neutral-500 flex items-center gap-1">
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <span className="text-xs text-primary-500 flex items-center gap-1">
+                <svg className="w-4 h-4 text-primary-500" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M13 3H6v18h4v-6h3c3.31 0 6-2.69 6-6s-2.69-6-6-6zm.2 8H10V7h3.2c1.1 0 2 .9 2 2s-.9 2-2 2z"/>
                 </svg>
                 {language === 'ar' ? 'موقف سيارات' : 'Parking'}
