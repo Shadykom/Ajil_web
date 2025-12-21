@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import {
   Car,
@@ -25,290 +25,289 @@ import {
 import { useI18n } from '@/lib/i18n';
 import Link from 'next/link';
 
-// Colors matching Stripe's palette
+// Stripe's exact sizes
+const INACTIVE_SIZE = 78;
+const ACTIVE_SIZE = 88;
+const GAP = 12;
+const BORDER_RADIUS = 8;
+
+// Stripe's exact colors
 const COLORS = {
-  orange: '#FF6B35',
-  blue: '#0066FF',
-  purple: '#9B5DE5',
-  cyan: '#00D4FF',
-  green: '#00D68F',
-  pink: '#FF5CAA',
+  outlineBorder: '#c4ccd8',
+  outlineBackground: '#f6f9fc',
+  solidBackground: '#ffffff',
+  labelColor: '#2e3a55',
 };
 
-// Grid configuration - 7 columns x 5 rows
-const GRID_COLS = 7;
-const GRID_ROWS = 5;
-const CARD_SIZE = 80; // px
-const GAP = 16; // px
-
-// Active products with their grid positions (1-indexed for clarity)
-const activeProducts = [
+// Product definitions with their colors and grid positions
+const products = [
   {
     id: 'car',
     icon: Car,
     label: { ar: 'السيارات', en: 'Auto' },
-    gradient: 'linear-gradient(135deg, #FF6B35 0%, #FF8F6B 100%)',
-    gridCol: 4,
-    gridRow: 1,
+    gradient: ['#11EFE3', '#FF6B35'],
+    color: '#FF6B35',
     href: '/individuals/car-financing',
+    row: 1,
+    col: 3,
   },
   {
     id: 'financing',
     icon: Wallet,
     label: { ar: 'التمويل', en: 'Finance' },
-    gradient: 'linear-gradient(135deg, #0066FF 0%, #00A3FF 100%)',
-    gridCol: 4,
-    gridRow: 2,
+    gradient: ['#0073E6', '#00A3FF'],
+    color: '#0066FF',
     href: '/individuals/personal-financing',
+    row: 2,
+    col: 3,
   },
   {
     id: 'business',
     icon: Building2,
     label: { ar: 'الأعمال', en: 'Business' },
-    gradient: 'linear-gradient(135deg, #9B5DE5 0%, #C77DFF 100%)',
-    gridCol: 3,
-    gridRow: 3,
+    gradient: ['#9B5DE5', '#C77DFF'],
+    color: '#9B5DE5',
     href: '/business/cash-financing',
+    row: 3,
+    col: 2,
   },
   {
     id: 'calculator',
     icon: Calculator,
     label: { ar: 'الحاسبة', en: 'Calculator' },
-    gradient: 'linear-gradient(135deg, #00D4FF 0%, #00F5FF 100%)',
-    gridCol: 4,
-    gridRow: 4,
+    gradient: ['#00D4FF', '#11EFE3'],
+    color: '#00D4FF',
     href: '/calculator',
+    row: 4,
+    col: 3,
   },
 ];
 
-// Wire connections with colors
-const wireConnections = [
-  { from: 'car', to: 'financing', color: '#FF6B35' },
-  { from: 'financing', to: 'business', color: '#0066FF' },
-  { from: 'financing', to: 'calculator', color: '#0066FF' },
-  { from: 'business', to: 'calculator', color: '#9B5DE5' },
+// Ghost icons with their grid positions
+const ghostIcons = [
+  { icon: Layers, row: 1, col: 1 },
+  { icon: FileText, row: 1, col: 2 },
+  { icon: CreditCard, row: 1, col: 5 },
+  { icon: Settings, row: 2, col: 1 },
+  { icon: Clock, row: 2, col: 4 },
+  { icon: TrendingUp, row: 2, col: 5 },
+  { icon: ShieldCheck, row: 2, col: 6 },
+  { icon: Globe, row: 3, col: 4 },
+  { icon: Lock, row: 3, col: 6 },
+  { icon: Zap, row: 4, col: 1 },
+  { icon: BarChart3, row: 4, col: 2 },
+  { icon: Smartphone, row: 4, col: 5 },
 ];
 
-// Ghost cards positions
-const ghostCards = [
-  { icon: Layers, gridCol: 2, gridRow: 1 },
-  { icon: FileText, gridCol: 3, gridRow: 1 },
-  { icon: CreditCard, gridCol: 6, gridRow: 1 },
-  { icon: Settings, gridCol: 1, gridRow: 2 },
-  { icon: Clock, gridCol: 3, gridRow: 2 },
-  { icon: TrendingUp, gridCol: 5, gridRow: 2 },
-  { icon: ShieldCheck, gridCol: 7, gridRow: 2 },
-  { icon: Globe, gridCol: 5, gridRow: 3 },
-  { icon: Lock, gridCol: 7, gridRow: 3 },
-  { icon: Zap, gridCol: 2, gridRow: 4 },
-  { icon: BarChart3, gridCol: 3, gridRow: 4 },
-  { icon: Smartphone, gridCol: 6, gridRow: 4 },
+// Wire connections between products
+const connections = [
+  { from: 'car', to: 'financing' },
+  { from: 'financing', to: 'business' },
+  { from: 'financing', to: 'calculator' },
 ];
 
-// Calculate pixel position from grid position
-function getPosition(gridCol: number, gridRow: number) {
-  return {
-    x: (gridCol - 1) * (CARD_SIZE + GAP) + CARD_SIZE / 2,
-    y: (gridRow - 1) * (CARD_SIZE + GAP) + CARD_SIZE / 2,
-  };
-}
-
-// Ghost Card Component
-function GhostCard({ icon: Icon, gridCol, gridRow }: { icon: React.ElementType; gridCol: number; gridRow: number }) {
+// Ghost Icon Component - Matches Stripe's outline style exactly
+function GhostIcon({
+  icon: Icon,
+  row,
+  col,
+}: {
+  icon: React.ElementType;
+  row: number;
+  col: number;
+}) {
   return (
-    <motion.div
+    <div
       className="absolute flex items-center justify-center"
       style={{
-        width: CARD_SIZE,
-        height: CARD_SIZE,
-        left: (gridCol - 1) * (CARD_SIZE + GAP),
-        top: (gridRow - 1) * (CARD_SIZE + GAP),
-        borderRadius: 16,
-        border: '1.5px solid #E5E7EB',
-        background: 'rgba(255,255,255,0.5)',
+        width: INACTIVE_SIZE,
+        height: INACTIVE_SIZE,
+        borderRadius: BORDER_RADIUS,
+        border: `1px solid ${COLORS.outlineBorder}`,
+        background: COLORS.outlineBackground,
+        left: (col - 1) * (INACTIVE_SIZE + GAP),
+        top: (row - 1) * (INACTIVE_SIZE + GAP),
       }}
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, delay: Math.random() * 0.3 }}
     >
-      <Icon className="w-7 h-7 text-gray-300" strokeWidth={1.5} />
-    </motion.div>
+      <Icon
+        className="text-gray-400"
+        style={{ width: 28, height: 28 }}
+        strokeWidth={1.5}
+      />
+    </div>
   );
 }
 
-// Active Card Component
-function ActiveCard({
+// Active Product Icon Component - Matches Stripe's solid style exactly
+function ProductIcon({
   product,
-  isHovered,
+  isActive,
   onHover,
 }: {
-  product: typeof activeProducts[0];
-  isHovered: boolean;
+  product: (typeof products)[0];
+  isActive: boolean;
   onHover: (id: string | null) => void;
 }) {
   const { language } = useI18n();
   const Icon = product.icon;
+
+  // Position calculations - center the larger active icon
+  const offset = (ACTIVE_SIZE - INACTIVE_SIZE) / 2;
+  const left = (product.col - 1) * (INACTIVE_SIZE + GAP) - offset;
+  const top = (product.row - 1) * (INACTIVE_SIZE + GAP) - offset;
 
   return (
     <Link href={product.href}>
       <motion.div
         className="absolute cursor-pointer"
         style={{
-          left: (product.gridCol - 1) * (CARD_SIZE + GAP) - 10,
-          top: (product.gridRow - 1) * (CARD_SIZE + GAP) - 10,
+          left,
+          top,
+          width: ACTIVE_SIZE,
+          height: ACTIVE_SIZE + 24, // Extra space for label
         }}
         onMouseEnter={() => onHover(product.id)}
         onMouseLeave={() => onHover(null)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.98 }}
       >
+        {/* Icon container */}
         <motion.div
-          className="flex flex-col items-center justify-center bg-white rounded-2xl"
+          className="relative flex items-center justify-center"
           style={{
-            width: CARD_SIZE + 20,
-            height: CARD_SIZE + 30,
-            boxShadow: isHovered
-              ? '0 20px 40px -10px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.05)'
-              : '0 10px 30px -5px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05)',
+            width: ACTIVE_SIZE,
+            height: ACTIVE_SIZE,
+            borderRadius: BORDER_RADIUS,
+            background: COLORS.solidBackground,
+            boxShadow: isActive
+              ? '0 20px 40px -12px rgba(50,50,93,.35), 0 12px 24px -8px rgba(0,0,0,.15)'
+              : '0 12.6px 25.2px -11.5px rgba(50,50,93,.25), 0 7.56px 15.12px -7.56px rgba(0,0,0,.1)',
           }}
-          animate={{ y: isHovered ? -5 : 0 }}
-          transition={{ duration: 0.2 }}
+          animate={{
+            scale: isActive ? 1.08 : 1,
+            y: isActive ? -4 : 0,
+          }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
         >
-          {/* Icon with gradient background */}
+          {/* Gradient icon background */}
           <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center mb-2"
-            style={{ background: product.gradient }}
+            className="flex items-center justify-center"
+            style={{
+              width: 44,
+              height: 44,
+              borderRadius: 10,
+              background: `linear-gradient(135deg, ${product.gradient[0]} 0%, ${product.gradient[1]} 100%)`,
+            }}
           >
-            <Icon className="w-6 h-6 text-white" strokeWidth={2} />
+            <Icon className="text-white" style={{ width: 24, height: 24 }} strokeWidth={2} />
           </div>
-          
-          {/* Label */}
-          <span className="text-xs font-semibold text-gray-700">
-            {language === 'ar' ? product.label.ar : product.label.en}
-          </span>
         </motion.div>
-        
-        {/* Connection dot */}
+
+        {/* Label - Stripe style */}
         <motion.div
-          className="absolute left-1/2 -translate-x-1/2 w-3 h-3 rounded-full"
+          className="absolute text-center w-full"
           style={{
-            bottom: -6,
-            background: product.gradient.includes('#FF6B35') ? '#FF6B35' : 
-                        product.gradient.includes('#0066FF') ? '#0066FF' : 
-                        product.gradient.includes('#9B5DE5') ? '#9B5DE5' : '#00D4FF',
-            boxShadow: `0 0 10px ${product.gradient.includes('#FF6B35') ? '#FF6B35' : 
-                        product.gradient.includes('#0066FF') ? '#0066FF' : 
-                        product.gradient.includes('#9B5DE5') ? '#9B5DE5' : '#00D4FF'}`,
+            bottom: 0,
+            fontWeight: 600,
+            fontSize: 12,
+            lineHeight: '15px',
+            letterSpacing: '0.2px',
+            color: COLORS.labelColor,
           }}
-          animate={{ scale: isHovered ? 1.3 : 1 }}
-        />
+          animate={{ opacity: isActive ? 1 : 0.8 }}
+        >
+          {language === 'ar' ? product.label.ar : product.label.en}
+        </motion.div>
       </motion.div>
     </Link>
   );
 }
 
-// Animated Wire Component with proper path animation
-function AnimatedWire({
+// SVG Wire with gradient stroke - Matches Stripe exactly
+function Wire({
   from,
   to,
-  color,
+  gradient,
+  id,
   isActive,
-  index,
 }: {
-  from: { x: number; y: number };
-  to: { x: number; y: number };
-  color: string;
+  from: { row: number; col: number };
+  to: { row: number; col: number };
+  gradient: [string, string];
+  id: string;
   isActive: boolean;
-  index: number;
 }) {
-  // Calculate curved path
-  const dx = to.x - from.x;
-  const dy = to.y - from.y;
-  
-  // Start and end points with offset for card edges
-  const startY = from.y + 55;
-  const endY = to.y - 25;
-  
-  // Create smooth bezier curve
-  let path: string;
-  
-  if (Math.abs(dx) < 30) {
-    // Nearly vertical - simple curved line
-    const curveX = from.x + (Math.random() > 0.5 ? 20 : -20);
-    path = `M ${from.x} ${startY} Q ${curveX} ${(startY + endY) / 2}, ${to.x} ${endY}`;
-  } else {
-    // Diagonal connection - S-curve
-    const midY = (startY + endY) / 2;
-    path = `M ${from.x} ${startY} C ${from.x} ${midY}, ${to.x} ${midY}, ${to.x} ${endY}`;
-  }
+  // Calculate center positions of icons
+  const fromX = (from.col - 1) * (INACTIVE_SIZE + GAP) + INACTIVE_SIZE / 2;
+  const fromY = (from.row - 1) * (INACTIVE_SIZE + GAP) + INACTIVE_SIZE / 2;
+  const toX = (to.col - 1) * (INACTIVE_SIZE + GAP) + INACTIVE_SIZE / 2;
+  const toY = (to.row - 1) * (INACTIVE_SIZE + GAP) + INACTIVE_SIZE / 2;
+
+  // Edge offsets (from edge of icon, not center)
+  const startY = fromY + INACTIVE_SIZE / 2 + 4;
+  const endY = toY - INACTIVE_SIZE / 2 - 4;
+
+  // Calculate path - curved line from bottom of source to top of destination
+  const midY = (startY + endY) / 2;
+  const path =
+    from.col === to.col
+      ? // Vertical connection
+        `M ${fromX} ${startY} L ${toX} ${endY}`
+      : // Diagonal connection with curve
+        `M ${fromX} ${startY} C ${fromX} ${midY}, ${toX} ${midY}, ${toX} ${endY}`;
 
   return (
-    <g>
-      {/* Static background line */}
-      <path
-        d={path}
-        fill="none"
-        stroke={`${color}15`}
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      
-      {/* Animated dashed line */}
+    <svg
+      className="absolute top-0 left-0 pointer-events-none"
+      style={{
+        width: '100%',
+        height: '100%',
+        overflow: 'visible',
+      }}
+    >
+      <defs>
+        <linearGradient
+          id={`gradient-${id}`}
+          gradientUnits="userSpaceOnUse"
+          x1={fromX}
+          y1={startY}
+          x2={toX}
+          y2={endY}
+        >
+          <stop offset="0" stopColor={gradient[0]} />
+          <stop offset="1" stopColor={gradient[1]} />
+        </linearGradient>
+      </defs>
+
+      {/* Main wire path */}
       <motion.path
         d={path}
         fill="none"
-        stroke={isActive ? color : `${color}40`}
-        strokeWidth={isActive ? 2.5 : 1.5}
+        stroke={`url(#gradient-${id})`}
+        strokeWidth={2}
         strokeLinecap="round"
-        strokeDasharray="5 5"
-        initial={{ strokeDashoffset: 0 }}
-        animate={{ strokeDashoffset: -10 }}
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={{
+          pathLength: 1,
+          opacity: isActive ? 1 : 0.6,
+        }}
         transition={{
-          duration: 0.6,
-          repeat: Infinity,
-          ease: 'linear',
+          pathLength: { duration: 1, ease: 'easeInOut' },
+          opacity: { duration: 0.3 },
         }}
         style={{
-          filter: isActive ? `drop-shadow(0 0 3px ${color})` : 'none',
+          filter: isActive ? `drop-shadow(0 0 6px ${gradient[0]})` : 'none',
         }}
       />
-      
-      {/* Traveling dot using CSS animation */}
-      <circle r="0" fill="transparent">
-        <animateMotion
-          dur="2s"
-          repeatCount="indefinite"
-          path={path}
-          begin={`${index * 0.5}s`}
-        >
-          <mpath href={`#wire-path-${index}`} />
+
+      {/* Animated dot traveling along the path */}
+      <circle r={isActive ? 5 : 4} fill={gradient[1]}>
+        <animateMotion dur="2s" repeatCount="indefinite" path={path}>
+          <mpath xlinkHref={`#path-${id}`} />
         </animateMotion>
       </circle>
-      
-      {/* Define path for animateMotion */}
-      <path id={`wire-path-${index}`} d={path} fill="none" stroke="none" />
-      
-      {/* Animated dot */}
-      <motion.g
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: index * 0.2 }}
-      >
-        <circle
-          r={isActive ? 5 : 4}
-          fill={color}
-          style={{ filter: `drop-shadow(0 0 6px ${color})` }}
-        >
-          <animateMotion
-            dur="2s"
-            repeatCount="indefinite"
-            begin={`${index * 0.3}s`}
-          >
-            <mpath href={`#wire-path-${index}`} />
-          </animateMotion>
-        </circle>
-      </motion.g>
-    </g>
+
+      {/* Hidden path for animateMotion */}
+      <path id={`path-${id}`} d={path} fill="none" stroke="none" />
+    </svg>
   );
 }
 
@@ -316,32 +315,16 @@ function AnimatedWire({
 export default function StripeProductGrid() {
   const { language, dir } = useI18n();
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  // Calculate grid dimensions
-  const gridWidth = GRID_COLS * (CARD_SIZE + GAP) - GAP;
-  const gridHeight = GRID_ROWS * (CARD_SIZE + GAP) - GAP;
-
-  // Get positions for wires
-  const getProductPosition = (id: string) => {
-    const product = activeProducts.find((p) => p.id === id);
-    if (!product) return { x: 0, y: 0 };
-    return getPosition(product.gridCol, product.gridRow);
-  };
+  // Grid dimensions
+  const gridCols = 6;
+  const gridRows = 4;
+  const gridWidth = gridCols * INACTIVE_SIZE + (gridCols - 1) * GAP;
+  const gridHeight = gridRows * (INACTIVE_SIZE + GAP) + 24; // Extra for labels
 
   return (
-    <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-to-b from-gray-50 to-white">
-      {/* Subtle grid background */}
-      <div 
-        className="absolute inset-0 opacity-[0.02]"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)
-          `,
-          backgroundSize: '40px 40px',
-        }}
-      />
-      
+    <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -358,7 +341,7 @@ export default function StripeProductGrid() {
           >
             {language === 'ar' ? 'منظومة متكاملة' : 'Integrated Suite'}
           </motion.span>
-          
+
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
             {language === 'ar' ? (
               <>
@@ -378,73 +361,63 @@ export default function StripeProductGrid() {
               </>
             )}
           </h2>
-          
+
           <p className="text-lg text-gray-500 max-w-2xl mx-auto">
             {language === 'ar'
-              ? 'جميع خدماتنا متصلة ومتكاملة لتوفير تجربة تمويلية سلسة ومميزة'
-              : 'All our services work together seamlessly to provide a unified financing experience'}
+              ? 'جميع خدماتنا متصلة ومتكاملة لتوفير تجربة تمويلية سلسة'
+              : 'All our services work together to provide a seamless financing experience'}
           </p>
         </motion.div>
 
-        {/* Product Grid Container */}
+        {/* Grid Container */}
         <div className="flex justify-center">
-          <div 
+          <motion.div
+            ref={containerRef}
             className="relative"
-            style={{ 
-              width: gridWidth + 40, 
-              height: gridHeight + 60,
+            style={{
+              width: gridWidth,
+              height: gridHeight,
             }}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            {/* SVG Layer for Wires */}
-            <svg 
-              className="absolute inset-0 pointer-events-none"
-              style={{ 
-                width: gridWidth + 40, 
-                height: gridHeight + 60,
-                overflow: 'visible',
-              }}
-            >
-              {wireConnections.map((wire, index) => {
-                const fromPos = getProductPosition(wire.from);
-                const toPos = getProductPosition(wire.to);
-                const isActive = hoveredProduct === wire.from || hoveredProduct === wire.to;
-                
-                return (
-                  <AnimatedWire
-                    key={`${wire.from}-${wire.to}`}
-                    from={fromPos}
-                    to={toPos}
-                    color={wire.color}
-                    isActive={isActive}
-                    index={index}
-                  />
-                );
-              })}
-            </svg>
+            {/* Wires (rendered first, behind icons) */}
+            {connections.map((conn) => {
+              const fromProduct = products.find((p) => p.id === conn.from)!;
+              const toProduct = products.find((p) => p.id === conn.to)!;
 
-            {/* Ghost Cards */}
-            {ghostCards.map((ghost, index) => (
-              <GhostCard
-                key={index}
-                icon={ghost.icon}
-                gridCol={ghost.gridCol}
-                gridRow={ghost.gridRow}
-              />
+              return (
+                <Wire
+                  key={`${conn.from}-${conn.to}`}
+                  from={{ row: fromProduct.row, col: fromProduct.col }}
+                  to={{ row: toProduct.row, col: toProduct.col }}
+                  gradient={fromProduct.gradient as [string, string]}
+                  id={`${conn.from}-${conn.to}`}
+                  isActive={hoveredProduct === conn.from || hoveredProduct === conn.to}
+                />
+              );
+            })}
+
+            {/* Ghost Icons */}
+            {ghostIcons.map((ghost, index) => (
+              <GhostIcon key={index} icon={ghost.icon} row={ghost.row} col={ghost.col} />
             ))}
 
-            {/* Active Product Cards */}
-            {activeProducts.map((product) => (
-              <ActiveCard
+            {/* Product Icons */}
+            {products.map((product) => (
+              <ProductIcon
                 key={product.id}
                 product={product}
-                isHovered={hoveredProduct === product.id}
+                isActive={hoveredProduct === product.id}
                 onHover={setHoveredProduct}
               />
             ))}
-          </div>
+          </motion.div>
         </div>
 
-        {/* CTA Button */}
+        {/* CTA */}
         <motion.div
           className="text-center mt-16"
           initial={{ opacity: 0, y: 20 }}
