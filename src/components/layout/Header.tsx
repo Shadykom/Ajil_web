@@ -329,26 +329,20 @@ export default function Header() {
                   {item.href ? (
                     <Link
                       href={item.href}
-                      className={`flex items-center gap-1.5 px-4 py-6 font-semibold text-sm transition-colors ${
-                        isScrolled ? 'hover:text-[#0066b3]' : 'hover:opacity-80'
-                      }`}
+                      className="flex items-center gap-1.5 px-4 py-6 font-semibold text-sm transition-colors"
                       style={{ 
-                        color: activeDropdown === item.key 
-                          ? (isScrolled ? AJIL_BLUE_LIGHT : '#ffffff') 
-                          : (isScrolled ? AJIL_BLUE : AJIL_GOLD)
+                        color: isScrolled ? AJIL_BLUE : AJIL_GOLD,
+                        textShadow: isScrolled ? 'none' : '0 1px 2px rgba(0,0,0,0.3)'
                       }}
                     >
                       <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
                     </Link>
                   ) : (
                     <button
-                      className={`flex items-center gap-1.5 px-4 py-6 font-semibold text-sm transition-colors ${
-                        isScrolled ? 'hover:text-[#0066b3]' : 'hover:opacity-80'
-                      }`}
+                      className="flex items-center gap-1.5 px-4 py-6 font-semibold text-sm transition-colors"
                       style={{ 
-                        color: activeDropdown === item.key 
-                          ? (isScrolled ? AJIL_BLUE_LIGHT : '#ffffff') 
-                          : (isScrolled ? AJIL_BLUE : AJIL_GOLD)
+                        color: isScrolled ? AJIL_BLUE : AJIL_GOLD,
+                        textShadow: isScrolled ? 'none' : '0 1px 2px rgba(0,0,0,0.3)'
                       }}
                     >
                       <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
@@ -448,10 +442,12 @@ export default function Header() {
               {/* Switch to Modern Homepage */}
               <Link
                 href="/modern"
-                className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all hover:opacity-90 border-2 ${
-                  isScrolled ? '' : 'border-white/50 text-white hover:bg-white/10'
-                }`}
-                style={isScrolled ? { borderColor: AJIL_BLUE, color: AJIL_BLUE } : {}}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all hover:opacity-90 border-2"
+                style={{ 
+                  borderColor: isScrolled ? AJIL_BLUE : AJIL_GOLD, 
+                  color: isScrolled ? AJIL_BLUE : AJIL_GOLD,
+                  textShadow: isScrolled ? 'none' : '0 1px 2px rgba(0,0,0,0.3)'
+                }}
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
@@ -472,12 +468,12 @@ export default function Header() {
             <button
               onClick={() => setIsMobileMenuOpen(true)}
               className={`lg:hidden w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${
-                isScrolled ? '' : 'bg-white/20'
+                isScrolled ? '' : 'bg-black/20'
               }`}
               style={isScrolled ? { backgroundColor: `${AJIL_BLUE}10` } : {}}
               aria-label="Open menu"
             >
-              <Menu className="w-5 h-5" style={{ color: isScrolled ? AJIL_BLUE : '#ffffff' }} />
+              <Menu className="w-5 h-5" style={{ color: isScrolled ? AJIL_BLUE : AJIL_GOLD }} />
             </button>
           </div>
         </div>
