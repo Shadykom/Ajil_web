@@ -1262,9 +1262,11 @@ function ModernHeader() {
                   {item.href ? (
                     <Link
                       href={item.href}
-                      className="flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300 hover:opacity-80"
+                      className={cn(
+                        "flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300 hover:opacity-80",
+                        isScrolled ? "text-[#00377B]" : "text-[#FFB347]"
+                      )}
                       style={{ 
-                        color: isScrolled ? '#00377B' : '#FFB347',
                         textShadow: isScrolled ? 'none' : '1px 1px 3px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.3)'
                       }}
                     >
@@ -1272,9 +1274,11 @@ function ModernHeader() {
                     </Link>
                   ) : (
                     <button
-                      className="flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300 hover:opacity-80"
+                      className={cn(
+                        "flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300 hover:opacity-80",
+                        isScrolled ? "text-[#00377B]" : "text-[#FFB347]"
+                      )}
                       style={{ 
-                        color: isScrolled ? '#00377B' : '#FFB347',
                         textShadow: isScrolled ? 'none' : '1px 1px 3px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.3)'
                       }}
                     >
