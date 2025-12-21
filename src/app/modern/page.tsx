@@ -1267,7 +1267,7 @@ function ModernHeader() {
                         isScrolled ? "text-[#00377B]" : "text-[#FFB347]"
                       )}
                       style={{ 
-                        textShadow: isScrolled ? 'none' : '1px 1px 3px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.3)'
+                        textShadow: isScrolled ? 'none' : '0 0 8px rgba(247,148,29,0.6), 0 0 16px rgba(247,148,29,0.4), 1px 1px 2px rgba(0,0,0,0.5)'
                       }}
                     >
                       <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
@@ -1279,7 +1279,7 @@ function ModernHeader() {
                         isScrolled ? "text-[#00377B]" : "text-[#FFB347]"
                       )}
                       style={{ 
-                        textShadow: isScrolled ? 'none' : '1px 1px 3px rgba(0,0,0,0.8), 0 0 10px rgba(0,0,0,0.3)'
+                        textShadow: isScrolled ? 'none' : '0 0 8px rgba(247,148,29,0.6), 0 0 16px rgba(247,148,29,0.4), 1px 1px 2px rgba(0,0,0,0.5)'
                       }}
                     >
                       <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
