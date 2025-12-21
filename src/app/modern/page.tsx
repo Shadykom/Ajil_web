@@ -1147,6 +1147,8 @@ function ModernHeader() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+    // Check initial scroll position
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -1260,23 +1262,21 @@ function ModernHeader() {
                   {item.href ? (
                     <Link
                       href={item.href}
-                      className={cn(
-                        "flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300",
-                        isScrolled 
-                          ? "text-[#00377B] hover:text-[#0066B3]" 
-                          : "text-[#F7941D] hover:text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]"
-                      )}
+                      className="flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300"
+                      style={{ 
+                        color: isScrolled ? '#00377B' : '#F7941D',
+                        textShadow: isScrolled ? 'none' : '0 2px 4px rgba(0,0,0,0.5)'
+                      }}
                     >
                       <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
                     </Link>
                   ) : (
                     <button
-                      className={cn(
-                        "flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300",
-                        isScrolled 
-                          ? "text-[#00377B] hover:text-[#0066B3]" 
-                          : "text-[#F7941D] hover:text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]"
-                      )}
+                      className="flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300"
+                      style={{ 
+                        color: isScrolled ? '#00377B' : '#F7941D',
+                        textShadow: isScrolled ? 'none' : '0 2px 4px rgba(0,0,0,0.5)'
+                      }}
                     >
                       <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
                       <ChevronDown 
