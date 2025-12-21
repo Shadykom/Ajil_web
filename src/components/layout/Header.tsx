@@ -433,6 +433,17 @@ export default function Header() {
 
             {/* Desktop CTA */}
             <div className="hidden lg:flex items-center gap-3">
+              {/* Switch to Modern Homepage */}
+              <Link
+                href="/modern"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all hover:opacity-90 border-2"
+                style={{ borderColor: AJIL_BLUE, color: AJIL_BLUE }}
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                </svg>
+                <span>{language === 'ar' ? 'التصميم الحديث' : 'Modern Design'}</span>
+              </Link>
               <Link
                 href="/apply"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all hover:opacity-90 hover:scale-105"
@@ -610,6 +621,19 @@ export default function Header() {
 
               {/* Menu Footer */}
               <div className="p-4 border-t border-gray-100">
+                {/* Switch to Modern */}
+                <Link
+                  href="/modern"
+                  className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold border-2 mb-3 transition-colors"
+                  style={{ borderColor: AJIL_BLUE, color: AJIL_BLUE }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                  </svg>
+                  <span>{language === 'ar' ? 'جرّب التصميم الحديث' : 'Try Modern Design'}</span>
+                </Link>
+                
                 {/* Apply Button with A shape */}
                 <Link
                   href="/apply"

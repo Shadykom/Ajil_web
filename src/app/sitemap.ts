@@ -6,6 +6,7 @@ const BASE_URL = 'https://ajil.com';
 // Static pages
 const staticPages = [
   '',
+  '/modern',
   '/about/story',
   '/about/news',
   '/about/reports',
