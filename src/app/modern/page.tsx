@@ -1260,21 +1260,23 @@ function ModernHeader() {
                   {item.href ? (
                     <Link
                       href={item.href}
-                      className="flex items-center gap-1.5 px-4 py-6 font-semibold text-sm transition-colors"
-                      style={{ 
-                        color: isScrolled ? COLORS.navy : COLORS.gold,
-                        textShadow: isScrolled ? 'none' : '0 1px 2px rgba(0,0,0,0.3)'
-                      }}
+                      className={cn(
+                        "flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300",
+                        isScrolled 
+                          ? "text-[#00377B] hover:text-[#0066B3]" 
+                          : "text-[#F7941D] hover:text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]"
+                      )}
                     >
                       <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
                     </Link>
                   ) : (
                     <button
-                      className="flex items-center gap-1.5 px-4 py-6 font-semibold text-sm transition-colors"
-                      style={{ 
-                        color: isScrolled ? COLORS.navy : COLORS.gold,
-                        textShadow: isScrolled ? 'none' : '0 1px 2px rgba(0,0,0,0.3)'
-                      }}
+                      className={cn(
+                        "flex items-center gap-1.5 px-4 py-6 font-bold text-sm transition-all duration-300",
+                        isScrolled 
+                          ? "text-[#00377B] hover:text-[#0066B3]" 
+                          : "text-[#F7941D] hover:text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]"
+                      )}
                     >
                       <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
                       <ChevronDown 
@@ -1374,7 +1376,7 @@ function ModernHeader() {
               {!isScrolled && (
                 <button
                   onClick={() => setLanguage(language === 'ar' ? 'en' : 'ar')}
-                  className="px-4 py-2 rounded-xl font-medium bg-white/10 text-white hover:bg-white/20 transition-colors"
+                  className="px-4 py-2 rounded-xl font-bold bg-[#F7941D]/20 text-[#F7941D] hover:bg-[#F7941D]/30 transition-colors border border-[#F7941D]/50"
                 >
                   {language === 'ar' ? 'EN' : 'عربي'}
                 </button>
@@ -1382,8 +1384,7 @@ function ModernHeader() {
               
               <Link
                 href="/apply"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all hover:opacity-90 hover:scale-105 text-gray-900"
-                style={{ backgroundColor: COLORS.gold }}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all hover:opacity-90 hover:scale-105 text-gray-900 bg-[#F7941D]"
               >
                 <MiniAShape size={16} color="rgba(0,0,0,0.2)" />
                 <span>{language === 'ar' ? 'تقدم بطلبك' : 'Apply Now'}</span>
@@ -1395,12 +1396,16 @@ function ModernHeader() {
               onClick={() => setIsMobileMenuOpen(true)}
               className={cn(
                 'lg:hidden w-10 h-10 rounded-lg flex items-center justify-center transition-colors',
-                isScrolled ? '' : 'bg-black/20'
+                isScrolled 
+                  ? 'bg-[#00377B]/10' 
+                  : 'bg-[#F7941D]/20 border border-[#F7941D]/50'
               )}
-              style={isScrolled ? { backgroundColor: `${COLORS.navy}10` } : {}}
               aria-label="Open menu"
             >
-              <Menu className="w-5 h-5" style={{ color: isScrolled ? COLORS.navy : COLORS.gold }} />
+              <Menu className={cn(
+                "w-5 h-5",
+                isScrolled ? "text-[#00377B]" : "text-[#F7941D]"
+              )} />
             </button>
           </div>
         </div>
