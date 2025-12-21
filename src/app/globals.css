@@ -36,9 +36,13 @@
 :root {
   --primary-blue: #0066b3;
   --primary-dark: #004a82;
+  --ajil-navy: #00377B;
   --secondary-orange: #f7941d;
-  --text-dark: #1a1a1a;
-  --text-gray: #666666;
+  --text-dark: #00377B; /* Blue text */
+  --text-primary: #00377B; /* Blue primary text */
+  --text-secondary: #0066b3; /* Blue secondary text */
+  --text-gray: #0066b3; /* Blue gray text */
+  --icon-color: #0066b3; /* Blue icon color */
   --bg-light: #f8f9fa;
   --bg-white: #ffffff;
   --border-color: #e5e5e5;
@@ -58,6 +62,26 @@ body {
   font-family: 'GE SS Two', 'Cairo', sans-serif;
   overflow-x: hidden;
   background: var(--bg-white);
+  color: var(--text-primary); /* Blue text color */
+}
+
+/* Global blue text styling */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--ajil-navy);
+}
+
+p, span, label {
+  color: var(--text-primary);
+}
+
+/* Icon blue color */
+svg {
+  stroke: var(--icon-color);
+}
+
+.icon-blue {
+  color: var(--icon-color);
+  stroke: var(--icon-color);
 }
 
 /* Font Weight Utility Classes for GE SS Two */
