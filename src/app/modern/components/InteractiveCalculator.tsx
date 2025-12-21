@@ -156,7 +156,7 @@ export default function InteractiveCalculator() {
             className={isRTL ? 'lg:order-1' : ''}
           >
             <div className="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
-              {/* Type Selector */}
+              {/* Type Selector - Gold text on active blue tabs */}
               <div className="flex gap-2 p-2 bg-gray-100 rounded-2xl mb-8">
                 {financeTypes.map((type) => {
                   const Icon = type.icon;
@@ -170,11 +170,11 @@ export default function InteractiveCalculator() {
                       }}
                       className={`flex-1 py-3 px-4 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all ${
                         isActive
-                          ? 'bg-[#00377B] text-white shadow-lg'
+                          ? 'bg-[#00377B] text-[#F7941D] shadow-lg'
                           : 'text-[#00377B] hover:bg-white/50'
                       }`}
                     >
-                      <Icon className="w-4 h-4" />
+                      <Icon className={`w-4 h-4 ${isActive ? 'text-[#F7941D]' : ''}`} />
                       <span className="hidden sm:inline">{language === 'ar' ? type.labelAr : type.labelEn}</span>
                     </button>
                   );

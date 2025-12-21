@@ -29,9 +29,35 @@ import {
   VolumeX,
   Menu,
   X,
+  User,
+  Headphones,
 } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
+
+// Import animated icons from classic theme
+import {
+  IconCarFinancing,
+  IconPersonalFinancing,
+  IconBusinessFinancing,
+  IconLoanCalculator,
+  IconOffers,
+  IconAbout,
+  IconNews,
+  IconCustomerSupport,
+  AnimatedCarFinancing,
+  AnimatedPersonalFinancing,
+  AnimatedBusinessFinancing,
+  AnimatedLoanCalculator,
+  AnimatedCustomerSupport,
+  AnimatedOffers,
+  AnimatedAbout,
+  AnimatedNews,
+  AnimatedShariaCompliant,
+  AnimatedQuickApproval,
+  AnimatedSecurity,
+  AnimatedService247,
+} from '@/components/icons';
 
 // Import new components
 import ProductShowcase from './components/ProductShowcase';
@@ -50,6 +76,177 @@ const COLORS = {
   white: '#FFFFFF',
   cream: '#FFF8F0',
 };
+
+// Mini A Shape for decorations
+function MiniAShape({ size = 20, color = COLORS.gold, className = '' }: { size?: number; color?: string; className?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" className={className}>
+      <path
+        d="M20 80 L50 20 L80 80"
+        fill="none"
+        stroke={color}
+        strokeWidth="8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M32 60 L68 60"
+        fill="none"
+        stroke={color}
+        strokeWidth="6"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+// Navigation items with animated icons
+const navItems = [
+  {
+    key: 'individuals',
+    labelAr: 'الأفراد',
+    labelEn: 'Individuals',
+    hasDropdown: true,
+    icon: IconPersonalFinancing,
+    animatedIcon: AnimatedPersonalFinancing,
+    dropdownItems: [
+      { 
+        key: 'car_financing', 
+        labelAr: 'تمويل السيارات',
+        labelEn: 'Car Financing',
+        descAr: 'احصل على سيارة أحلامك',
+        descEn: 'Get your dream car',
+        href: '/individuals/car-financing',
+        icon: IconCarFinancing,
+        animatedIcon: AnimatedCarFinancing,
+      },
+      { 
+        key: 'personal_financing', 
+        labelAr: 'التمويل الشخصي',
+        labelEn: 'Personal Financing',
+        descAr: 'تمويل نقدي سريع',
+        descEn: 'Quick cash financing',
+        href: '/individuals/personal-financing',
+        icon: IconPersonalFinancing,
+        animatedIcon: AnimatedPersonalFinancing,
+      },
+      { 
+        key: 'financing_rates', 
+        labelAr: 'معدلات التمويل',
+        labelEn: 'Financing Rates',
+        descAr: 'اطلع على الأسعار',
+        descEn: 'View our rates',
+        href: '/individuals/rates',
+        icon: IconLoanCalculator,
+        animatedIcon: AnimatedLoanCalculator,
+      },
+    ],
+  },
+  {
+    key: 'business',
+    labelAr: 'الأعمال',
+    labelEn: 'Business',
+    hasDropdown: true,
+    icon: IconBusinessFinancing,
+    animatedIcon: AnimatedBusinessFinancing,
+    dropdownItems: [
+      { 
+        key: 'cash_financing', 
+        labelAr: 'التمويل النقدي',
+        labelEn: 'Cash Financing',
+        descAr: 'تمويل لأعمالك',
+        descEn: 'Finance for your business',
+        href: '/business/cash-financing',
+        icon: IconLoanCalculator,
+        animatedIcon: AnimatedLoanCalculator,
+      },
+      { 
+        key: 'car_financing', 
+        labelAr: 'تمويل السيارات',
+        labelEn: 'Car Financing',
+        descAr: 'تمويل أسطول المركبات',
+        descEn: 'Fleet financing',
+        href: '/business/car-financing',
+        icon: IconCarFinancing,
+        animatedIcon: AnimatedCarFinancing,
+      },
+      { 
+        key: 'heavy_equipment', 
+        labelAr: 'المعدات الثقيلة',
+        labelEn: 'Heavy Equipment',
+        descAr: 'تمويل المعدات',
+        descEn: 'Equipment financing',
+        href: '/business/heavy-equipment',
+        icon: IconBusinessFinancing,
+        animatedIcon: AnimatedBusinessFinancing,
+      },
+    ],
+  },
+  {
+    key: 'calculator',
+    labelAr: 'حاسبة التمويل',
+    labelEn: 'Calculator',
+    href: '/calculator',
+    icon: IconLoanCalculator,
+    animatedIcon: AnimatedLoanCalculator,
+  },
+  {
+    key: 'offers',
+    labelAr: 'العروض',
+    labelEn: 'Offers',
+    href: '/offers',
+    icon: IconOffers,
+    animatedIcon: AnimatedOffers,
+  },
+  {
+    key: 'about',
+    labelAr: 'عن أجل',
+    labelEn: 'About',
+    hasDropdown: true,
+    icon: IconAbout,
+    animatedIcon: AnimatedAbout,
+    dropdownItems: [
+      { 
+        key: 'our_story', 
+        labelAr: 'قصتنا',
+        labelEn: 'Our Story',
+        descAr: 'تعرف علينا',
+        descEn: 'Learn about us',
+        href: '/about/story',
+        icon: IconAbout,
+        animatedIcon: AnimatedAbout,
+      },
+      { 
+        key: 'news', 
+        labelAr: 'الأخبار',
+        labelEn: 'News',
+        descAr: 'آخر المستجدات',
+        descEn: 'Latest updates',
+        href: '/about/news',
+        icon: IconNews,
+        animatedIcon: AnimatedNews,
+      },
+      { 
+        key: 'financial_reports', 
+        labelAr: 'التقارير المالية',
+        labelEn: 'Reports',
+        descAr: 'التقارير والبيانات',
+        descEn: 'Financial data',
+        href: '/about/reports',
+        icon: IconLoanCalculator,
+        animatedIcon: AnimatedLoanCalculator,
+      },
+    ],
+  },
+  {
+    key: 'contact',
+    labelAr: 'اتصل بنا',
+    labelEn: 'Contact',
+    href: '/contact',
+    icon: IconCustomerSupport,
+    animatedIcon: AnimatedCustomerSupport,
+  },
+];
 
 // Animated Background Shapes
 function FloatingShapes() {
@@ -154,7 +351,7 @@ function AjilLogoMark({ size = 60, animated = true }: { size?: number; animated?
   );
 }
 
-// Video Hero Section
+// Video Hero Section - Full screen video background
 function HeroSection() {
   const { language, dir } = useI18n();
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
@@ -185,7 +382,7 @@ function HeroSection() {
 
   return (
     <section className="relative h-screen overflow-hidden">
-      {/* Video Background */}
+      {/* Video Background - Full screen cinematic video */}
       <motion.div className="absolute inset-0" style={{ scale }}>
         <video
           ref={videoRef}
@@ -194,16 +391,16 @@ function HeroSection() {
           muted={isMuted}
           playsInline
           className="w-full h-full object-cover"
-          poster="https://images.unsplash.com/photo-1560472355-536de3962603?w=1920&q=80"
+          poster="https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=1920&q=80"
         >
-          {/* Using a beautiful cityscape/lifestyle video from a CDN */}
+          {/* Premium car driving video - Saudi Arabia style */}
           <source
-            src="https://cdn.coverr.co/videos/coverr-aerial-view-of-city-buildings-4411/1080p.mp4"
+            src="https://cdn.coverr.co/videos/coverr-driving-through-city-at-night-4405/1080p.mp4"
             type="video/mp4"
           />
         </video>
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#00377B]/80 via-[#00377B]/60 to-[#00377B]/90" />
+        {/* Gradient Overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#00377B]/70 via-[#00377B]/50 to-[#00377B]/80" />
       </motion.div>
 
       {/* Animated Particles */}
@@ -407,37 +604,43 @@ function StatsSection() {
   );
 }
 
-// Services Section with 3D Cards
+// Services Section with 3D Cards - Using real car images and Saudi lifestyle
 function ServicesSection() {
   const { language, dir } = useI18n();
   const services = [
     {
-      icon: Car,
+      icon: IconCarFinancing,
+      animatedIcon: AnimatedCarFinancing,
       title: language === 'ar' ? 'تمويل السيارات' : 'Auto Financing',
       description: language === 'ar' 
         ? 'احصل على سيارة أحلامك مع خطط سداد مرنة' 
         : 'Get your dream car with flexible payment plans',
-      image: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=800&q=80',
+      // Real luxury car image - Toyota Land Cruiser popular in Saudi
+      image: 'https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=800&q=80',
       color: '#0066B3',
       href: '/individuals/car-financing',
     },
     {
-      icon: HomeIcon,
+      icon: IconPersonalFinancing,
+      animatedIcon: AnimatedPersonalFinancing,
       title: language === 'ar' ? 'التمويل الشخصي' : 'Personal Finance',
       description: language === 'ar'
         ? 'حقق أهدافك المالية مع حلول تمويلية مخصصة'
         : 'Achieve your financial goals with customized solutions',
-      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80',
+      // Saudi family/lifestyle image
+      image: 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=800&q=80',
       color: '#00377B',
       href: '/individuals/personal-financing',
     },
     {
-      icon: Building2,
+      icon: IconBusinessFinancing,
+      animatedIcon: AnimatedBusinessFinancing,
       title: language === 'ar' ? 'تمويل الأعمال' : 'Business Finance',
       description: language === 'ar'
         ? 'نمِّ أعمالك مع خيارات تمويل متنوعة'
         : 'Grow your business with diverse financing options',
-      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80',
+      // Modern Saudi business district
+      image: 'https://images.unsplash.com/photo-1565623006220-9f9e61fa4e3f?w=800&q=80',
       color: '#F7941D',
       href: '/business/cash-financing',
     },
@@ -510,7 +713,7 @@ function ServicesSection() {
                       whileHover={{ rotate: 360 }}
                       transition={{ duration: 0.5 }}
                     >
-                      <service.icon className="w-8 h-8" />
+                      <service.animatedIcon size={32} className="text-white" />
                     </motion.div>
                     <h3 className="text-2xl font-bold mb-2">{service.title}</h3>
                     <p className="text-white/90 mb-4">{service.description}</p>
@@ -532,33 +735,33 @@ function ServicesSection() {
   );
 }
 
-// Why Choose Us Section
+// Why Choose Us Section - With animated icons and Saudi imagery
 function WhyChooseUsSection() {
   const { language } = useI18n();
   const features = [
     {
-      icon: Shield,
+      icon: AnimatedShariaCompliant,
       title: language === 'ar' ? 'متوافق مع الشريعة' : 'Sharia Compliant',
       description: language === 'ar' 
         ? 'جميع منتجاتنا معتمدة من الهيئة الشرعية' 
         : 'All products approved by Sharia Board',
     },
     {
-      icon: Zap,
+      icon: AnimatedQuickApproval,
       title: language === 'ar' ? 'موافقة سريعة' : 'Quick Approval',
       description: language === 'ar'
         ? 'احصل على موافقة خلال 24 ساعة'
         : 'Get approved within 24 hours',
     },
     {
-      icon: Heart,
+      icon: AnimatedCustomerSupport,
       title: language === 'ar' ? 'خدمة مميزة' : 'Premium Service',
       description: language === 'ar'
         ? 'فريق متخصص لخدمتك على مدار الساعة'
         : 'Dedicated team at your service 24/7',
     },
     {
-      icon: Globe,
+      icon: AnimatedService247,
       title: language === 'ar' ? 'تغطية شاملة' : 'Wide Coverage',
       description: language === 'ar'
         ? 'فروع في جميع مناطق المملكة'
@@ -611,30 +814,33 @@ function WhyChooseUsSection() {
                 : 'We pride ourselves on providing the best Sharia-compliant financing solutions, with a commitment to transparency and integrity.'}
             </p>
 
-            {/* Feature List */}
+            {/* Feature List - With animated icons */}
             <div className="grid grid-cols-2 gap-6">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  className="flex items-start gap-4"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <div className="w-12 h-12 rounded-xl bg-[#F7941D] flex items-center justify-center shrink-0">
-                    <feature.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-white mb-1">{feature.title}</h4>
-                    <p className="text-sm text-white/70">{feature.description}</p>
-                  </div>
-                </motion.div>
-              ))}
+              {features.map((feature, index) => {
+                const FeatureIcon = feature.icon;
+                return (
+                  <motion.div
+                    key={index}
+                    className="flex items-start gap-4"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-[#F7941D] flex items-center justify-center shrink-0">
+                      <FeatureIcon size={24} className="text-white" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white mb-1">{feature.title}</h4>
+                      <p className="text-sm text-white/70">{feature.description}</p>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
 
-          {/* Right Content - Video/Image */}
+          {/* Right Content - Saudi professional image */}
           <motion.div
             className="relative"
             initial={{ opacity: 0, x: 50 }}
@@ -642,10 +848,10 @@ function WhyChooseUsSection() {
             viewport={{ once: true }}
           >
             <div className="relative rounded-3xl overflow-hidden aspect-square">
-              {/* Main Image */}
+              {/* Main Image - Saudi professional/customer */}
               <Image
-                src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=80"
-                alt="Happy Customer"
+                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&q=80"
+                alt={language === 'ar' ? 'عميل سعيد' : 'Happy Customer'}
                 fill
                 className="object-cover"
               />
@@ -927,11 +1133,13 @@ function CTASection() {
   );
 }
 
-// Modern Header
+// Modern Header - Classic theme navigation with transparent mode and animated icons
 function ModernHeader() {
   const { language, setLanguage, dir } = useI18n();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [mobileActiveDropdown, setMobileActiveDropdown] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -941,146 +1149,495 @@ function ModernHeader() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
+  const ArrowIcon = dir === 'rtl' ? ArrowLeft : ArrowRight;
+
   return (
-    <header
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        isScrolled
-          ? 'bg-white/90 backdrop-blur-md shadow-lg py-3'
-          : 'bg-transparent py-6'
-      )}
-    >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/modern" className="flex items-center gap-3">
-            <AjilLogoMark size={40} animated={false} />
-            <span className={cn(
-              'text-2xl font-bold transition-colors',
-              isScrolled ? 'text-[#00377B]' : 'text-white'
-            )}>
-              {language === 'ar' ? 'أجل' : 'AJIL'}
-            </span>
-          </Link>
-
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-8">
-            {[
-              { label: language === 'ar' ? 'الأفراد' : 'Individuals', href: '/individuals/car-financing' },
-              { label: language === 'ar' ? 'الأعمال' : 'Business', href: '/business/cash-financing' },
-              { label: language === 'ar' ? 'الحاسبة' : 'Calculator', href: '/calculator' },
-              { label: language === 'ar' ? 'الفروع' : 'Branches', href: '/branches' },
-              { label: language === 'ar' ? 'اتصل بنا' : 'Contact', href: '/contact' },
-            ].map((item, index) => (
-              <Link
-                key={index}
-                href={item.href}
-                className={cn(
-                  'font-medium transition-colors hover:text-[#F7941D]',
-                  isScrolled ? 'text-[#00377B]' : 'text-white'
-                )}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Actions */}
+    <>
+      {/* Top Bar - AJIL Blue - Only visible when scrolled or on non-hero pages */}
+      <motion.div 
+        className={cn(
+          'fixed top-0 left-0 right-0 z-[60] text-white py-2 text-sm transition-all duration-300',
+          isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        )}
+        style={{ backgroundColor: COLORS.navy }}
+      >
+        <div className="container mx-auto px-4 flex justify-between items-center">
+          {/* Phone */}
+          <a 
+            href="tel:8002442211" 
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            dir="ltr"
+          >
+            <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: COLORS.gold }}>
+              <Phone className="w-3 h-3 text-gray-900" />
+            </div>
+            <span className="font-bold">800 244 2211</span>
+          </a>
+          
+          {/* Right Actions */}
           <div className="flex items-center gap-4">
-            {/* Switch to Classic */}
-            <Link href="/">
-              <motion.button
-                className={cn(
-                  'hidden md:flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors',
-                  isScrolled
-                    ? 'bg-gray-100 text-[#00377B] hover:bg-gray-200'
-                    : 'bg-white/10 text-white hover:bg-white/20'
-                )}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Globe className="w-4 h-4" />
-                {language === 'ar' ? 'الصفحة الكلاسيكية' : 'Classic Homepage'}
-              </motion.button>
-            </Link>
-
+            {/* Customer Service */}
+            <a 
+              href="/contact" 
+              className="hidden md:flex items-center gap-1.5 hover:opacity-80 transition-opacity"
+            >
+              <Headphones className="w-4 h-4" />
+              <span>{language === 'ar' ? 'خدمة العملاء' : 'Support'}</span>
+            </a>
+            
             {/* Language */}
             <button
               onClick={() => setLanguage(language === 'ar' ? 'en' : 'ar')}
-              className={cn(
-                'px-4 py-2 rounded-xl font-medium transition-colors',
-                isScrolled
-                  ? 'bg-gray-100 text-[#00377B] hover:bg-gray-200'
-                  : 'bg-white/10 text-white hover:bg-white/20'
-              )}
+              className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
             >
-              {language === 'ar' ? 'EN' : 'عربي'}
+              <Globe className="w-4 h-4" />
+              <span className="font-medium">{language === 'ar' ? 'EN' : 'عربي'}</span>
             </button>
+            
+            {/* Login */}
+            <Link 
+              href="/login" 
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full transition-colors"
+              style={{ backgroundColor: COLORS.gold, color: '#1a1a1a' }}
+            >
+              <User className="w-3.5 h-3.5" />
+              <span className="font-semibold text-xs">{language === 'ar' ? 'دخول' : 'Login'}</span>
+            </Link>
+          </div>
+        </div>
+      </motion.div>
 
-            {/* CTA */}
-            <Link href="/apply">
-              <motion.button
-                className="hidden md:flex px-6 py-3 bg-[#F7941D] text-white font-bold rounded-xl"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {language === 'ar' ? 'قدّم طلبك' : 'Apply Now'}
-              </motion.button>
+      {/* Main Header - Transparent when not scrolled */}
+      <header 
+        className={cn(
+          'fixed left-0 right-0 z-50 transition-all duration-300',
+          isScrolled 
+            ? 'top-8 bg-white/95 backdrop-blur-md shadow-lg' 
+            : 'top-0 bg-transparent'
+        )}
+      >
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center h-16 md:h-[72px]">
+            {/* Logo */}
+            <Link href="/modern" className="flex items-center gap-3">
+              <div className={cn(
+                'relative rounded-lg overflow-hidden transition-all duration-300',
+                isScrolled ? '' : 'bg-white/10 backdrop-blur-sm'
+              )} style={{ backgroundColor: isScrolled ? COLORS.navy : 'transparent' }}>
+                <Image
+                  src="/images/AJIL_logo.png"
+                  alt="AJIL Finance"
+                  width={100}
+                  height={36}
+                  className="object-contain p-2"
+                  priority
+                />
+              </div>
             </Link>
 
-            {/* Mobile Menu Toggle */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={cn(
-                'lg:hidden p-2 rounded-xl',
-                isScrolled ? 'text-[#00377B]' : 'text-white'
+            {/* Desktop Navigation - With dropdown menus */}
+            <nav className="hidden lg:flex items-center">
+              {navItems.map((item) => (
+                <div
+                  key={item.key}
+                  className="relative group"
+                  onMouseEnter={() => item.hasDropdown && setActiveDropdown(item.key)}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  {item.href ? (
+                    <Link
+                      href={item.href}
+                      className={cn(
+                        'flex items-center gap-1.5 px-4 py-6 font-medium text-sm transition-colors hover:text-[#F7941D]',
+                        isScrolled 
+                          ? (activeDropdown === item.key ? 'text-[#0066B3]' : 'text-gray-700')
+                          : 'text-white'
+                      )}
+                    >
+                      <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
+                    </Link>
+                  ) : (
+                    <button
+                      className={cn(
+                        'flex items-center gap-1.5 px-4 py-6 font-medium text-sm transition-colors',
+                        isScrolled 
+                          ? (activeDropdown === item.key ? 'text-[#0066B3]' : 'text-gray-700')
+                          : 'text-white'
+                      )}
+                    >
+                      <span>{language === 'ar' ? item.labelAr : item.labelEn}</span>
+                      <ChevronDown 
+                        className={cn(
+                          'w-4 h-4 transition-transform duration-200',
+                          activeDropdown === item.key ? 'rotate-180' : ''
+                        )} 
+                      />
+                    </button>
+                  )}
+
+                  {/* Active indicator line */}
+                  <motion.div 
+                    className="absolute bottom-0 left-4 right-4 h-[3px] rounded-full"
+                    style={{ backgroundColor: COLORS.gold }}
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: activeDropdown === item.key ? 1 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  />
+
+                  {/* Dropdown Menu */}
+                  <AnimatePresence>
+                    {item.hasDropdown && activeDropdown === item.key && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        transition={{ duration: 0.2 }}
+                        className={`absolute top-full ${dir === 'rtl' ? 'right-0' : 'left-0'} w-72 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden`}
+                      >
+                        {/* Dropdown header with A shape */}
+                        <div 
+                          className="px-4 py-3 flex items-center justify-between"
+                          style={{ backgroundColor: COLORS.navy }}
+                        >
+                          <span className="text-white font-bold text-sm">
+                            {language === 'ar' ? item.labelAr : item.labelEn}
+                          </span>
+                          <MiniAShape size={24} color="rgba(255,255,255,0.3)" />
+                        </div>
+                        
+                        {/* Dropdown items with animated icons */}
+                        <div className="py-2">
+                          {item.dropdownItems?.map((dropdownItem) => {
+                            const DropdownIcon = dropdownItem.animatedIcon;
+                            return (
+                              <Link
+                                key={dropdownItem.key}
+                                href={dropdownItem.href}
+                                className="group/item flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors"
+                              >
+                                <div 
+                                  className="w-10 h-10 rounded-lg flex items-center justify-center transition-transform group-hover/item:scale-110"
+                                  style={{ backgroundColor: `${COLORS.navy}10` }}
+                                >
+                                  <DropdownIcon size={20} className="text-[#00377B]" />
+                                </div>
+                                <div className="flex-1">
+                                  <span 
+                                    className="block font-semibold text-sm group-hover/item:text-[#0066B3] transition-colors text-gray-800"
+                                  >
+                                    {language === 'ar' ? dropdownItem.labelAr : dropdownItem.labelEn}
+                                  </span>
+                                  <span className="block text-xs text-gray-500">
+                                    {language === 'ar' ? dropdownItem.descAr : dropdownItem.descEn}
+                                  </span>
+                                </div>
+                                <ArrowIcon 
+                                  className="w-4 h-4 text-gray-300 group-hover/item:text-[#0066B3] group-hover/item:translate-x-1 rtl:group-hover/item:-translate-x-1 transition-all" 
+                                />
+                              </Link>
+                            );
+                          })}
+                        </div>
+
+                        {/* Dropdown footer CTA */}
+                        <div className="px-4 py-3 border-t border-gray-100">
+                          <Link
+                            href="/apply"
+                            className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg font-semibold text-sm text-gray-900 transition-all hover:opacity-90"
+                            style={{ backgroundColor: COLORS.gold }}
+                          >
+                            <MiniAShape size={16} color="rgba(0,0,0,0.3)" />
+                            <span>{language === 'ar' ? 'تقدم الآن' : 'Apply Now'}</span>
+                          </Link>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
+            </nav>
+
+            {/* Desktop Actions */}
+            <div className="hidden lg:flex items-center gap-3">
+              {/* Switch to Classic Homepage */}
+              <Link
+                href="/"
+                className={cn(
+                  'inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-sm transition-all hover:opacity-90 border-2',
+                  isScrolled 
+                    ? 'border-[#00377B] text-[#00377B]'
+                    : 'border-white/50 text-white hover:bg-white/10'
+                )}
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                </svg>
+                <span>{language === 'ar' ? 'الصفحة الكلاسيكية' : 'Classic Design'}</span>
+              </Link>
+              
+              {/* Language Toggle - Only when not scrolled (top bar has it when scrolled) */}
+              {!isScrolled && (
+                <button
+                  onClick={() => setLanguage(language === 'ar' ? 'en' : 'ar')}
+                  className="px-4 py-2 rounded-xl font-medium bg-white/10 text-white hover:bg-white/20 transition-colors"
+                >
+                  {language === 'ar' ? 'EN' : 'عربي'}
+                </button>
               )}
+              
+              <Link
+                href="/apply"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all hover:opacity-90 hover:scale-105 text-gray-900"
+                style={{ backgroundColor: COLORS.gold }}
+              >
+                <MiniAShape size={16} color="rgba(0,0,0,0.2)" />
+                <span>{language === 'ar' ? 'تقدم بطلبك' : 'Apply Now'}</span>
+              </Link>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className={cn(
+                'lg:hidden w-10 h-10 rounded-lg flex items-center justify-center transition-colors',
+                isScrolled 
+                  ? 'bg-[#00377B]/10 text-[#00377B]'
+                  : 'bg-white/10 text-white'
+              )}
+              aria-label="Open menu"
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              <Menu className="w-5 h-5" />
             </button>
           </div>
         </div>
+      </header>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isMobileMenuOpen && (
+      {/* Mobile Menu - Full screen overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            {/* Backdrop */}
             <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden mt-4 bg-white rounded-2xl shadow-xl overflow-hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 z-50 lg:hidden"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            
+            {/* Menu Panel */}
+            <motion.div
+              initial={{ x: dir === 'rtl' ? '-100%' : '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: dir === 'rtl' ? '-100%' : '100%' }}
+              transition={{ type: 'tween', duration: 0.3 }}
+              className={`fixed top-0 ${dir === 'rtl' ? 'left-0' : 'right-0'} w-[85%] max-w-sm h-full bg-white z-50 lg:hidden flex flex-col`}
             >
-              <nav className="p-4 space-y-2">
-                {[
-                  { label: language === 'ar' ? 'الأفراد' : 'Individuals', href: '/individuals/car-financing' },
-                  { label: language === 'ar' ? 'الأعمال' : 'Business', href: '/business/cash-financing' },
-                  { label: language === 'ar' ? 'الحاسبة' : 'Calculator', href: '/calculator' },
-                  { label: language === 'ar' ? 'الفروع' : 'Branches', href: '/branches' },
-                  { label: language === 'ar' ? 'اتصل بنا' : 'Contact', href: '/contact' },
-                  { label: language === 'ar' ? 'الصفحة الكلاسيكية' : 'Classic Homepage', href: '/' },
-                ].map((item, index) => (
-                  <Link
-                    key={index}
-                    href={item.href}
-                    className="block px-4 py-3 text-[#00377B] font-medium hover:bg-gray-100 rounded-xl"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+              {/* Menu Header */}
+              <div 
+                className="flex items-center justify-between p-4"
+                style={{ backgroundColor: COLORS.navy }}
+              >
+                <div className="flex items-center gap-3">
+                  <Image
+                    src="/images/AJIL_logo.png"
+                    alt="AJIL Finance"
+                    width={80}
+                    height={28}
+                    className="object-contain"
+                  />
+                </div>
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-8 h-8 rounded-full flex items-center justify-center bg-white/20"
+                  aria-label="Close menu"
+                >
+                  <X className="w-5 h-5 text-white" />
+                </button>
+              </div>
+
+              {/* A Shape Decoration */}
+              <div className="relative h-8 overflow-hidden" style={{ backgroundColor: COLORS.navy }}>
+                <svg viewBox="0 0 400 40" className="absolute bottom-0 w-full" preserveAspectRatio="none">
+                  <path d="M0,40 L200,10 L400,40 Z" fill="white" />
+                  <path d="M150,38 L200,15 L250,38" fill="none" stroke={COLORS.gold} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+
+              {/* Menu Content */}
+              <div className="flex-1 overflow-y-auto">
+                <nav className="py-4">
+                  {navItems.map((item) => {
+                    const ItemIcon = item.icon;
+                    const AnimIcon = item.animatedIcon;
+                    const isExpanded = mobileActiveDropdown === item.key;
+                    
+                    return (
+                      <div key={item.key} className="border-b border-gray-100">
+                        {item.href ? (
+                          <Link
+                            href={item.href}
+                            className="flex items-center gap-3 px-4 py-4 hover:bg-gray-50 transition-colors"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                            <div 
+                              className="w-10 h-10 rounded-xl flex items-center justify-center"
+                              style={{ backgroundColor: `${COLORS.navy}10` }}
+                            >
+                              <AnimIcon size={20} className="text-[#00377B]" />
+                            </div>
+                            <span className="font-semibold" style={{ color: COLORS.navy }}>
+                              {language === 'ar' ? item.labelAr : item.labelEn}
+                            </span>
+                          </Link>
+                        ) : (
+                          <>
+                            <button
+                              onClick={() => setMobileActiveDropdown(isExpanded ? null : item.key)}
+                              className="w-full flex items-center gap-3 px-4 py-4 hover:bg-gray-50 transition-colors"
+                            >
+                              <div 
+                                className="w-10 h-10 rounded-xl flex items-center justify-center transition-all"
+                                style={{ 
+                                  backgroundColor: isExpanded ? COLORS.navy : `${COLORS.navy}10`,
+                                }}
+                              >
+                                <AnimIcon size={20} className={isExpanded ? 'text-white' : 'text-[#00377B]'} />
+                              </div>
+                              <span 
+                                className="font-semibold flex-1 text-start"
+                                style={{ color: COLORS.navy }}
+                              >
+                                {language === 'ar' ? item.labelAr : item.labelEn}
+                              </span>
+                              <ChevronDown 
+                                className={cn(
+                                  'w-5 h-5 transition-transform duration-200',
+                                  isExpanded ? 'rotate-180' : ''
+                                )}
+                                style={{ color: COLORS.gold }}
+                              />
+                            </button>
+                            
+                            {/* Submenu */}
+                            <AnimatePresence>
+                              {isExpanded && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: 'auto', opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="overflow-hidden"
+                                  style={{ backgroundColor: `${COLORS.navy}05` }}
+                                >
+                                  {item.dropdownItems?.map((subItem) => {
+                                    const SubIcon = subItem.animatedIcon;
+                                    return (
+                                      <Link
+                                        key={subItem.key}
+                                        href={subItem.href}
+                                        className={`flex items-center gap-3 px-4 py-3 ${dir === 'rtl' ? 'pr-8' : 'pl-8'} hover:bg-white transition-colors`}
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                      >
+                                        <div 
+                                          className="w-8 h-8 rounded-lg flex items-center justify-center bg-white"
+                                          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
+                                        >
+                                          <SubIcon size={16} className="text-[#F7941D]" />
+                                        </div>
+                                        <div>
+                                          <span className="block font-medium text-sm" style={{ color: COLORS.navy }}>
+                                            {language === 'ar' ? subItem.labelAr : subItem.labelEn}
+                                          </span>
+                                          <span className="block text-xs text-gray-500">
+                                            {language === 'ar' ? subItem.descAr : subItem.descEn}
+                                          </span>
+                                        </div>
+                                      </Link>
+                                    );
+                                  })}
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </>
+                        )}
+                      </div>
+                    );
+                  })}
+                </nav>
+              </div>
+
+              {/* Menu Footer */}
+              <div className="p-4 border-t border-gray-100">
+                {/* Switch to Classic */}
                 <Link
-                  href="/apply"
-                  className="block px-4 py-3 bg-[#F7941D] text-white font-bold text-center rounded-xl"
+                  href="/"
+                  className="flex items-center justify-center gap-2 w-full py-3 rounded-xl font-semibold border-2 mb-3 transition-colors"
+                  style={{ borderColor: COLORS.navy, color: COLORS.navy }}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {language === 'ar' ? 'قدّم طلبك' : 'Apply Now'}
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                  </svg>
+                  <span>{language === 'ar' ? 'جرّب التصميم الكلاسيكي' : 'Try Classic Design'}</span>
                 </Link>
-              </nav>
+                
+                {/* Apply Button with A shape */}
+                <Link
+                  href="/apply"
+                  className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl font-bold transition-all hover:opacity-90 text-gray-900"
+                  style={{ backgroundColor: COLORS.gold }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <MiniAShape size={18} color="rgba(0,0,0,0.2)" />
+                  <span>{language === 'ar' ? 'تقدم بطلبك الآن' : 'Apply Now'}</span>
+                </Link>
+                
+                {/* Login */}
+                <Link
+                  href="/login"
+                  className="flex items-center justify-center gap-2 w-full py-3 mt-3 rounded-xl font-semibold border-2 transition-colors"
+                  style={{ borderColor: COLORS.navy, color: COLORS.navy }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <User className="w-4 h-4" />
+                  <span>{language === 'ar' ? 'تسجيل الدخول' : 'Login'}</span>
+                </Link>
+                
+                {/* Contact */}
+                <div className="flex items-center justify-center gap-4 mt-4 pt-4 border-t border-gray-100">
+                  <a 
+                    href="tel:8002442211" 
+                    className="flex items-center gap-2 text-sm"
+                    style={{ color: COLORS.navy }}
+                    dir="ltr"
+                  >
+                    <div 
+                      className="w-8 h-8 rounded-full flex items-center justify-center"
+                      style={{ backgroundColor: COLORS.gold }}
+                    >
+                      <Phone className="w-4 h-4 text-gray-900" />
+                    </div>
+                    <span className="font-bold">800 244 2211</span>
+                  </a>
+                </div>
+              </div>
             </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </header>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
