@@ -43,16 +43,29 @@ interface CardConfig {
 }
 
 // ============================================
-// CARD CONFIGURATION - DIAGRAM LAYOUT
+// AJIL BRAND COLORS
+// ============================================
+
+const AJIL_COLORS = {
+  navy: '#00377B',
+  blue: '#0066B3',
+  gold: '#F7941D',
+  teal: '#00A67E',
+  cyan: '#06B6D4',
+  purple: '#7C3AED',
+};
+
+// ============================================
+// CARD CONFIGURATION - AJIL SERVICES (ARABIC)
 // ============================================
 
 const CARDS: CardConfig[] = [
   // ========== PRIMARY CARDS (CENTER) ==========
   {
-    id: 'payments',
-    title: 'Payments',
-    icon: CreditCard,
-    accentColor: '#635BFF',
+    id: 'personal-finance',
+    title: 'التمويل الشخصي',
+    icon: Wallet,
+    accentColor: AJIL_COLORS.navy,
     href: '/individuals/personal-financing',
     isPrimary: true,
     desktop: {
@@ -62,13 +75,13 @@ const CARDS: CardConfig[] = [
       height: '180px',
       zIndex: 20,
     },
-    relatedTo: ['checkout', 'elements', 'radar', 'billing', 'terminal'],
+    relatedTo: ['car-finance', 'calculator', 'sharia', 'rates', 'business-finance'],
   },
   {
-    id: 'terminal',
-    title: 'Terminal',
-    icon: Smartphone,
-    accentColor: '#00D4AA',
+    id: 'business-finance',
+    title: 'تمويل الأعمال',
+    icon: TrendingUp,
+    accentColor: AJIL_COLORS.gold,
     href: '/business/cash-financing',
     isPrimary: true,
     desktop: {
@@ -78,16 +91,16 @@ const CARDS: CardConfig[] = [
       height: '180px',
       zIndex: 20,
     },
-    relatedTo: ['payments', 'connect', 'radar', 'capital'],
+    relatedTo: ['personal-finance', 'heavy-equipment', 'fleet', 'capital'],
   },
   
   // ========== SECONDARY CARDS (SURROUNDING) ==========
   // Top-left cluster
   {
-    id: 'radar',
-    title: 'Radar',
+    id: 'sharia',
+    title: 'متوافق مع الشريعة',
     icon: ShieldCheck,
-    accentColor: '#F7B32D',
+    accentColor: AJIL_COLORS.teal,
     href: '/about/story',
     desktop: {
       top: '5%',
@@ -96,13 +109,13 @@ const CARDS: CardConfig[] = [
       height: '130px',
       zIndex: 10,
     },
-    relatedTo: ['payments', 'terminal', 'checkout'],
+    relatedTo: ['personal-finance', 'business-finance', 'car-finance'],
   },
   {
-    id: 'checkout',
-    title: 'Checkout',
-    icon: Wallet,
-    accentColor: '#635BFF',
+    id: 'car-finance',
+    title: 'تمويل السيارات',
+    icon: Car,
+    accentColor: AJIL_COLORS.blue,
     href: '/individuals/car-financing',
     desktop: {
       top: '22%',
@@ -111,13 +124,13 @@ const CARDS: CardConfig[] = [
       height: '130px',
       zIndex: 10,
     },
-    relatedTo: ['payments', 'elements', 'radar'],
+    relatedTo: ['personal-finance', 'quick-approval', 'sharia'],
   },
   {
-    id: 'elements',
-    title: 'Elements',
+    id: 'quick-approval',
+    title: 'موافقة سريعة',
     icon: Zap,
-    accentColor: '#FF6B6B',
+    accentColor: AJIL_COLORS.gold,
     href: '/apply',
     desktop: {
       top: '42%',
@@ -126,16 +139,16 @@ const CARDS: CardConfig[] = [
       height: '130px',
       zIndex: 10,
     },
-    relatedTo: ['payments', 'checkout'],
+    relatedTo: ['personal-finance', 'car-finance'],
   },
   
   // Top-right cluster
   {
-    id: 'connect',
-    title: 'Connect',
-    icon: Users,
-    accentColor: '#0A2540',
-    href: '/contact',
+    id: 'heavy-equipment',
+    title: 'المعدات الثقيلة',
+    icon: Smartphone,
+    accentColor: AJIL_COLORS.navy,
+    href: '/business/heavy-equipment',
     desktop: {
       top: '3%',
       left: '55%',
@@ -143,13 +156,13 @@ const CARDS: CardConfig[] = [
       height: '130px',
       zIndex: 10,
     },
-    relatedTo: ['terminal', 'atlas', 'capital'],
+    relatedTo: ['business-finance', 'fleet', 'capital'],
   },
   {
-    id: 'billing',
-    title: 'Billing',
-    icon: FileText,
-    accentColor: '#00D4AA',
+    id: 'calculator',
+    title: 'حاسبة التمويل',
+    icon: Calculator,
+    accentColor: AJIL_COLORS.teal,
     href: '/calculator',
     desktop: {
       top: '8%',
@@ -158,13 +171,13 @@ const CARDS: CardConfig[] = [
       height: '130px',
       zIndex: 10,
     },
-    relatedTo: ['payments', 'treasury', 'sigma'],
+    relatedTo: ['personal-finance', 'rates', 'car-finance'],
   },
   {
-    id: 'atlas',
-    title: 'Atlas',
+    id: 'branches',
+    title: 'شبكة الفروع',
     icon: Globe,
-    accentColor: '#635BFF',
+    accentColor: AJIL_COLORS.blue,
     href: '/branches',
     desktop: {
       top: '28%',
@@ -173,16 +186,16 @@ const CARDS: CardConfig[] = [
       height: '130px',
       zIndex: 10,
     },
-    relatedTo: ['connect', 'capital'],
+    relatedTo: ['heavy-equipment', 'capital', 'support'],
   },
   
   // Bottom cluster
   {
     id: 'capital',
-    title: 'Capital',
-    icon: TrendingUp,
-    accentColor: '#00D4AA',
-    href: '/business/heavy-equipment',
+    title: 'رأس المال',
+    icon: Banknote,
+    accentColor: AJIL_COLORS.gold,
+    href: '/business/cash-financing',
     desktop: {
       top: '52%',
       left: '78%',
@@ -190,13 +203,13 @@ const CARDS: CardConfig[] = [
       height: '130px',
       zIndex: 10,
     },
-    relatedTo: ['terminal', 'connect', 'atlas', 'treasury'],
+    relatedTo: ['business-finance', 'heavy-equipment', 'branches', 'rates'],
   },
   {
-    id: 'issuing',
-    title: 'Issuing',
-    icon: Car,
-    accentColor: '#0A2540',
+    id: 'fleet',
+    title: 'تمويل الأساطيل',
+    icon: Users,
+    accentColor: AJIL_COLORS.navy,
     href: '/business/car-financing',
     desktop: {
       top: '68%',
@@ -205,13 +218,13 @@ const CARDS: CardConfig[] = [
       height: '130px',
       zIndex: 10,
     },
-    relatedTo: ['payments', 'treasury'],
+    relatedTo: ['business-finance', 'rates', 'heavy-equipment'],
   },
   {
-    id: 'treasury',
-    title: 'Treasury',
-    icon: Banknote,
-    accentColor: '#00D4AA',
+    id: 'rates',
+    title: 'أسعار تنافسية',
+    icon: CreditCard,
+    accentColor: AJIL_COLORS.teal,
     href: '/individuals/rates',
     desktop: {
       top: '72%',
@@ -220,14 +233,14 @@ const CARDS: CardConfig[] = [
       height: '130px',
       zIndex: 10,
     },
-    relatedTo: ['capital', 'issuing', 'billing', 'sigma'],
+    relatedTo: ['capital', 'fleet', 'calculator', 'personal-finance'],
   },
   {
-    id: 'sigma',
-    title: 'Sigma',
-    icon: Calculator,
-    accentColor: '#635BFF',
-    href: '/calculator',
+    id: 'support',
+    title: 'دعم العملاء',
+    icon: FileText,
+    accentColor: AJIL_COLORS.blue,
+    href: '/contact',
     desktop: {
       top: '75%',
       left: '62%',
@@ -235,7 +248,7 @@ const CARDS: CardConfig[] = [
       height: '130px',
       zIndex: 10,
     },
-    relatedTo: ['billing', 'treasury'],
+    relatedTo: ['branches', 'rates'],
   },
 ];
 
@@ -516,8 +529,9 @@ function Card({ card, variant, activeCardId, relatedCardIds, onActivate, floatDe
             
             {/* Title */}
             <motion.h3
+              dir="rtl"
               className={`
-                font-semibold tracking-tight
+                font-semibold tracking-tight text-right
                 ${card.isPrimary ? 'text-xl' : 'text-base'}
               `}
               animate={{
@@ -627,7 +641,7 @@ function Card({ card, variant, activeCardId, relatedCardIds, onActivate, floatDe
           </motion.div>
           
           {/* Title */}
-          <div>
+          <div dir="rtl" className="text-right">
             <motion.h3 
               className="text-xl font-semibold tracking-tight mb-1"
               animate={{
@@ -638,7 +652,7 @@ function Card({ card, variant, activeCardId, relatedCardIds, onActivate, floatDe
               {card.title}
             </motion.h3>
             <p className="text-sm text-gray-500">
-              {variant === 'mobile-active' ? 'Tap to explore' : 'Tap to focus'}
+              {variant === 'mobile-active' ? 'اضغط للاستكشاف' : 'اضغط للتركيز'}
             </p>
           </div>
         </motion.div>
@@ -818,20 +832,21 @@ function MobileDiagramView() {
       {/* Card counter with title */}
       <motion.div 
         className="absolute top-4 left-0 right-0 text-center z-40"
+        dir="rtl"
         key={activeCard.id}
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={springConfigSoft}
       >
-        <span className="text-sm text-gray-400 font-medium">
-          {activeIndex + 1} of {CARDS.length}
-        </span>
-        <span className="mx-2 text-gray-300">•</span>
         <span 
           className="text-sm font-semibold"
           style={{ color: activeCard.accentColor }}
         >
           {activeCard.title}
+        </span>
+        <span className="mx-2 text-gray-300">•</span>
+        <span className="text-sm text-gray-400 font-medium">
+          {activeIndex + 1} من {CARDS.length}
         </span>
       </motion.div>
     </motion.div>
@@ -939,6 +954,7 @@ function DesktopDiagramView() {
         {activeCard && (
           <motion.div
             className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50"
+            dir="rtl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
@@ -956,7 +972,7 @@ function DesktopDiagramView() {
               </div>
               <span className="font-semibold text-gray-900">{activeCard.title}</span>
               <span className="text-sm text-gray-400">
-                {relatedCardIds.length} connected
+                {relatedCardIds.length} خدمات مرتبطة
               </span>
             </div>
           </motion.div>
@@ -1039,24 +1055,25 @@ export default function ModularSolutionsLayout() {
       </div>
       
       <div className="container mx-auto px-4 relative z-10">
-        {/* Section Header with entrance animation */}
+        {/* Section Header with entrance animation - Arabic */}
         <motion.div 
           className="text-center mb-12 md:mb-16"
+          dir="rtl"
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ ...springConfigSoft, delay: 0.1 }}
         >
           <motion.span
-            className="inline-block px-4 py-1.5 rounded-full text-sm font-medium mb-6"
+            className="inline-block px-5 py-2 rounded-full text-sm font-medium mb-6"
             style={{
-              background: 'rgba(99, 91, 255, 0.1)',
-              color: '#635BFF',
+              background: `${AJIL_COLORS.navy}15`,
+              color: AJIL_COLORS.navy,
             }}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ ...springConfig, delay: 0.2 }}
           >
-            Modular by design
+            حلول تمويلية متكاملة
           </motion.span>
           
           <motion.h2 
@@ -1065,12 +1082,12 @@ export default function ModularSolutionsLayout() {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ ...springConfigSoft, delay: 0.3 }}
           >
-            A fully integrated suite of
+            منظومة خدمات مالية
             <br />
             <motion.span 
               className="bg-clip-text text-transparent inline-block"
               style={{
-                backgroundImage: 'linear-gradient(135deg, #635BFF 0%, #00D4AA 50%, #635BFF 100%)',
+                backgroundImage: `linear-gradient(135deg, ${AJIL_COLORS.navy} 0%, ${AJIL_COLORS.gold} 50%, ${AJIL_COLORS.navy} 100%)`,
                 backgroundSize: '200% auto',
               }}
               animate={{
@@ -1082,7 +1099,7 @@ export default function ModularSolutionsLayout() {
                 ease: 'easeInOut',
               }}
             >
-              financial products
+              متكاملة ومترابطة
             </motion.span>
           </motion.h2>
           
@@ -1092,8 +1109,9 @@ export default function ModularSolutionsLayout() {
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ ...springConfigSoft, delay: 0.5 }}
           >
-            Choose the products that work best for your business. 
-            They all work together seamlessly.
+            اختر الحلول التمويلية المناسبة لاحتياجاتك.
+            <br />
+            جميع خدماتنا متصلة ومتكاملة لتوفير تجربة سلسة.
           </motion.p>
         </motion.div>
         
@@ -1120,12 +1138,13 @@ export default function ModularSolutionsLayout() {
         {/* Instruction hint */}
         <motion.div
           className="text-center mt-8 hidden lg:block"
+          dir="rtl"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 1.5, duration: 0.5 }}
         >
           <p className="text-sm text-gray-400">
-            Hover over any product to see connections
+            مرر المؤشر على أي خدمة لرؤية الارتباطات
           </p>
         </motion.div>
       </div>
