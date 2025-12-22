@@ -1,6 +1,7 @@
 'use client';
 
 import { usePlane } from '@react-three/cannon';
+import * as THREE from 'three';
 import { ServiceZone } from './ServiceZone';
 
 export function City({ carPositionRef, onZoneEnter, onZoneExit }: { carPositionRef: React.MutableRefObject<[number, number, number]>, onZoneEnter: (data: any) => void, onZoneExit: () => void }) {
@@ -40,7 +41,7 @@ export function City({ carPositionRef, onZoneEnter, onZoneExit }: { carPositionR
   return (
     <group>
       {/* Ground */}
-      <mesh ref={ref} receiveShadow>
+      <mesh ref={ref as React.Ref<THREE.Mesh>} receiveShadow>
         <planeGeometry args={[200, 200]} />
         <meshStandardMaterial color="#111" />
         <gridHelper args={[200, 50, '#333', '#222']} rotation={[-Math.PI/2, 0, 0]} position={[0, 0.1, 0]} />
