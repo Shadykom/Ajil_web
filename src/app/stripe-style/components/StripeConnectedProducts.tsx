@@ -121,7 +121,7 @@ function Wire({
       <path
         d={d}
         fill="none"
-        stroke="rgba(255,255,255,0.06)"
+        stroke="rgba(255,255,255,0.05)"
         strokeWidth="2"
         strokeLinecap="round"
       />
@@ -130,24 +130,17 @@ function Wire({
       <motion.path
         d={d}
         fill="none"
-        strokeWidth={isActive ? 2.5 : 1.5}
+        stroke={color}
+        strokeWidth={2}
         strokeLinecap="round"
-        strokeDasharray="6 6"
-        initial={{ 
-          stroke: 'rgba(255,255,255,0.1)',
-          strokeDashoffset: 0,
-        }}
+        initial={{ pathLength: 0, opacity: 0 }}
         animate={{ 
-          stroke: isActive ? color : 'rgba(255,255,255,0.15)',
-          strokeDashoffset: direction === 'left' ? -12 : 12,
+          pathLength: isActive ? 1 : 0,
+          opacity: isActive ? 1 : 0,
         }}
         transition={{
-          stroke: { duration: 0.3 },
-          strokeDashoffset: {
-            duration: 0.6,
-            repeat: Infinity,
-            ease: 'linear',
-          },
+          duration: 0.5,
+          ease: "easeInOut"
         }}
         style={{
           filter: isActive ? `drop-shadow(0 0 8px ${color})` : 'none',
@@ -155,26 +148,25 @@ function Wire({
       />
       
       {/* Traveling dot */}
-      <motion.circle
-        r={isActive ? 5 : 3}
-        initial={{ offsetDistance: '0%' }}
-        animate={{ 
-          offsetDistance: '100%',
-          fill: isActive ? color : 'rgba(255,255,255,0.3)',
-        }}
-        transition={{
-          offsetDistance: {
-            duration: 2,
+      {isActive && (
+        <motion.circle
+          r={4}
+          fill="#fff"
+          initial={{ offsetDistance: '0%' }}
+          animate={{ 
+            offsetDistance: '100%',
+          }}
+          transition={{
+            duration: 1.5,
             repeat: Infinity,
-            ease: 'linear',
-          },
-          fill: { duration: 0.3 },
-        }}
-        style={{
-          offsetPath: `path('${d}')`,
-          filter: isActive ? `drop-shadow(0 0 10px ${color})` : 'none',
-        }}
-      />
+            ease: "linear",
+          }}
+          style={{
+            offsetPath: `path('${d}')`,
+            filter: `drop-shadow(0 0 4px ${color})`,
+          }}
+        />
+      )}
     </g>
   );
 }
