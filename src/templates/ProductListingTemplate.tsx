@@ -108,7 +108,7 @@ export function ProductListingTemplate({
       // if (selectedCategory && product.category !== selectedCategory) return false;
       return true;
     });
-  }, [products, searchQuery, selectedCategory, language]);
+  }, [products, searchQuery, language]);
 
   // Breadcrumb items
   const breadcrumbItems = [
