@@ -135,25 +135,18 @@ function AnimatedWirePath({
       <motion.path
         d={d}
         fill="none"
-        stroke={isActive ? color : `${color}40`}
+        stroke={color}
         strokeWidth={isActive ? 2.5 : 1.5}
         strokeLinecap="round"
-        strokeDasharray="8 8"
-        initial={{ strokeDashoffset: 0 }}
+        initial={{ pathLength: 0, opacity: 0 }}
         animate={{ 
-          strokeDashoffset: -16,
-          stroke: isActive ? color : `${color}40`,
+          pathLength: isActive ? 1 : 0,
+          opacity: isActive ? 1 : 0.2
         }}
         transition={{
-          strokeDashoffset: {
-            duration: 0.8,
-            repeat: Infinity,
-            ease: 'linear',
-            delay,
-          },
-          stroke: {
-            duration: 0.3,
-          }
+          duration: 0.8,
+          ease: "easeInOut",
+          delay,
         }}
         style={{
           filter: isActive ? `drop-shadow(0 0 6px ${color})` : 'none',
@@ -164,7 +157,7 @@ function AnimatedWirePath({
       {isActive && (
         <motion.circle
           r={4}
-          fill={color}
+          fill="#fff"
           initial={{ offsetDistance: '0%' }}
           animate={{ offsetDistance: '100%' }}
           transition={{

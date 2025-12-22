@@ -106,6 +106,27 @@ const connections = [
   { from: 'financing', to: 'calculator' },
 ];
 
+// Background Grid Pattern
+function GridPattern() {
+  return (
+    <div className="absolute inset-0 z-0 pointer-events-none">
+      <div 
+        className="absolute inset-0 opacity-[0.4]"
+        style={{
+          backgroundImage: `linear-gradient(#E6E9F0 1px, transparent 1px), linear-gradient(90deg, #E6E9F0 1px, transparent 1px)`,
+          backgroundSize: '40px 40px'
+        }}
+      />
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(circle at 50% 50%, transparent 0%, rgba(255,255,255,0.8) 100%)'
+        }}
+      />
+    </div>
+  );
+}
+
 // Ghost Icon Component - Matches Stripe's outline style exactly
 function GhostIcon({
   icon: Icon,
@@ -277,6 +298,16 @@ function Wire({
         </linearGradient>
       </defs>
 
+      {/* Base track - always visible */}
+      <path
+        d={path}
+        fill="none"
+        stroke="#E6E9F0"
+        strokeWidth={2}
+        strokeLinecap="round"
+        className="opacity-50"
+      />
+
       {/* Main wire path */}
       <motion.path
         d={path}
@@ -286,24 +317,33 @@ function Wire({
         strokeLinecap="round"
         initial={{ pathLength: 0, opacity: 0 }}
         animate={{
-          pathLength: 1,
-          opacity: isActive ? 1 : 0.6,
+          pathLength: isActive ? 1 : 0,
+          opacity: isActive ? 1 : 0,
         }}
         transition={{
-          pathLength: { duration: 1, ease: 'easeInOut' },
-          opacity: { duration: 0.3 },
+          duration: 0.6,
+          ease: "easeInOut"
         }}
         style={{
-          filter: isActive ? `drop-shadow(0 0 6px ${gradient[0]})` : 'none',
+          filter: isActive ? `drop-shadow(0 0 4px ${gradient[0]})` : 'none',
         }}
       />
 
       {/* Animated dot traveling along the path */}
-      <circle r={isActive ? 5 : 4} fill={gradient[1]}>
-        <animateMotion dur="2s" repeatCount="indefinite" path={path}>
-          <mpath xlinkHref={`#path-${id}`} />
-        </animateMotion>
-      </circle>
+      {isActive && (
+        <circle r={4} fill="#fff" stroke={gradient[1]} strokeWidth={2}>
+          <animateMotion 
+            dur="1.5s" 
+            repeatCount="indefinite" 
+            path={path}
+            calcMode="spline"
+            keyTimes="0;1"
+            keySplines="0.4 0 0.2 1"
+          >
+            <mpath xlinkHref={`#path-${id}`} />
+          </animateMotion>
+        </circle>
+      )}
 
       {/* Hidden path for animateMotion */}
       <path id={`path-${id}`} d={path} fill="none" stroke="none" />
@@ -315,7 +355,69 @@ function Wire({
 export default function StripeProductGrid() {
   const { language, dir } = useI18n();
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
+  const [activeStage, setActiveStage] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Animation sequence states
+  // 0: Initial state (car active)
+  // 1: Wire car->financing active
+  // 2: Financing active
+  // 3: Wires financing->business & financing->calculator active
+  // 4: Business & Calculator active
+  // 5: Pause
+  // 6: Reset (all off)
+
+  useEffect(() => {
+    if (hoveredProduct) return; // Pause auto-sequence on hover
+
+    const interval = setInterval(() => {
+      setActiveStage((prev) => (prev + 1) % 7);
+    }, 1500); // 1.5s per stage
+
+    return () => clearInterval(interval);
+  }, [hoveredProduct]);
+
+  // Determine active states based on stage or hover
+  const getActiveState = () => {
+    if (hoveredProduct) {
+      return {
+        products: [hoveredProduct],
+        wires: connections
+          .filter(c => c.from === hoveredProduct || c.to === hoveredProduct)
+          .map(c => `${c.from}-${c.to}`)
+      };
+    }
+
+    const activeProducts: string[] = [];
+    const activeWires: string[] = [];
+
+    // Stage 0: Car active
+    if (activeStage >= 0 && activeStage < 6) activeProducts.push('car');
+    
+    // Stage 1: Wire to financing
+    if (activeStage >= 1 && activeStage < 6) activeWires.push('car-financing');
+
+    // Stage 2: Financing active
+    if (activeStage >= 2 && activeStage < 6) activeProducts.push('financing');
+
+    // Stage 3: Wires from financing
+    if (activeStage >= 3 && activeStage < 6) {
+      activeWires.push('financing-business');
+      activeWires.push('financing-calculator');
+    }
+
+    // Stage 4: Business & Calculator active
+    if (activeStage >= 4 && activeStage < 6) {
+      activeProducts.push('business');
+      activeProducts.push('calculator');
+    }
+
+    // Stage 6 is reset state (all empty)
+
+    return { products: activeProducts, wires: activeWires };
+  };
+
+  const { products: activeProducts, wires: activeWires } = getActiveState();
 
   // Grid dimensions
   const gridCols = 6;
@@ -325,7 +427,8 @@ export default function StripeProductGrid() {
 
   return (
     <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 relative z-10">
+        <GridPattern />
         {/* Header */}
         <motion.div
           className="text-center mb-16"
@@ -387,15 +490,16 @@ export default function StripeProductGrid() {
             {connections.map((conn) => {
               const fromProduct = products.find((p) => p.id === conn.from)!;
               const toProduct = products.find((p) => p.id === conn.to)!;
+              const wireId = `${conn.from}-${conn.to}`;
 
               return (
                 <Wire
-                  key={`${conn.from}-${conn.to}`}
+                  key={wireId}
                   from={{ row: fromProduct.row, col: fromProduct.col }}
                   to={{ row: toProduct.row, col: toProduct.col }}
                   gradient={fromProduct.gradient as [string, string]}
-                  id={`${conn.from}-${conn.to}`}
-                  isActive={hoveredProduct === conn.from || hoveredProduct === conn.to}
+                  id={wireId}
+                  isActive={activeWires.includes(wireId)}
                 />
               );
             })}
@@ -410,7 +514,7 @@ export default function StripeProductGrid() {
               <ProductIcon
                 key={product.id}
                 product={product}
-                isActive={hoveredProduct === product.id}
+                isActive={activeProducts.includes(product.id)}
                 onHover={setHoveredProduct}
               />
             ))}
