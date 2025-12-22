@@ -29,12 +29,33 @@ export function Car({ position, positionRef }: { position: [number, number, numb
     position,
   }));
 
-  const [wheels, wheelInfos] = useState<any[]>([]);
-
   const wheelRef1 = useRef<THREE.Object3D>(null);
   const wheelRef2 = useRef<THREE.Object3D>(null);
   const wheelRef3 = useRef<THREE.Object3D>(null);
   const wheelRef4 = useRef<THREE.Object3D>(null);
+
+  const wheelInfo = {
+    radius: 0.5,
+    directionLocal: [0, -1, 0] as [number, number, number],
+    suspensionStiffness: 30,
+    suspensionRestLength: 0.3,
+    maxSuspensionForce: 100000,
+    maxSuspensionTravel: 0.3,
+    dampingRelaxation: 2.3,
+    dampingCompression: 4.4,
+    axleLocal: [-1, 0, 0] as [number, number, number],
+    chassisConnectionPointLocal: [1, 0, 1] as [number, number, number],
+    useCustomSlidingRotationalSpeed: true,
+    customSlidingRotationalSpeed: -30,
+    frictionSlip: 2,
+  };
+
+  const wheelInfos = [
+    { ...wheelInfo, isFrontWheel: true, chassisConnectionPointLocal: [-chassisWidth / 2 + 0.3, -chassisHeight / 2, chassisLength / 2 - 0.6] as [number, number, number] },
+    { ...wheelInfo, isFrontWheel: true, chassisConnectionPointLocal: [chassisWidth / 2 - 0.3, -chassisHeight / 2, chassisLength / 2 - 0.6] as [number, number, number] },
+    { ...wheelInfo, isFrontWheel: false, chassisConnectionPointLocal: [-chassisWidth / 2 + 0.3, -chassisHeight / 2, -chassisLength / 2 + 0.6] as [number, number, number] },
+    { ...wheelInfo, isFrontWheel: false, chassisConnectionPointLocal: [chassisWidth / 2 - 0.3, -chassisHeight / 2, -chassisLength / 2 + 0.6] as [number, number, number] },
+  ];
 
   const vehicle = useRaycastVehicle(() => ({
     chassisBody,
@@ -43,39 +64,6 @@ export function Car({ position, positionRef }: { position: [number, number, numb
   }));
 
   const vehicleApi = vehicle[1];
-
-  // Initialize wheels
-  useEffect(() => {
-   const wheelInfo = {
-      radius: 0.5,
-      directionLocal: [0, -1, 0],
-      suspensionStiffness: 30,
-      suspensionRestLength: 0.3,
-      maxSuspensionForce: 100000,
-      maxSuspensionTravel: 0.3,
-      dampingRelaxation: 2.3,
-      dampingCompression: 4.4,
-      axleLocal: [-1, 0, 0],
-      chassisConnectionPointLocal: [1, 0, 1],
-      useCustomSlidingRotationalSpeed: true,
-      customSlidingRotationalSpeed: -30,
-      frictionSlip: 2,
-    };
-
-    const wheelInfosFixed = [
-      { ...wheelInfo, isFrontWheel: true, chassisConnectionPointLocal: [-chassisWidth / 2 + 0.3, -chassisHeight / 2, chassisLength / 2 - 0.6] },
-      { ...wheelInfo, isFrontWheel: true, chassisConnectionPointLocal: [chassisWidth / 2 - 0.3, -chassisHeight / 2, chassisLength / 2 - 0.6] },
-      { ...wheelInfo, isFrontWheel: false, chassisConnectionPointLocal: [-chassisWidth / 2 + 0.3, -chassisHeight / 2, -chassisLength / 2 + 0.6] },
-      { ...wheelInfo, isFrontWheel: false, chassisConnectionPointLocal: [chassisWidth / 2 - 0.3, -chassisHeight / 2, -chassisLength / 2 + 0.6] },
-    ];
-  
-    // Re-initialize vehicle with correct infos (trick to get wheels working)
-    // In a real app we might just set this initial state, but useRaycastVehicle is sensitive to order
-    // @ts-ignore
-    wheelInfos.current = wheelInfosFixed;
-    // Force update not needed if we mutate the ref that useRaycastVehicle reads from or if we passed it initially correctly.
-    // Ideally we'd just pass wheelInfosFixed to the hook initially.
-  }, []);
 
   const controls = useControls();
 
@@ -132,7 +120,7 @@ export function Car({ position, positionRef }: { position: [number, number, numb
 
   return (
     <group>
-      <mesh ref={chassisBody}>
+      <mesh ref={chassisBody as React.Ref<THREE.Mesh>}>
         <boxGeometry args={[chassisWidth, chassisHeight, chassisLength]} />
         <meshStandardMaterial color="#00377B" metalness={0.6} roughness={0.4} />
       </mesh>
