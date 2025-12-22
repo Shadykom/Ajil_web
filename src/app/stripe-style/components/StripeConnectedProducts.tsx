@@ -413,7 +413,22 @@ function CentralDisplay({ hoveredProduct }: { hoveredProduct: string | null }) {
 export default function StripeConnectedProducts() {
   const { language, dir } = useI18n();
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
+  const [activeStage, setActiveStage] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Auto-cycle animation when not hovering
+  useEffect(() => {
+    if (hoveredProduct) return;
+
+    const allProducts = [...products.left, ...products.right];
+    const interval = setInterval(() => {
+      setActiveStage((prev) => (prev + 1) % allProducts.length);
+    }, 3000); // Change every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [hoveredProduct]);
+
+  const activeProductId = hoveredProduct || [...products.left, ...products.right][activeStage].id;
   
   return (
     <section 
@@ -534,7 +549,7 @@ export default function StripeConnectedProducts() {
                   endX={540}
                   endY={200}
                   color={product.color}
-                  isActive={hoveredProduct === product.id}
+                  isActive={activeProductId === product.id}
                   direction="left"
                 />
               );
@@ -551,7 +566,7 @@ export default function StripeConnectedProducts() {
                   endX={600}
                   endY={200}
                   color={product.color}
-                  isActive={hoveredProduct === product.id}
+                  isActive={activeProductId === product.id}
                   direction="right"
                 />
               );
@@ -566,7 +581,7 @@ export default function StripeConnectedProducts() {
                 <ProductCard
                   key={product.id}
                   product={product}
-                  isHovered={hoveredProduct === product.id}
+                  isHovered={activeProductId === product.id}
                   onHover={setHoveredProduct}
                   side="left"
                   index={index}
@@ -576,7 +591,7 @@ export default function StripeConnectedProducts() {
             
             {/* Center - Phone display */}
             <div className="order-1 lg:order-2 flex justify-center py-8">
-              <CentralDisplay hoveredProduct={hoveredProduct} />
+              <CentralDisplay hoveredProduct={activeProductId} />
             </div>
             
             {/* Right column - Products */}
@@ -585,7 +600,7 @@ export default function StripeConnectedProducts() {
                 <ProductCard
                   key={product.id}
                   product={product}
-                  isHovered={hoveredProduct === product.id}
+                  isHovered={activeProductId === product.id}
                   onHover={setHoveredProduct}
                   side="right"
                   index={index}

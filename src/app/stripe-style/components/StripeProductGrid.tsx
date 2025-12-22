@@ -355,7 +355,69 @@ function Wire({
 export default function StripeProductGrid() {
   const { language, dir } = useI18n();
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
+  const [activeStage, setActiveStage] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Animation sequence states
+  // 0: Initial state (car active)
+  // 1: Wire car->financing active
+  // 2: Financing active
+  // 3: Wires financing->business & financing->calculator active
+  // 4: Business & Calculator active
+  // 5: Pause
+  // 6: Reset (all off)
+
+  useEffect(() => {
+    if (hoveredProduct) return; // Pause auto-sequence on hover
+
+    const interval = setInterval(() => {
+      setActiveStage((prev) => (prev + 1) % 7);
+    }, 1500); // 1.5s per stage
+
+    return () => clearInterval(interval);
+  }, [hoveredProduct]);
+
+  // Determine active states based on stage or hover
+  const getActiveState = () => {
+    if (hoveredProduct) {
+      return {
+        products: [hoveredProduct],
+        wires: connections
+          .filter(c => c.from === hoveredProduct || c.to === hoveredProduct)
+          .map(c => `${c.from}-${c.to}`)
+      };
+    }
+
+    const activeProducts: string[] = [];
+    const activeWires: string[] = [];
+
+    // Stage 0: Car active
+    if (activeStage >= 0 && activeStage < 6) activeProducts.push('car');
+    
+    // Stage 1: Wire to financing
+    if (activeStage >= 1 && activeStage < 6) activeWires.push('car-financing');
+
+    // Stage 2: Financing active
+    if (activeStage >= 2 && activeStage < 6) activeProducts.push('financing');
+
+    // Stage 3: Wires from financing
+    if (activeStage >= 3 && activeStage < 6) {
+      activeWires.push('financing-business');
+      activeWires.push('financing-calculator');
+    }
+
+    // Stage 4: Business & Calculator active
+    if (activeStage >= 4 && activeStage < 6) {
+      activeProducts.push('business');
+      activeProducts.push('calculator');
+    }
+
+    // Stage 6 is reset state (all empty)
+
+    return { products: activeProducts, wires: activeWires };
+  };
+
+  const { products: activeProducts, wires: activeWires } = getActiveState();
 
   // Grid dimensions
   const gridCols = 6;
@@ -428,15 +490,16 @@ export default function StripeProductGrid() {
             {connections.map((conn) => {
               const fromProduct = products.find((p) => p.id === conn.from)!;
               const toProduct = products.find((p) => p.id === conn.to)!;
+              const wireId = `${conn.from}-${conn.to}`;
 
               return (
                 <Wire
-                  key={`${conn.from}-${conn.to}`}
+                  key={wireId}
                   from={{ row: fromProduct.row, col: fromProduct.col }}
                   to={{ row: toProduct.row, col: toProduct.col }}
                   gradient={fromProduct.gradient as [string, string]}
-                  id={`${conn.from}-${conn.to}`}
-                  isActive={hoveredProduct === conn.from || hoveredProduct === conn.to}
+                  id={wireId}
+                  isActive={activeWires.includes(wireId)}
                 />
               );
             })}
@@ -451,7 +514,7 @@ export default function StripeProductGrid() {
               <ProductIcon
                 key={product.id}
                 product={product}
-                isActive={hoveredProduct === product.id}
+                isActive={activeProducts.includes(product.id)}
                 onHover={setHoveredProduct}
               />
             ))}
