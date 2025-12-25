@@ -266,6 +266,16 @@ const navItems = [
         icon: IconOffers,
         animatedIcon: AnimatedOffers,
       },
+      { 
+        key: 'd360_style', 
+        labelAr: 'تصميم D360',
+        labelEn: 'D360 Style',
+        descAr: 'تصميم داكن واحترافي',
+        descEn: 'Dark professional design',
+        href: '/d360-style',
+        icon: IconBusinessFinancing,
+        animatedIcon: AnimatedBusinessFinancing,
+      },
     ],
   },
   {
@@ -1772,6 +1782,13 @@ function FloatingDesignButtons() {
       gradient: 'linear-gradient(135deg, #0A0A1A 0%, #00377B 100%)',
       glowColor: 'rgba(247,148,29,0.3)',
       icon: '⚡',
+    },
+    {
+      href: '/d360-style',
+      label: language === 'ar' ? 'تصميم D360' : 'D360 Style',
+      gradient: 'linear-gradient(135deg, #0C0C0E 0%, #1C1C21 100%)',
+      glowColor: 'rgba(247,148,29,0.4)',
+      icon: '🌙',
     },
   ];
 
