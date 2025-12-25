@@ -1,7 +1,7 @@
 'use client';
 
-import BunqStyleHomepage from './bunq-style/page';
+import ModernHomepage from './modern/page';
 
 export default function Home() {
-  return <BunqStyleHomepage />;
+  return <ModernHomepage />;
 }
