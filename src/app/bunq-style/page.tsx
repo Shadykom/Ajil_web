@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
   ArrowRight,
   ArrowLeft,
+  ArrowUpRight,
   ChevronDown,
-  ChevronRight,
   Check,
   Star,
   Sparkles,
@@ -35,254 +35,366 @@ import {
   BadgeCheck,
   Play,
   Headphones,
+  Wallet,
+  PiggyBank,
+  Target,
+  Gem,
+  Crown,
+  Rocket,
+  Gift,
+  Bell,
+  Settings,
+  ChevronRight,
+  MousePointer,
+  Fingerprint,
+  QrCode,
 } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 
-// AJIL Brand Colors - Bunq inspired palette
+// Vibrant Color Palette
 const COLORS = {
-  navy: '#00377B',
-  blue: '#0066B3',
-  lightBlue: '#4DA3E0',
-  gold: '#F7941D',
-  green: '#00D084',
+  primary: '#00377B',
+  secondary: '#0066B3',
+  accent: '#F7941D',
+  success: '#00D084',
   pink: '#FF6B9D',
   purple: '#8B5CF6',
   cyan: '#22D3EE',
-  white: '#FFFFFF',
-  cream: '#FFF8F0',
-  dark: '#0A0A1A',
-};
-
-// Gradient presets like Bunq
-const GRADIENTS = {
-  hero: 'linear-gradient(135deg, #00377B 0%, #0066B3 50%, #4DA3E0 100%)',
-  sunset: 'linear-gradient(135deg, #F7941D 0%, #FF6B9D 100%)',
-  ocean: 'linear-gradient(135deg, #00377B 0%, #22D3EE 100%)',
-  forest: 'linear-gradient(135deg, #00377B 0%, #00D084 100%)',
-  purple: 'linear-gradient(135deg, #8B5CF6 0%, #FF6B9D 100%)',
+  yellow: '#FBBF24',
+  coral: '#FF7F6B',
+  mint: '#34D399',
+  lavender: '#A78BFA',
+  peach: '#FDBA74',
 };
 
 // ============================================
-// HEADER COMPONENT - Bunq Style Navigation
+// ANIMATED BACKGROUND COMPONENT
+// ============================================
+function AnimatedBackground() {
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      {/* Animated Gradient Mesh */}
+      <div className="absolute inset-0">
+        <motion.div
+          className="absolute w-[800px] h-[800px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(0,102,179,0.4) 0%, transparent 70%)',
+            top: '-20%',
+            left: '-10%',
+          }}
+          animate={{
+            scale: [1, 1.2, 1],
+            x: [0, 50, 0],
+            y: [0, 30, 0],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute w-[600px] h-[600px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(247,148,29,0.3) 0%, transparent 70%)',
+            top: '50%',
+            right: '-10%',
+          }}
+          animate={{
+            scale: [1, 1.3, 1],
+            x: [0, -30, 0],
+            y: [0, -50, 0],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute w-[500px] h-[500px] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(34,211,238,0.25) 0%, transparent 70%)',
+            bottom: '10%',
+            left: '30%',
+          }}
+          animate={{
+            scale: [1, 1.2, 1],
+            x: [0, 40, 0],
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      </div>
+
+      {/* Floating Particles */}
+      {[...Array(30)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-2 h-2 rounded-full"
+          style={{
+            background: ['#F7941D', '#22D3EE', '#00D084', '#FF6B9D', '#8B5CF6'][i % 5],
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            opacity: 0.6,
+          }}
+          animate={{
+            y: [0, -30, 0],
+            x: [0, Math.random() * 20 - 10, 0],
+            scale: [1, 1.5, 1],
+            opacity: [0.6, 1, 0.6],
+          }}
+          transition={{
+            duration: 3 + Math.random() * 2,
+            repeat: Infinity,
+            delay: Math.random() * 2,
+            ease: 'easeInOut',
+          }}
+        />
+      ))}
+
+      {/* Grid Pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)
+          `,
+          backgroundSize: '60px 60px',
+        }}
+      />
+    </div>
+  );
+}
+
+// ============================================
+// MAGNETIC BUTTON COMPONENT
+// ============================================
+function MagneticButton({ children, className, ...props }: { children: React.ReactNode; className?: string; [key: string]: any }) {
+  const ref = useRef<HTMLButtonElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 300, damping: 20 });
+  const springY = useSpring(y, { stiffness: 300, damping: 20 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    x.set((e.clientX - centerX) * 0.2);
+    y.set((e.clientY - centerY) * 0.2);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.button
+      ref={ref}
+      className={className}
+      style={{ x: springX, y: springY }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      {...props}
+    >
+      {children}
+    </motion.button>
+  );
+}
+
+// ============================================
+// ANIMATED COUNTER
+// ============================================
+function AnimatedCounter({ value, suffix = '', prefix = '' }: { value: number; suffix?: string; prefix?: string }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    let start = 0;
+    const duration = 2000;
+    const increment = value / (duration / 16);
+
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= value) {
+        setCount(value);
+        clearInterval(timer);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, 16);
+
+    return () => clearInterval(timer);
+  }, [isInView, value]);
+
+  return (
+    <span ref={ref}>
+      {prefix}{count}{suffix}
+    </span>
+  );
+}
+
+// ============================================
+// GLOWING CARD COMPONENT
+// ============================================
+function GlowingCard({ children, className, glowColor = COLORS.accent }: { children: React.ReactNode; className?: string; glowColor?: string }) {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    setMousePosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  return (
+    <motion.div
+      ref={cardRef}
+      className={cn('relative overflow-hidden rounded-3xl', className)}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.3 }}
+    >
+      {/* Glow Effect */}
+      <motion.div
+        className="absolute w-[300px] h-[300px] rounded-full pointer-events-none"
+        style={{
+          background: `radial-gradient(circle, ${glowColor}40 0%, transparent 70%)`,
+          left: mousePosition.x - 150,
+          top: mousePosition.y - 150,
+        }}
+        animate={{ opacity: isHovered ? 1 : 0 }}
+      />
+      {children}
+    </motion.div>
+  );
+}
+
+// ============================================
+// HEADER
 // ============================================
 function BunqHeader() {
   const { language, setLanguage, dir } = useI18n();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isMobileMenuOpen]);
-
-  const navItems = [
-    {
-      key: 'individuals',
-      labelAr: 'الأفراد',
-      labelEn: 'Individuals',
-      hasDropdown: true,
-      items: [
-        { labelAr: 'تمويل السيارات', labelEn: 'Car Financing', href: '/individuals/car-financing', icon: Car },
-        { labelAr: 'التمويل الشخصي', labelEn: 'Personal Financing', href: '/individuals/personal-financing', icon: Banknote },
-        { labelAr: 'معدلات التمويل', labelEn: 'Financing Rates', href: '/individuals/rates', icon: TrendingUp },
-      ],
-    },
-    {
-      key: 'business',
-      labelAr: 'الأعمال',
-      labelEn: 'Business',
-      hasDropdown: true,
-      items: [
-        { labelAr: 'التمويل النقدي', labelEn: 'Cash Financing', href: '/business/cash-financing', icon: Banknote },
-        { labelAr: 'تمويل السيارات', labelEn: 'Fleet Financing', href: '/business/car-financing', icon: Car },
-        { labelAr: 'المعدات الثقيلة', labelEn: 'Heavy Equipment', href: '/business/heavy-equipment', icon: Building2 },
-      ],
-    },
-    { key: 'calculator', labelAr: 'الحاسبة', labelEn: 'Calculator', href: '/calculator' },
-    { key: 'offers', labelAr: 'العروض', labelEn: 'Offers', href: '/offers' },
-    { key: 'about', labelAr: 'عن أجل', labelEn: 'About', href: '/about/story' },
-  ];
-
-  const ArrowIcon = dir === 'rtl' ? ArrowLeft : ArrowRight;
-
   return (
     <>
-      <header
+      <motion.header
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
-          isScrolled
-            ? 'bg-white/95 backdrop-blur-xl shadow-lg py-3'
-            : 'bg-transparent py-5'
+          isScrolled ? 'bg-white/80 backdrop-blur-xl shadow-lg shadow-black/5' : 'bg-transparent'
         )}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5 }}
       >
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
               <motion.div
-                className="relative w-12 h-12 rounded-2xl overflow-hidden flex items-center justify-center"
-                style={{ background: GRADIENTS.hero }}
-                whileHover={{ scale: 1.05, rotate: 5 }}
-                whileTap={{ scale: 0.95 }}
+                className="relative w-12 h-12 rounded-2xl overflow-hidden"
+                style={{ background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.secondary})` }}
+                whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
+                transition={{ duration: 0.5 }}
               >
-                <Image
-                  src="/images/AJIL_logo.png"
-                  alt="AJIL"
-                  width={40}
-                  height={40}
-                  className="object-contain"
-                />
+                <Image src="/images/AJIL_logo.png" alt="AJIL" fill className="object-contain p-2" />
               </motion.div>
-              <div className={cn(
+              <span className={cn(
                 'font-bold text-2xl transition-colors',
                 isScrolled ? 'text-[#00377B]' : 'text-white'
               )}>
                 {language === 'ar' ? 'أجل' : 'AJIL'}
-              </div>
+              </span>
             </Link>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Nav */}
             <nav className="hidden lg:flex items-center gap-1">
-              {navItems.map((item) => (
-                <div
-                  key={item.key}
-                  className="relative"
-                  onMouseEnter={() => item.hasDropdown && setActiveDropdown(item.key)}
-                  onMouseLeave={() => setActiveDropdown(null)}
-                >
-                  {item.href ? (
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        'px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-300',
-                        isScrolled
-                          ? 'text-[#00377B] hover:bg-[#00377B]/10'
-                          : 'text-white/90 hover:text-white hover:bg-white/10'
-                      )}
-                    >
-                      {language === 'ar' ? item.labelAr : item.labelEn}
-                    </Link>
-                  ) : (
-                    <button
-                      className={cn(
-                        'flex items-center gap-1 px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-300',
-                        isScrolled
-                          ? 'text-[#00377B] hover:bg-[#00377B]/10'
-                          : 'text-white/90 hover:text-white hover:bg-white/10'
-                      )}
-                    >
-                      {language === 'ar' ? item.labelAr : item.labelEn}
-                      <ChevronDown className={cn(
-                        'w-4 h-4 transition-transform',
-                        activeDropdown === item.key && 'rotate-180'
-                      )} />
-                    </button>
+              {[
+                { label: language === 'ar' ? 'الأفراد' : 'Individuals', href: '/individuals/car-financing' },
+                { label: language === 'ar' ? 'الأعمال' : 'Business', href: '/business/cash-financing' },
+                { label: language === 'ar' ? 'الحاسبة' : 'Calculator', href: '/calculator' },
+                { label: language === 'ar' ? 'العروض' : 'Offers', href: '/offers' },
+                { label: language === 'ar' ? 'عن أجل' : 'About', href: '/about/story' },
+              ].map((item, idx) => (
+                <Link
+                  key={idx}
+                  href={item.href}
+                  className={cn(
+                    'relative px-5 py-2.5 font-semibold transition-colors group',
+                    isScrolled ? 'text-[#00377B]/70 hover:text-[#00377B]' : 'text-white/80 hover:text-white'
                   )}
-
-                  {/* Dropdown */}
-                  <AnimatePresence>
-                    {item.hasDropdown && activeDropdown === item.key && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        transition={{ duration: 0.2 }}
-                        className={`absolute top-full ${dir === 'rtl' ? 'right-0' : 'left-0'} mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden`}
-                      >
-                        <div className="p-2">
-                          {item.items?.map((subItem, idx) => {
-                            const Icon = subItem.icon;
-                            return (
-                              <Link
-                                key={idx}
-                                href={subItem.href}
-                                className="flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors group"
-                              >
-                                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#00377B]/10 to-[#0066B3]/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                  <Icon className="w-6 h-6 text-[#00377B]" />
-                                </div>
-                                <div>
-                                  <div className="font-semibold text-[#00377B]">
-                                    {language === 'ar' ? subItem.labelAr : subItem.labelEn}
-                                  </div>
-                                </div>
-                                <ArrowIcon className="w-4 h-4 text-gray-400 mr-auto rtl:ml-auto rtl:mr-0 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
-                              </Link>
-                            );
-                          })}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
+                >
+                  {item.label}
+                  <motion.span
+                    className="absolute bottom-0 left-1/2 h-0.5 bg-[#F7941D] rounded-full"
+                    initial={{ width: 0, x: '-50%' }}
+                    whileHover={{ width: '60%' }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </Link>
               ))}
             </nav>
 
-            {/* Right Actions */}
+            {/* Actions */}
             <div className="hidden lg:flex items-center gap-3">
-              {/* Language */}
-              <button
+              <motion.button
                 onClick={() => setLanguage(language === 'ar' ? 'en' : 'ar')}
                 className={cn(
-                  'flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all',
-                  isScrolled
-                    ? 'text-[#00377B] hover:bg-[#00377B]/10'
-                    : 'text-white/90 hover:bg-white/10'
+                  'px-4 py-2 rounded-xl font-medium transition-colors',
+                  isScrolled ? 'text-[#00377B] hover:bg-[#00377B]/10' : 'text-white hover:bg-white/10'
                 )}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <Globe className="w-4 h-4" />
                 {language === 'ar' ? 'EN' : 'عربي'}
-              </button>
-
-              {/* Login */}
-              <Link
-                href="/login"
-                className={cn(
-                  'flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all',
-                  isScrolled
-                    ? 'text-[#00377B] hover:bg-[#00377B]/10'
-                    : 'text-white/90 hover:bg-white/10'
-                )}
-              >
-                <User className="w-4 h-4" />
-                {language === 'ar' ? 'دخول' : 'Login'}
-              </Link>
-
-              {/* CTA */}
+              </motion.button>
               <Link href="/apply">
-                <motion.button
-                  className="px-6 py-3 rounded-xl font-bold text-sm text-[#00377B] transition-all"
-                  style={{ background: COLORS.gold }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <MagneticButton
+                  className="px-6 py-3 bg-gradient-to-r from-[#F7941D] to-[#FF6B9D] text-white font-bold rounded-xl shadow-lg shadow-[#F7941D]/30"
                 >
                   {language === 'ar' ? 'قدّم طلبك' : 'Apply Now'}
-                </motion.button>
+                </MagneticButton>
               </Link>
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
               className={cn(
-                'lg:hidden w-12 h-12 rounded-xl flex items-center justify-center transition-all',
+                'lg:hidden w-12 h-12 rounded-xl flex items-center justify-center',
                 isScrolled ? 'bg-[#00377B]/10' : 'bg-white/10'
               )}
             >
@@ -290,9 +402,9 @@ function BunqHeader() {
             </button>
           </div>
         </div>
-      </header>
+      </motion.header>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
@@ -307,97 +419,40 @@ function BunqHeader() {
               initial={{ x: dir === 'rtl' ? '-100%' : '100%' }}
               animate={{ x: 0 }}
               exit={{ x: dir === 'rtl' ? '-100%' : '100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className={`fixed top-0 ${dir === 'rtl' ? 'left-0' : 'right-0'} w-[85%] max-w-sm h-full bg-white z-50 flex flex-col`}
+              className={`fixed top-0 ${dir === 'rtl' ? 'left-0' : 'right-0'} w-[85%] max-w-sm h-full bg-white z-50`}
             >
-              {/* Header */}
-              <div className="flex items-center justify-between p-5 border-b border-gray-100">
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center"
-                    style={{ background: GRADIENTS.hero }}
-                  >
-                    <Image
-                      src="/images/AJIL_logo.png"
-                      alt="AJIL"
-                      width={32}
-                      height={32}
-                      className="object-contain"
-                    />
-                  </div>
-                  <span className="font-bold text-xl text-[#00377B]">
-                    {language === 'ar' ? 'أجل' : 'AJIL'}
-                  </span>
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-8">
+                  <span className="font-bold text-xl text-[#00377B]">Menu</span>
+                  <button onClick={() => setIsMobileMenuOpen(false)} className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center">
+                    <X className="w-5 h-5" />
+                  </button>
                 </div>
-                <button
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center"
-                >
-                  <X className="w-5 h-5 text-gray-600" />
-                </button>
-              </div>
-
-              {/* Nav Items */}
-              <div className="flex-1 overflow-y-auto py-4">
-                {navItems.map((item) => (
-                  <div key={item.key} className="px-4 mb-2">
-                    {item.href ? (
-                      <Link
-                        href={item.href}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="flex items-center justify-between px-4 py-4 rounded-xl hover:bg-gray-50 transition-colors"
-                      >
-                        <span className="font-semibold text-[#00377B]">
-                          {language === 'ar' ? item.labelAr : item.labelEn}
-                        </span>
-                        <ArrowIcon className="w-5 h-5 text-gray-400" />
-                      </Link>
-                    ) : (
-                      <div className="space-y-1">
-                        <div className="px-4 py-3 font-bold text-[#00377B] text-sm uppercase tracking-wider">
-                          {language === 'ar' ? item.labelAr : item.labelEn}
-                        </div>
-                        {item.items?.map((subItem, idx) => {
-                          const Icon = subItem.icon;
-                          return (
-                            <Link
-                              key={idx}
-                              href={subItem.href}
-                              onClick={() => setIsMobileMenuOpen(false)}
-                              className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 transition-colors"
-                            >
-                              <div className="w-10 h-10 rounded-lg bg-[#00377B]/10 flex items-center justify-center">
-                                <Icon className="w-5 h-5 text-[#00377B]" />
-                              </div>
-                              <span className="text-gray-700">
-                                {language === 'ar' ? subItem.labelAr : subItem.labelEn}
-                              </span>
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              {/* Footer */}
-              <div className="p-5 border-t border-gray-100 space-y-3">
-                <button
-                  onClick={() => setLanguage(language === 'ar' ? 'en' : 'ar')}
-                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border-2 border-[#00377B] text-[#00377B] font-semibold"
-                >
-                  <Globe className="w-5 h-5" />
-                  {language === 'ar' ? 'English' : 'العربية'}
-                </button>
-                <Link
-                  href="/apply"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block w-full py-4 rounded-xl font-bold text-center text-[#00377B]"
-                  style={{ background: COLORS.gold }}
-                >
-                  {language === 'ar' ? 'قدّم طلبك الآن' : 'Apply Now'}
-                </Link>
+                <nav className="space-y-2">
+                  {[
+                    { label: language === 'ar' ? 'الأفراد' : 'Individuals', href: '/individuals/car-financing' },
+                    { label: language === 'ar' ? 'الأعمال' : 'Business', href: '/business/cash-financing' },
+                    { label: language === 'ar' ? 'الحاسبة' : 'Calculator', href: '/calculator' },
+                    { label: language === 'ar' ? 'العروض' : 'Offers', href: '/offers' },
+                    { label: language === 'ar' ? 'عن أجل' : 'About', href: '/about/story' },
+                  ].map((item, idx) => (
+                    <Link
+                      key={idx}
+                      href={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block px-4 py-3 rounded-xl hover:bg-gray-100 text-[#00377B] font-medium"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </nav>
+                <div className="absolute bottom-6 left-6 right-6">
+                  <Link href="/apply" onClick={() => setIsMobileMenuOpen(false)}>
+                    <button className="w-full py-4 bg-gradient-to-r from-[#F7941D] to-[#FF6B9D] text-white font-bold rounded-xl">
+                      {language === 'ar' ? 'قدّم طلبك الآن' : 'Apply Now'}
+                    </button>
+                  </Link>
+                </div>
               </div>
             </motion.div>
           </>
@@ -408,390 +463,397 @@ function BunqHeader() {
 }
 
 // ============================================
-// HERO SECTION - Bunq Style
+// HERO SECTION - Incredible Design
 // ============================================
 function BunqHero() {
   const { language, dir } = useI18n();
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 150]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const scale = useTransform(scrollY, [0, 300], [1, 0.9]);
+  const opacity = useTransform(scrollY, [0, 400], [1, 0]);
 
   const ArrowIcon = dir === 'rtl' ? ArrowLeft : ArrowRight;
 
-  return (
-    <section className="relative min-h-screen overflow-hidden" style={{ background: GRADIENTS.hero }}>
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Floating Circles */}
-        <motion.div
-          className="absolute w-[600px] h-[600px] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
-            top: '-20%',
-            right: '-10%',
-          }}
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="absolute w-[400px] h-[400px] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(247,148,29,0.2) 0%, transparent 70%)',
-            bottom: '10%',
-            left: '-5%',
-          }}
-          animate={{
-            scale: [1, 1.3, 1],
-            x: [0, 30, 0],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-        />
+  // Floating Cards Data
+  const floatingCards = [
+    { icon: Check, label: language === 'ar' ? 'تمت الموافقة' : 'Approved', value: '50,000 SAR', color: COLORS.success, delay: 0 },
+    { icon: Zap, label: language === 'ar' ? 'سريع' : 'Fast', value: '24h', color: COLORS.accent, delay: 1 },
+    { icon: Shield, label: language === 'ar' ? 'آمن' : 'Secure', value: '100%', color: COLORS.cyan, delay: 2 },
+  ];
 
-        {/* Grid Pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: 'linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-          }}
-        />
-      </div>
+  return (
+    <section className="relative min-h-screen overflow-hidden" style={{ background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.secondary} 50%, #1a5a96 100%)` }}>
+      <AnimatedBackground />
 
       <motion.div
         className="relative z-10 container mx-auto px-4 lg:px-8 pt-32 lg:pt-40 pb-20"
-        style={{ y, opacity, scale }}
+        style={{ y, opacity }}
       >
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
           {/* Left Content */}
           <div className="text-white text-center lg:text-start">
-            {/* Badge */}
+            {/* Animated Badge */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-8"
+              className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 mb-8"
             >
-              <Sparkles className="w-4 h-4 text-[#F7941D]" />
-              <span className="text-sm font-semibold">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+              >
+                <Sparkles className="w-5 h-5 text-[#F7941D]" />
+              </motion.div>
+              <span className="font-semibold">
                 {language === 'ar' ? 'تمويل متوافق مع الشريعة الإسلامية' : 'Sharia-Compliant Financing'}
               </span>
+              <motion.div
+                className="w-2 h-2 rounded-full bg-[#00D084]"
+                animate={{ scale: [1, 1.5, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              />
             </motion.div>
 
-            {/* Main Heading */}
+            {/* Main Heading with Gradient */}
             <motion.h1
-              className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-6"
+              className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[1.1] mb-8"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
               {language === 'ar' ? (
                 <>
-                  <span className="block">تمويل بلا</span>
-                  <span className="block mt-2" style={{ color: COLORS.gold }}>حدود</span>
+                  <motion.span
+                    className="block"
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    تمويل بلا
+                  </motion.span>
+                  <motion.span
+                    className="block bg-gradient-to-r from-[#F7941D] via-[#FF6B9D] to-[#22D3EE] bg-clip-text text-transparent"
+                    initial={{ x: 50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                  >
+                    حدود
+                  </motion.span>
                 </>
               ) : (
                 <>
-                  <span className="block">Finance</span>
-                  <span className="block mt-2" style={{ color: COLORS.gold }}>Without Limits</span>
+                  <motion.span
+                    className="block"
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                  >
+                    Finance
+                  </motion.span>
+                  <motion.span
+                    className="block bg-gradient-to-r from-[#F7941D] via-[#FF6B9D] to-[#22D3EE] bg-clip-text text-transparent"
+                    initial={{ x: 50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                  >
+                    Without Limits
+                  </motion.span>
                 </>
               )}
             </motion.h1>
 
             {/* Description */}
             <motion.p
-              className="text-lg lg:text-xl text-white/80 mb-10 max-w-xl mx-auto lg:mx-0"
+              className="text-lg lg:text-xl text-white/80 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
+              transition={{ delay: 0.6 }}
             >
               {language === 'ar'
-                ? 'حلول تمويلية مبتكرة وسهلة. من السيارات إلى التمويل الشخصي، نجعل أحلامك حقيقة.'
-                : 'Innovative and easy financing solutions. From cars to personal finance, we make your dreams come true.'}
+                ? 'حلول تمويلية مبتكرة وسهلة. من السيارات إلى التمويل الشخصي، نجعل أحلامك حقيقة في دقائق.'
+                : 'Innovative and easy financing solutions. From cars to personal finance, we make your dreams come true in minutes.'}
             </motion.p>
 
             {/* CTA Buttons */}
             <motion.div
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
+              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-12"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
+              transition={{ delay: 0.7 }}
             >
               <Link href="/apply">
-                <motion.button
-                  className="group flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-lg text-[#00377B]"
-                  style={{ background: COLORS.gold }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {language === 'ar' ? 'ابدأ الآن' : 'Get Started'}
-                  <ArrowIcon className="w-5 h-5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
-                </motion.button>
+                <MagneticButton className="group flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#F7941D] to-[#FF6B9D] text-white font-bold text-lg rounded-2xl shadow-xl shadow-[#F7941D]/30">
+                  <span>{language === 'ar' ? 'ابدأ الآن' : 'Get Started'}</span>
+                  <motion.div
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    <ArrowIcon className="w-5 h-5" />
+                  </motion.div>
+                </MagneticButton>
               </Link>
               <Link href="/calculator">
                 <motion.button
-                  className="flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold text-lg text-white border-2 border-white/30 hover:bg-white/10 transition-colors"
+                  className="group flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur-xl border border-white/30 text-white font-semibold text-lg rounded-2xl hover:bg-white/20 transition-colors"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <Calculator className="w-5 h-5" />
-                  {language === 'ar' ? 'احسب تمويلك' : 'Calculate'}
+                  <span>{language === 'ar' ? 'احسب تمويلك' : 'Calculate'}</span>
                 </motion.button>
               </Link>
             </motion.div>
 
-            {/* Trust Badges */}
+            {/* Trust Indicators */}
             <motion.div
-              className="flex items-center justify-center lg:justify-start gap-6 mt-12"
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
+              transition={{ delay: 0.9 }}
             >
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                  <BadgeCheck className="w-5 h-5 text-[#00D084]" />
-                </div>
-                <span className="text-sm text-white/80">
-                  {language === 'ar' ? 'معتمد من ساما' : 'SAMA Licensed'}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                  <Shield className="w-5 h-5 text-[#22D3EE]" />
-                </div>
-                <span className="text-sm text-white/80">
-                  {language === 'ar' ? 'آمن 100%' : '100% Secure'}
-                </span>
-              </div>
+              {[
+                { icon: BadgeCheck, label: language === 'ar' ? 'معتمد من ساما' : 'SAMA Licensed', color: COLORS.success },
+                { icon: Shield, label: language === 'ar' ? 'آمن 100%' : '100% Secure', color: COLORS.cyan },
+                { icon: Star, label: '4.9 ★', color: COLORS.yellow },
+              ].map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm"
+                  whileHover={{ scale: 1.05, backgroundColor: 'rgba(255,255,255,0.15)' }}
+                >
+                  <item.icon className="w-4 h-4" style={{ color: item.color }} />
+                  <span className="text-sm font-medium text-white/90">{item.label}</span>
+                </motion.div>
+              ))}
             </motion.div>
           </div>
 
-          {/* Right Content - Phone Mockup */}
+          {/* Right - Interactive Phone & Cards */}
           <motion.div
-            className="relative"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
+            className="relative flex justify-center items-center"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
           >
-            <div className="relative mx-auto w-[280px] sm:w-[320px] lg:w-[380px]">
+            {/* Glowing Circle Behind Phone */}
+            <div className="absolute w-[400px] h-[400px] rounded-full bg-gradient-to-br from-[#F7941D]/30 to-[#22D3EE]/30 blur-[80px]" />
+
+            {/* Phone Mockup */}
+            <motion.div
+              className="relative w-[280px] sm:w-[300px]"
+              animate={{ y: [0, -15, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+            >
               {/* Phone Frame */}
-              <motion.div
-                className="relative bg-gradient-to-b from-gray-900 to-gray-800 rounded-[3rem] p-3 shadow-2xl"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              >
+              <div className="relative bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 rounded-[3rem] p-2.5 shadow-2xl shadow-black/50">
                 {/* Screen */}
-                <div className="relative bg-white rounded-[2.5rem] overflow-hidden aspect-[9/19]">
-                  {/* Status Bar */}
-                  <div className="absolute top-0 inset-x-0 h-8 bg-gradient-to-b from-black/5 to-transparent z-10" />
-                  
-                  {/* App Content */}
-                  <div className="absolute inset-0 p-5 pt-10 flex flex-col">
-                    {/* App Header */}
+                <div className="relative bg-gradient-to-b from-[#00377B] to-[#0066B3] rounded-[2.5rem] overflow-hidden aspect-[9/19]">
+                  {/* App UI */}
+                  <div className="absolute inset-0 p-5 pt-12">
+                    {/* Header */}
                     <div className="flex items-center justify-between mb-6">
-                      <div className="w-10 h-10 rounded-xl bg-[#00377B] flex items-center justify-center">
-                        <span className="text-white font-bold text-lg">أ</span>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-xs text-gray-500">
-                          {language === 'ar' ? 'مرحباً' : 'Hello'}
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                          <User className="w-5 h-5 text-white" />
                         </div>
-                        <div className="font-bold text-[#00377B]">
-                          {language === 'ar' ? 'أحمد' : 'Ahmed'}
+                        <div>
+                          <div className="text-white/60 text-xs">{language === 'ar' ? 'مرحباً' : 'Hello'}</div>
+                          <div className="text-white font-bold">{language === 'ar' ? 'أحمد' : 'Ahmed'}</div>
                         </div>
                       </div>
+                      <motion.div
+                        className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center"
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        <Bell className="w-5 h-5 text-white" />
+                      </motion.div>
                     </div>
 
                     {/* Balance Card */}
-                    <div
-                      className="rounded-2xl p-5 text-white mb-6"
-                      style={{ background: GRADIENTS.hero }}
+                    <motion.div
+                      className="bg-white/10 backdrop-blur-xl rounded-2xl p-5 mb-5 border border-white/20"
+                      whileHover={{ scale: 1.02 }}
                     >
-                      <div className="text-sm opacity-80 mb-1">
-                        {language === 'ar' ? 'رصيد التمويل' : 'Financing Balance'}
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-white/60 text-sm">{language === 'ar' ? 'رصيد التمويل' : 'Finance Balance'}</span>
+                        <Wallet className="w-5 h-5 text-[#F7941D]" />
                       </div>
-                      <div className="text-3xl font-bold" dir="ltr">
-                        125,000 <span className="text-lg">SAR</span>
+                      <div className="text-3xl font-bold text-white mb-3" dir="ltr">125,000 SAR</div>
+                      <div className="relative h-2 bg-white/20 rounded-full overflow-hidden">
+                        <motion.div
+                          className="absolute top-0 left-0 h-full rounded-full bg-gradient-to-r from-[#00D084] to-[#22D3EE]"
+                          initial={{ width: 0 }}
+                          animate={{ width: '65%' }}
+                          transition={{ duration: 1.5, delay: 1 }}
+                        />
                       </div>
-                      <div className="flex items-center gap-2 mt-4">
-                        <div className="flex-1 h-2 bg-white/30 rounded-full overflow-hidden">
-                          <div className="w-[65%] h-full bg-[#00D084] rounded-full" />
-                        </div>
-                        <span className="text-xs">65%</span>
+                      <div className="flex justify-between mt-2 text-xs">
+                        <span className="text-white/60">{language === 'ar' ? 'المدفوع' : 'Paid'}</span>
+                        <span className="text-[#00D084] font-semibold">65%</span>
                       </div>
-                    </div>
+                    </motion.div>
 
                     {/* Quick Actions */}
-                    <div className="grid grid-cols-3 gap-3 mb-6">
+                    <div className="grid grid-cols-4 gap-2 mb-5">
                       {[
-                        { icon: CreditCard, label: language === 'ar' ? 'دفع' : 'Pay' },
-                        { icon: Calculator, label: language === 'ar' ? 'حاسبة' : 'Calc' },
-                        { icon: Headphones, label: language === 'ar' ? 'دعم' : 'Help' },
+                        { icon: CreditCard, label: language === 'ar' ? 'دفع' : 'Pay', color: '#F7941D' },
+                        { icon: QrCode, label: language === 'ar' ? 'مسح' : 'Scan', color: '#22D3EE' },
+                        { icon: TrendingUp, label: language === 'ar' ? 'تتبع' : 'Track', color: '#00D084' },
+                        { icon: Headphones, label: language === 'ar' ? 'دعم' : 'Help', color: '#FF6B9D' },
                       ].map((action, idx) => (
-                        <div key={idx} className="flex flex-col items-center gap-2">
-                          <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center">
-                            <action.icon className="w-5 h-5 text-[#00377B]" />
+                        <motion.div
+                          key={idx}
+                          className="flex flex-col items-center gap-1.5 p-2 rounded-xl bg-white/5"
+                          whileHover={{ backgroundColor: 'rgba(255,255,255,0.1)', scale: 1.05 }}
+                        >
+                          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${action.color}20` }}>
+                            <action.icon className="w-4 h-4" style={{ color: action.color }} />
                           </div>
-                          <span className="text-xs text-gray-600">{action.label}</span>
-                        </div>
+                          <span className="text-white/80 text-[10px]">{action.label}</span>
+                        </motion.div>
                       ))}
                     </div>
 
-                    {/* Recent Activity */}
-                    <div className="flex-1">
-                      <div className="text-sm font-semibold text-[#00377B] mb-3">
-                        {language === 'ar' ? 'آخر العمليات' : 'Recent Activity'}
-                      </div>
+                    {/* Recent */}
+                    <div className="space-y-2">
+                      <div className="text-white/60 text-xs mb-2">{language === 'ar' ? 'آخر العمليات' : 'Recent'}</div>
                       {[1, 2].map((_, idx) => (
-                        <div key={idx} className="flex items-center gap-3 py-3 border-b border-gray-100">
-                          <div className="w-10 h-10 rounded-full bg-[#00D084]/10 flex items-center justify-center">
-                            <Check className="w-5 h-5 text-[#00D084]" />
+                        <motion.div
+                          key={idx}
+                          className="flex items-center gap-3 p-3 rounded-xl bg-white/5"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 1.5 + idx * 0.2 }}
+                        >
+                          <div className="w-8 h-8 rounded-full bg-[#00D084]/20 flex items-center justify-center">
+                            <Check className="w-4 h-4 text-[#00D084]" />
                           </div>
                           <div className="flex-1">
-                            <div className="text-sm font-medium text-gray-800">
-                              {language === 'ar' ? 'دفعة ناجحة' : 'Payment Success'}
-                            </div>
-                            <div className="text-xs text-gray-500">
-                              {language === 'ar' ? 'منذ ساعتين' : '2 hours ago'}
-                            </div>
+                            <div className="text-white text-sm font-medium">{language === 'ar' ? 'دفعة ناجحة' : 'Payment Success'}</div>
+                            <div className="text-white/50 text-xs">{language === 'ar' ? 'منذ ساعتين' : '2h ago'}</div>
                           </div>
-                          <div className="text-sm font-bold text-[#00377B]" dir="ltr">
-                            -2,500
-                          </div>
-                        </div>
+                          <span className="text-white font-semibold text-sm" dir="ltr">-2,500</span>
+                        </motion.div>
                       ))}
                     </div>
                   </div>
-                </div>
 
-                {/* Notch */}
-                <div className="absolute top-5 inset-x-0 flex justify-center">
-                  <div className="w-24 h-6 bg-black rounded-full" />
-                </div>
-              </motion.div>
-
-              {/* Floating Cards */}
-              <motion.div
-                className="absolute -left-8 top-20 bg-white rounded-2xl p-4 shadow-xl"
-                animate={{ y: [0, -10, 0], x: [0, 5, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#00D084]/20 flex items-center justify-center">
-                    <Check className="w-5 h-5 text-[#00D084]" />
+                  {/* Dynamic Island / Notch */}
+                  <div className="absolute top-3 inset-x-0 flex justify-center">
+                    <motion.div
+                      className="w-28 h-7 bg-black rounded-full"
+                      animate={{ width: ['7rem', '8rem', '7rem'] }}
+                      transition={{ duration: 3, repeat: Infinity }}
+                    />
                   </div>
-                  <div>
-                    <div className="text-xs text-gray-500">
-                      {language === 'ar' ? 'تمت الموافقة' : 'Approved'}
+                </div>
+              </div>
+
+              {/* Floating Cards Around Phone */}
+              {floatingCards.map((card, idx) => (
+                <motion.div
+                  key={idx}
+                  className="absolute bg-white rounded-2xl p-4 shadow-xl shadow-black/10"
+                  style={{
+                    [idx === 0 ? 'left' : idx === 1 ? 'right' : 'left']: idx === 1 ? '-20px' : '-40px',
+                    top: idx === 0 ? '80px' : idx === 1 ? '200px' : 'auto',
+                    bottom: idx === 2 ? '100px' : 'auto',
+                  }}
+                  initial={{ opacity: 0, scale: 0.8, x: idx === 1 ? 50 : -50 }}
+                  animate={{ 
+                    opacity: 1, 
+                    scale: 1, 
+                    x: 0,
+                    y: [0, -8, 0],
+                  }}
+                  transition={{
+                    opacity: { delay: 1 + card.delay * 0.3 },
+                    y: { duration: 3, repeat: Infinity, delay: card.delay },
+                  }}
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center"
+                      style={{ backgroundColor: `${card.color}20` }}
+                    >
+                      <card.icon className="w-5 h-5" style={{ color: card.color }} />
                     </div>
-                    <div className="font-bold text-[#00377B]" dir="ltr">50,000 SAR</div>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="absolute -right-4 bottom-32 bg-white rounded-2xl p-4 shadow-xl"
-                animate={{ y: [0, 10, 0], x: [0, -5, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#F7941D]/20 flex items-center justify-center">
-                    <Zap className="w-5 h-5 text-[#F7941D]" />
-                  </div>
-                  <div>
-                    <div className="text-xs text-gray-500">
-                      {language === 'ar' ? 'معالجة سريعة' : 'Fast Processing'}
+                    <div>
+                      <div className="text-gray-500 text-xs">{card.label}</div>
+                      <div className="text-[#00377B] font-bold">{card.value}</div>
                     </div>
-                    <div className="font-bold text-[#00377B]">24h</div>
                   </div>
-                </div>
-              </motion.div>
-            </div>
+                </motion.div>
+              ))}
+            </motion.div>
           </motion.div>
         </div>
       </motion.div>
 
       {/* Scroll Indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <ChevronDown className="w-8 h-8 text-white/60" />
+        <span className="text-white/60 text-sm">{language === 'ar' ? 'اكتشف المزيد' : 'Scroll to explore'}</span>
+        <ChevronDown className="w-6 h-6 text-white/60" />
       </motion.div>
     </section>
   );
 }
 
 // ============================================
-// STATS SECTION - Bunq Style Floating Cards
+// MARQUEE - Infinite Scroll Logos/Text
+// ============================================
+function Marquee({ children, direction = 'left', speed = 30 }: { children: React.ReactNode; direction?: 'left' | 'right'; speed?: number }) {
+  return (
+    <div className="overflow-hidden">
+      <motion.div
+        className="flex gap-8 whitespace-nowrap"
+        animate={{ x: direction === 'left' ? [0, -1000] : [-1000, 0] }}
+        transition={{ duration: speed, repeat: Infinity, ease: 'linear' }}
+      >
+        {children}
+        {children}
+      </motion.div>
+    </div>
+  );
+}
+
+// ============================================
+// STATS SECTION - Impressive Numbers
 // ============================================
 function BunqStats() {
   const { language } = useI18n();
 
   const stats = [
-    {
-      value: '17+',
-      label: language === 'ar' ? 'عاماً من الخبرة' : 'Years Experience',
-      icon: Award,
-      gradient: GRADIENTS.ocean,
-    },
-    {
-      value: '100K+',
-      label: language === 'ar' ? 'عميل سعيد' : 'Happy Clients',
-      icon: Users,
-      gradient: GRADIENTS.sunset,
-    },
-    {
-      value: '50+',
-      label: language === 'ar' ? 'فرع في المملكة' : 'Branches',
-      icon: MapPin,
-      gradient: GRADIENTS.forest,
-    },
-    {
-      value: '4.9',
-      label: language === 'ar' ? 'تقييم العملاء' : 'App Rating',
-      icon: Star,
-      gradient: GRADIENTS.purple,
-    },
+    { value: 17, suffix: '+', label: language === 'ar' ? 'عاماً من الخبرة' : 'Years', icon: Award, color: COLORS.accent },
+    { value: 100, suffix: 'K+', label: language === 'ar' ? 'عميل سعيد' : 'Clients', icon: Users, color: COLORS.pink },
+    { value: 50, suffix: '+', label: language === 'ar' ? 'فرع' : 'Branches', icon: MapPin, color: COLORS.cyan },
+    { value: 4.9, suffix: '', label: language === 'ar' ? 'تقييم' : 'Rating', icon: Star, color: COLORS.yellow },
   ];
 
   return (
-    <section className="relative py-20 -mt-16 z-20">
+    <section className="relative py-16 -mt-20 z-20">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-          {stats.map((stat, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ y: -8 }}
-              className="group"
-            >
-              <div className="relative bg-white rounded-3xl p-6 lg:p-8 shadow-xl border border-gray-100 overflow-hidden h-full">
-                {/* Gradient overlay on hover */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {stats.map((stat, idx) => (
+            <GlowingCard key={idx} glowColor={stat.color}>
+              <div className="bg-white rounded-3xl p-6 lg:p-8 shadow-xl border border-gray-100 h-full">
                 <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500"
-                  style={{ background: stat.gradient }}
-                />
-
-                <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110"
-                  style={{ background: stat.gradient }}
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
+                  style={{ backgroundColor: `${stat.color}15` }}
                 >
-                  <stat.icon className="w-7 h-7 text-white" />
+                  <stat.icon className="w-7 h-7" style={{ color: stat.color }} />
                 </div>
-                <div className="text-4xl lg:text-5xl font-bold text-[#00377B] mb-2">
-                  {stat.value}
+                <div className="text-4xl lg:text-5xl font-bold text-[#00377B] mb-1">
+                  <AnimatedCounter value={stat.value} suffix={stat.suffix} />
                 </div>
-                <div className="text-gray-600 font-medium">{stat.label}</div>
+                <div className="text-gray-500 font-medium">{stat.label}</div>
               </div>
-            </motion.div>
+            </GlowingCard>
           ))}
         </div>
       </div>
@@ -800,7 +862,7 @@ function BunqStats() {
 }
 
 // ============================================
-// FEATURES SECTION - Colorful Cards like Bunq
+// FEATURES - Bento Grid Style
 // ============================================
 function BunqFeatures() {
   const { language, dir } = useI18n();
@@ -808,41 +870,44 @@ function BunqFeatures() {
 
   const features = [
     {
-      icon: Car,
       title: language === 'ar' ? 'تمويل السيارات' : 'Car Financing',
-      description: language === 'ar'
-        ? 'احصل على سيارة أحلامك مع خطط سداد مرنة تناسب ميزانيتك'
-        : 'Get your dream car with flexible payment plans that fit your budget',
-      gradient: GRADIENTS.ocean,
-      image: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&q=80',
+      description: language === 'ar' ? 'احصل على سيارة أحلامك' : 'Get your dream car',
+      icon: Car,
+      color: COLORS.accent,
+      gradient: 'from-[#F7941D] to-[#FF6B9D]',
       href: '/individuals/car-financing',
+      large: true,
     },
     {
-      icon: Banknote,
       title: language === 'ar' ? 'التمويل الشخصي' : 'Personal Finance',
-      description: language === 'ar'
-        ? 'تمويل نقدي سريع لتحقيق أهدافك بإجراءات بسيطة وموافقة فورية'
-        : 'Quick cash financing to achieve your goals with simple procedures',
-      gradient: GRADIENTS.sunset,
-      image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&q=80',
+      description: language === 'ar' ? 'تمويل نقدي سريع' : 'Quick cash financing',
+      icon: Banknote,
+      color: COLORS.cyan,
+      gradient: 'from-[#22D3EE] to-[#0066B3]',
       href: '/individuals/personal-financing',
     },
     {
-      icon: Building2,
       title: language === 'ar' ? 'تمويل الأعمال' : 'Business Finance',
-      description: language === 'ar'
-        ? 'نمِّ أعمالك مع حلول تمويلية متخصصة للشركات والمؤسسات'
-        : 'Grow your business with specialized financing solutions for companies',
-      gradient: GRADIENTS.forest,
-      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80',
+      description: language === 'ar' ? 'نمِّ أعمالك معنا' : 'Grow your business',
+      icon: Building2,
+      color: COLORS.success,
+      gradient: 'from-[#00D084] to-[#22D3EE]',
       href: '/business/cash-financing',
+    },
+    {
+      title: language === 'ar' ? 'موافقة سريعة' : 'Quick Approval',
+      description: language === 'ar' ? 'خلال 24 ساعة' : 'Within 24 hours',
+      icon: Zap,
+      color: COLORS.purple,
+      gradient: 'from-[#8B5CF6] to-[#FF6B9D]',
+      href: '/apply',
     },
   ];
 
   return (
     <section className="py-20 lg:py-32 bg-gray-50">
       <div className="container mx-auto px-4 lg:px-8">
-        {/* Section Header */}
+        {/* Header */}
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
@@ -850,69 +915,68 @@ function BunqFeatures() {
           viewport={{ once: true }}
         >
           <motion.div
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#00377B]/10 text-[#00377B] text-sm font-semibold mb-6"
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#00377B]/10 text-[#00377B] font-semibold mb-6"
+            whileHover={{ scale: 1.05 }}
           >
-            <Zap className="w-4 h-4" />
-            {language === 'ar' ? 'خدماتنا' : 'Our Services'}
+            <Gem className="w-4 h-4" />
+            {language === 'ar' ? 'خدماتنا المميزة' : 'Premium Services'}
           </motion.div>
           <h2 className="text-4xl lg:text-6xl font-bold text-[#00377B] mb-6">
-            {language === 'ar' ? 'حلول تمويلية شاملة' : 'Complete Financing Solutions'}
+            {language === 'ar' ? 'كل ما تحتاجه في مكان واحد' : 'Everything You Need'}
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             {language === 'ar'
-              ? 'اختر ما يناسبك من مجموعة واسعة من الحلول التمويلية المتوافقة مع الشريعة'
-              : 'Choose from a wide range of Sharia-compliant financing solutions'}
+              ? 'حلول تمويلية متكاملة مصممة خصيصاً لتلبية احتياجاتك'
+              : 'Comprehensive financing solutions designed specifically for your needs'}
           </p>
         </motion.div>
 
-        {/* Feature Cards */}
-        <div className="grid lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
+        {/* Bento Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {features.map((feature, idx) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
+              key={idx}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.15 }}
-              whileHover={{ y: -10 }}
-              className="group"
+              transition={{ delay: idx * 0.1 }}
+              className={feature.large ? 'md:col-span-2 lg:col-span-1 lg:row-span-2' : ''}
             >
               <Link href={feature.href}>
-                <div className="relative h-[500px] rounded-3xl overflow-hidden cursor-pointer">
-                  {/* Background Image */}
-                  <Image
-                    src={feature.image}
-                    alt={feature.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
+                <GlowingCard glowColor={feature.color} className="h-full">
+                  <div className={cn(
+                    'relative overflow-hidden rounded-3xl p-8 h-full transition-all duration-300 group',
+                    feature.large ? 'min-h-[400px]' : 'min-h-[200px]',
+                    `bg-gradient-to-br ${feature.gradient}`
+                  )}>
+                    {/* Background Pattern */}
+                    <div className="absolute inset-0 opacity-10">
+                      <div className="absolute top-0 right-0 w-40 h-40 bg-white rounded-full blur-3xl" />
+                      <div className="absolute bottom-0 left-0 w-32 h-32 bg-white rounded-full blur-2xl" />
+                    </div>
 
-                  {/* Gradient Overlay */}
-                  <div
-                    className="absolute inset-0 opacity-90"
-                    style={{ background: feature.gradient }}
-                  />
+                    {/* Content */}
+                    <div className="relative z-10 h-full flex flex-col">
+                      <motion.div
+                        className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-xl flex items-center justify-center mb-6"
+                        whileHover={{ rotate: 360, scale: 1.1 }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        <feature.icon className="w-8 h-8 text-white" />
+                      </motion.div>
 
-                  {/* Content */}
-                  <div className="absolute inset-0 p-8 flex flex-col justify-end text-white">
-                    <motion.div
-                      className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center mb-6"
-                      whileHover={{ rotate: 360 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <feature.icon className="w-8 h-8" />
-                    </motion.div>
-                    <h3 className="text-2xl lg:text-3xl font-bold mb-4">{feature.title}</h3>
-                    <p className="text-white/90 mb-6 text-lg">{feature.description}</p>
-                    <div className="flex items-center gap-2 font-semibold group-hover:gap-4 transition-all">
-                      {language === 'ar' ? 'اكتشف المزيد' : 'Learn More'}
-                      <ArrowIcon className="w-5 h-5" />
+                      <div className="flex-1">
+                        <h3 className="text-2xl lg:text-3xl font-bold text-white mb-3">{feature.title}</h3>
+                        <p className="text-white/80 text-lg">{feature.description}</p>
+                      </div>
+
+                      <div className="flex items-center gap-2 text-white font-semibold mt-6 group-hover:gap-4 transition-all">
+                        <span>{language === 'ar' ? 'اكتشف المزيد' : 'Learn More'}</span>
+                        <ArrowIcon className="w-5 h-5" />
+                      </div>
                     </div>
                   </div>
-                </div>
+                </GlowingCard>
               </Link>
             </motion.div>
           ))}
@@ -923,111 +987,77 @@ function BunqFeatures() {
 }
 
 // ============================================
-// WHY CHOOSE US - Bunq Style
+// WHY US SECTION
 // ============================================
 function BunqWhyUs() {
   const { language } = useI18n();
 
   const reasons = [
-    {
-      icon: BadgeCheck,
-      title: language === 'ar' ? 'متوافق مع الشريعة' : 'Sharia Compliant',
-      description: language === 'ar'
-        ? 'جميع منتجاتنا معتمدة من الهيئة الشرعية'
-        : 'All products approved by Sharia Board',
-      color: COLORS.green,
-    },
-    {
-      icon: Zap,
-      title: language === 'ar' ? 'موافقة سريعة' : 'Quick Approval',
-      description: language === 'ar'
-        ? 'احصل على موافقة خلال 24 ساعة'
-        : 'Get approved within 24 hours',
-      color: COLORS.gold,
-    },
-    {
-      icon: Shield,
-      title: language === 'ar' ? 'آمن وموثوق' : 'Safe & Secure',
-      description: language === 'ar'
-        ? 'حماية كاملة لبياناتك ومعاملاتك'
-        : 'Complete protection for your data',
-      color: COLORS.cyan,
-    },
-    {
-      icon: Headphones,
-      title: language === 'ar' ? 'دعم 24/7' : '24/7 Support',
-      description: language === 'ar'
-        ? 'فريق متخصص لخدمتك على مدار الساعة'
-        : 'Dedicated team at your service',
-      color: COLORS.pink,
-    },
+    { icon: BadgeCheck, title: language === 'ar' ? 'متوافق مع الشريعة' : 'Sharia Compliant', color: COLORS.success },
+    { icon: Zap, title: language === 'ar' ? 'موافقة سريعة' : 'Quick Approval', color: COLORS.accent },
+    { icon: Shield, title: language === 'ar' ? 'آمن وموثوق' : 'Safe & Secure', color: COLORS.cyan },
+    { icon: Headphones, title: language === 'ar' ? 'دعم 24/7' : '24/7 Support', color: COLORS.pink },
+    { icon: Target, title: language === 'ar' ? 'حلول مخصصة' : 'Custom Solutions', color: COLORS.purple },
+    { icon: TrendingUp, title: language === 'ar' ? 'أسعار تنافسية' : 'Best Rates', color: COLORS.yellow },
   ];
 
   return (
-    <section className="py-20 lg:py-32 bg-white">
+    <section className="py-20 lg:py-32 bg-white overflow-hidden">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left - Image */}
+          {/* Image Side */}
           <motion.div
+            className="relative"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="relative"
           >
-            <div className="relative rounded-3xl overflow-hidden aspect-square">
-              <Image
-                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&q=80"
-                alt="Professional Service"
-                fill
-                className="object-cover"
-              />
-              {/* Overlay */}
-              <div
-                className="absolute inset-0"
-                style={{ background: 'linear-gradient(to top, rgba(0,55,123,0.6) 0%, transparent 50%)' }}
-              />
-            </div>
+            <div className="relative">
+              {/* Main Image */}
+              <div className="relative rounded-3xl overflow-hidden aspect-square">
+                <Image
+                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&q=80"
+                  alt="Professional"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#00377B]/60 to-transparent" />
+              </div>
 
-            {/* Floating Badge */}
-            <motion.div
-              className="absolute -bottom-6 -right-6 bg-white rounded-2xl p-6 shadow-2xl"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              <div className="flex items-center gap-4">
-                <div
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center"
-                  style={{ background: GRADIENTS.hero }}
-                >
-                  <Award className="w-8 h-8 text-white" />
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-[#00377B]">17+</div>
-                  <div className="text-gray-600">
-                    {language === 'ar' ? 'عاماً من التميز' : 'Years of Excellence'}
+              {/* Floating Stats Card */}
+              <motion.div
+                className="absolute -bottom-8 -right-8 bg-white rounded-2xl p-6 shadow-2xl"
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity }}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#F7941D] to-[#FF6B9D] flex items-center justify-center">
+                    <Crown className="w-8 h-8 text-white" />
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-[#00377B]">17+</div>
+                    <div className="text-gray-500">{language === 'ar' ? 'عاماً من التميز' : 'Years of Excellence'}</div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
 
-            {/* Decorative Elements */}
-            <div className="absolute -top-6 -left-6 w-24 h-24 border-4 border-[#F7941D] rounded-3xl" />
+              {/* Decorative */}
+              <div className="absolute -top-6 -left-6 w-24 h-24 border-4 border-[#F7941D] rounded-3xl" />
+            </div>
           </motion.div>
 
-          {/* Right - Content */}
+          {/* Content Side */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#F7941D]/10 text-[#F7941D] text-sm font-semibold mb-6">
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#F7941D]/10 text-[#F7941D] font-semibold mb-6">
               <Heart className="w-4 h-4" />
               {language === 'ar' ? 'لماذا أجل؟' : 'Why AJIL?'}
             </div>
             <h2 className="text-4xl lg:text-5xl font-bold text-[#00377B] mb-6 leading-tight">
-              {language === 'ar'
-                ? 'شريكك الموثوق في رحلة التمويل'
-                : 'Your Trusted Partner in Finance'}
+              {language === 'ar' ? 'شريكك الموثوق في التمويل' : 'Your Trusted Finance Partner'}
             </h2>
             <p className="text-xl text-gray-600 mb-10">
               {language === 'ar'
@@ -1036,28 +1066,24 @@ function BunqWhyUs() {
             </p>
 
             {/* Reasons Grid */}
-            <div className="grid grid-cols-2 gap-6">
-              {reasons.map((reason, index) => (
+            <div className="grid grid-cols-2 gap-4">
+              {reasons.map((reason, idx) => (
                 <motion.div
-                  key={index}
+                  key={idx}
+                  className="flex items-center gap-3 p-4 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-colors group"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="group"
+                  transition={{ delay: idx * 0.1 }}
+                  whileHover={{ scale: 1.02 }}
                 >
-                  <div className="flex items-start gap-4">
-                    <div
-                      className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-transform group-hover:scale-110"
-                      style={{ backgroundColor: `${reason.color}20` }}
-                    >
-                      <reason.icon className="w-7 h-7" style={{ color: reason.color }} />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-[#00377B] mb-1">{reason.title}</h4>
-                      <p className="text-sm text-gray-600">{reason.description}</p>
-                    </div>
+                  <div
+                    className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110"
+                    style={{ backgroundColor: `${reason.color}15` }}
+                  >
+                    <reason.icon className="w-6 h-6" style={{ color: reason.color }} />
                   </div>
+                  <span className="font-semibold text-[#00377B]">{reason.title}</span>
                 </motion.div>
               ))}
             </div>
@@ -1069,41 +1095,23 @@ function BunqWhyUs() {
 }
 
 // ============================================
-// HOW IT WORKS - Simple Steps
+// HOW IT WORKS
 // ============================================
-function BunqHowItWorks() {
+function BunqProcess() {
   const { language } = useI18n();
 
   const steps = [
-    {
-      number: '01',
-      title: language === 'ar' ? 'قدّم طلبك' : 'Apply Online',
-      description: language === 'ar'
-        ? 'قدّم طلبك بسهولة عبر التطبيق أو الموقع'
-        : 'Submit your application easily through app or website',
-      icon: Smartphone,
-    },
-    {
-      number: '02',
-      title: language === 'ar' ? 'المراجعة السريعة' : 'Quick Review',
-      description: language === 'ar'
-        ? 'فريقنا يراجع طلبك خلال 24 ساعة'
-        : 'Our team reviews your application within 24 hours',
-      icon: Clock,
-    },
-    {
-      number: '03',
-      title: language === 'ar' ? 'احصل على التمويل' : 'Get Funded',
-      description: language === 'ar'
-        ? 'استلم التمويل مباشرة في حسابك'
-        : 'Receive your financing directly in your account',
-      icon: Banknote,
-    },
+    { icon: Smartphone, title: language === 'ar' ? 'قدّم طلبك' : 'Apply Online', color: COLORS.accent },
+    { icon: Clock, title: language === 'ar' ? 'مراجعة سريعة' : 'Quick Review', color: COLORS.cyan },
+    { icon: BadgeCheck, title: language === 'ar' ? 'الموافقة' : 'Approval', color: COLORS.success },
+    { icon: Banknote, title: language === 'ar' ? 'استلم التمويل' : 'Get Funded', color: COLORS.pink },
   ];
 
   return (
-    <section className="py-20 lg:py-32" style={{ background: GRADIENTS.hero }}>
-      <div className="container mx-auto px-4 lg:px-8">
+    <section className="py-20 lg:py-32 bg-gradient-to-br from-[#00377B] via-[#0066B3] to-[#004a82] relative overflow-hidden">
+      <AnimatedBackground />
+
+      <div className="container mx-auto px-4 lg:px-8 relative z-10">
         {/* Header */}
         <motion.div
           className="text-center mb-16"
@@ -1111,54 +1119,40 @@ function BunqHowItWorks() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 text-white text-sm font-semibold mb-6">
-            <Play className="w-4 h-4" />
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 text-white font-semibold mb-6">
+            <Rocket className="w-4 h-4" />
             {language === 'ar' ? 'كيف يعمل' : 'How It Works'}
           </div>
           <h2 className="text-4xl lg:text-6xl font-bold text-white mb-6">
-            {language === 'ar' ? '3 خطوات فقط' : 'Just 3 Steps'}
+            {language === 'ar' ? '4 خطوات سهلة' : '4 Easy Steps'}
           </h2>
-          <p className="text-xl text-white/80 max-w-2xl mx-auto">
-            {language === 'ar'
-              ? 'الحصول على التمويل أصبح أسهل من أي وقت مضى'
-              : 'Getting financed has never been easier'}
-          </p>
         </motion.div>
 
         {/* Steps */}
-        <div className="grid lg:grid-cols-3 gap-8">
-          {steps.map((step, index) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {steps.map((step, idx) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
+              key={idx}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.2 }}
+              transition={{ delay: idx * 0.15 }}
             >
-              <div className="relative bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20 h-full">
+              <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 text-center h-full group hover:bg-white/20 transition-all">
                 {/* Number */}
-                <div
-                  className="text-8xl font-bold opacity-10 absolute top-4 right-4"
-                  style={{ color: COLORS.gold }}
-                >
-                  {step.number}
+                <div className="absolute -top-4 -right-4 w-10 h-10 rounded-full bg-[#F7941D] text-white font-bold flex items-center justify-center text-lg">
+                  {idx + 1}
                 </div>
 
-                {/* Icon */}
-                <div
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6"
-                  style={{ background: COLORS.gold }}
+                <motion.div
+                  className="w-20 h-20 rounded-2xl mx-auto mb-6 flex items-center justify-center"
+                  style={{ backgroundColor: `${step.color}30` }}
+                  whileHover={{ rotate: 360, scale: 1.1 }}
+                  transition={{ duration: 0.5 }}
                 >
-                  <step.icon className="w-8 h-8 text-[#00377B]" />
-                </div>
-
-                <h3 className="text-2xl font-bold text-white mb-4">{step.title}</h3>
-                <p className="text-white/80">{step.description}</p>
-
-                {/* Connector Line */}
-                {index < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-1/2 -right-4 w-8 h-0.5 bg-white/30" />
-                )}
+                  <step.icon className="w-10 h-10" style={{ color: step.color }} />
+                </motion.div>
+                <h3 className="text-xl font-bold text-white">{step.title}</h3>
               </div>
             </motion.div>
           ))}
@@ -1172,15 +1166,9 @@ function BunqHowItWorks() {
           viewport={{ once: true }}
         >
           <Link href="/apply">
-            <motion.button
-              className="inline-flex items-center gap-3 px-10 py-5 rounded-2xl font-bold text-lg text-[#00377B]"
-              style={{ background: COLORS.gold }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
+            <MagneticButton className="px-10 py-5 bg-[#F7941D] text-white font-bold text-lg rounded-2xl shadow-xl shadow-[#F7941D]/30">
               {language === 'ar' ? 'ابدأ رحلتك الآن' : 'Start Your Journey'}
-              <ArrowRight className="w-6 h-6 rtl:rotate-180" />
-            </motion.button>
+            </MagneticButton>
           </Link>
         </motion.div>
       </div>
@@ -1189,17 +1177,10 @@ function BunqHowItWorks() {
 }
 
 // ============================================
-// APP DOWNLOAD SECTION
+// APP DOWNLOAD
 // ============================================
-function BunqAppDownload() {
+function BunqApp() {
   const { language, dir } = useI18n();
-
-  const features = [
-    language === 'ar' ? 'تقديم طلبات التمويل' : 'Submit Financing Applications',
-    language === 'ar' ? 'متابعة الأقساط' : 'Track Your Payments',
-    language === 'ar' ? 'إدارة حسابك' : 'Manage Your Account',
-    language === 'ar' ? 'عروض حصرية' : 'Exclusive Offers',
-  ];
 
   return (
     <section className="py-20 lg:py-32 bg-gray-50 overflow-hidden">
@@ -1210,38 +1191,42 @@ function BunqAppDownload() {
             initial={{ opacity: 0, x: dir === 'rtl' ? 50 : -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className={dir === 'rtl' ? 'order-2' : ''}
+            className={dir === 'rtl' ? 'lg:order-2' : ''}
           >
-            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#00377B]/10 text-[#00377B] text-sm font-semibold mb-6">
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#00377B]/10 text-[#00377B] font-semibold mb-6">
               <Smartphone className="w-4 h-4" />
               {language === 'ar' ? 'التطبيق' : 'Mobile App'}
             </div>
-            <h2 className="text-4xl lg:text-5xl font-bold text-[#00377B] mb-6 leading-tight">
-              {language === 'ar'
-                ? 'حمّل تطبيق أجل الآن'
-                : 'Download AJIL App Now'}
+            <h2 className="text-4xl lg:text-5xl font-bold text-[#00377B] mb-6">
+              {language === 'ar' ? 'حمّل تطبيق أجل الآن' : 'Download AJIL App'}
             </h2>
             <p className="text-xl text-gray-600 mb-8">
               {language === 'ar'
-                ? 'إدارة تمويلك بكل سهولة من هاتفك. متاح على iOS و Android.'
-                : 'Manage your financing easily from your phone. Available on iOS and Android.'}
+                ? 'إدارة تمويلك بكل سهولة من هاتفك'
+                : 'Manage your financing easily from your phone'}
             </p>
 
             {/* Features */}
-            <div className="space-y-4 mb-10">
-              {features.map((feature, index) => (
+            <div className="grid grid-cols-2 gap-4 mb-10">
+              {[
+                { icon: CreditCard, label: language === 'ar' ? 'دفع سهل' : 'Easy Payments' },
+                { icon: Bell, label: language === 'ar' ? 'إشعارات فورية' : 'Instant Alerts' },
+                { icon: Fingerprint, label: language === 'ar' ? 'دخول آمن' : 'Secure Login' },
+                { icon: Gift, label: language === 'ar' ? 'عروض حصرية' : 'Exclusive Offers' },
+              ].map((item, idx) => (
                 <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  key={idx}
+                  className="flex items-center gap-3 p-4 rounded-xl bg-white shadow-sm"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex items-center gap-3"
+                  transition={{ delay: idx * 0.1 }}
+                  whileHover={{ y: -4, shadow: 'lg' }}
                 >
-                  <div className="w-6 h-6 rounded-full bg-[#00D084] flex items-center justify-center">
-                    <Check className="w-4 h-4 text-white" />
+                  <div className="w-10 h-10 rounded-lg bg-[#F7941D]/10 flex items-center justify-center">
+                    <item.icon className="w-5 h-5 text-[#F7941D]" />
                   </div>
-                  <span className="text-gray-700 font-medium">{feature}</span>
+                  <span className="font-medium text-[#00377B]">{item.label}</span>
                 </motion.div>
               ))}
             </div>
@@ -1252,13 +1237,12 @@ function BunqAppDownload() {
                 href="#"
                 className="flex items-center gap-3 px-6 py-4 bg-black rounded-2xl text-white"
                 whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
                 <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
                 </svg>
                 <div className="text-start">
-                  <div className="text-xs opacity-80">{language === 'ar' ? 'تحميل من' : 'Download on'}</div>
+                  <div className="text-xs opacity-60">Download on</div>
                   <div className="font-bold">App Store</div>
                 </div>
               </motion.a>
@@ -1266,13 +1250,12 @@ function BunqAppDownload() {
                 href="#"
                 className="flex items-center gap-3 px-6 py-4 bg-black rounded-2xl text-white"
                 whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
                 <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z" />
                 </svg>
                 <div className="text-start">
-                  <div className="text-xs opacity-80">{language === 'ar' ? 'متوفر على' : 'Get it on'}</div>
+                  <div className="text-xs opacity-60">Get it on</div>
                   <div className="font-bold">Google Play</div>
                 </div>
               </motion.a>
@@ -1284,174 +1267,30 @@ function BunqAppDownload() {
             initial={{ opacity: 0, x: dir === 'rtl' ? -50 : 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className={`relative ${dir === 'rtl' ? 'order-1' : ''}`}
+            className={`relative flex justify-center ${dir === 'rtl' ? 'lg:order-1' : ''}`}
           >
-            <div className="relative mx-auto w-[280px] sm:w-[320px]">
-              {/* Glow Effect */}
-              <div
-                className="absolute inset-0 blur-3xl opacity-30"
-                style={{ background: GRADIENTS.hero }}
-              />
-
-              {/* Phone */}
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#00377B]/30 to-[#F7941D]/30 blur-[100px] rounded-full" />
               <motion.div
-                className="relative bg-gradient-to-b from-gray-900 to-gray-800 rounded-[3rem] p-3 shadow-2xl"
+                className="relative w-[280px] bg-gradient-to-b from-gray-900 to-gray-800 rounded-[3rem] p-2.5 shadow-2xl"
                 animate={{ y: [0, -15, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
               >
-                <div className="bg-white rounded-[2.5rem] overflow-hidden aspect-[9/19]">
-                  {/* App Screen Content */}
-                  <div
-                    className="h-full flex flex-col items-center justify-center p-8"
-                    style={{ background: GRADIENTS.hero }}
-                  >
-                    <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mb-6">
-                      <Image
-                        src="/images/AJIL_logo.png"
-                        alt="AJIL"
-                        width={60}
-                        height={60}
-                        className="object-contain"
-                      />
+                <div className="bg-gradient-to-br from-[#00377B] to-[#0066B3] rounded-[2.5rem] overflow-hidden aspect-[9/19] flex items-center justify-center">
+                  <div className="text-center p-8">
+                    <div className="w-20 h-20 bg-white rounded-2xl mx-auto mb-6 flex items-center justify-center">
+                      <Image src="/images/AJIL_logo.png" alt="AJIL" width={60} height={60} className="object-contain" />
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-2">
-                      {language === 'ar' ? 'أجل' : 'AJIL'}
-                    </h3>
-                    <p className="text-white/80 text-center">
-                      {language === 'ar' ? 'للتمويل' : 'Finance'}
-                    </p>
+                    <h3 className="text-2xl font-bold text-white mb-2">{language === 'ar' ? 'أجل' : 'AJIL'}</h3>
+                    <p className="text-white/80">{language === 'ar' ? 'للتمويل' : 'Finance'}</p>
                   </div>
                 </div>
-                {/* Notch */}
-                <div className="absolute top-5 inset-x-0 flex justify-center">
+                <div className="absolute top-4 inset-x-0 flex justify-center">
                   <div className="w-24 h-6 bg-black rounded-full" />
                 </div>
               </motion.div>
             </div>
           </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ============================================
-// TESTIMONIALS - Bunq Style
-// ============================================
-function BunqTestimonials() {
-  const { language } = useI18n();
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const testimonials = [
-    {
-      name: language === 'ar' ? 'أحمد محمد' : 'Ahmed Mohammed',
-      role: language === 'ar' ? 'رائد أعمال' : 'Entrepreneur',
-      quote: language === 'ar'
-        ? 'تجربة رائعة مع أجل للتمويل! الموافقة كانت سريعة والفريق متعاون جداً.'
-        : 'Amazing experience with AJIL! Quick approval and very cooperative team.',
-      rating: 5,
-    },
-    {
-      name: language === 'ar' ? 'سارة العمري' : 'Sara Al-Omari',
-      role: language === 'ar' ? 'مديرة تنفيذية' : 'Executive Director',
-      quote: language === 'ar'
-        ? 'أفضل شركة تمويل تعاملت معها. الشفافية والمصداقية في كل خطوة.'
-        : 'Best financing company I have dealt with. Transparency at every step.',
-      rating: 5,
-    },
-    {
-      name: language === 'ar' ? 'خالد السعيد' : 'Khalid Al-Saeed',
-      role: language === 'ar' ? 'صاحب أعمال' : 'Business Owner',
-      quote: language === 'ar'
-        ? 'ساعدتني أجل في توسيع شركتي. شكراً للفريق المحترف!'
-        : 'AJIL helped me expand my company. Thanks to the professional team!',
-      rating: 5,
-    },
-  ];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [testimonials.length]);
-
-  return (
-    <section className="py-20 lg:py-32 bg-white">
-      <div className="container mx-auto px-4 lg:px-8">
-        {/* Header */}
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#FF6B9D]/10 text-[#FF6B9D] text-sm font-semibold mb-6">
-            <Heart className="w-4 h-4" />
-            {language === 'ar' ? 'آراء عملائنا' : 'Testimonials'}
-          </div>
-          <h2 className="text-4xl lg:text-5xl font-bold text-[#00377B] mb-6">
-            {language === 'ar' ? 'ماذا يقول عملاؤنا' : 'What Our Clients Say'}
-          </h2>
-        </motion.div>
-
-        {/* Testimonial Card */}
-        <div className="max-w-3xl mx-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeIndex}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="bg-gray-50 rounded-3xl p-8 lg:p-12 text-center"
-            >
-              {/* Rating */}
-              <div className="flex items-center justify-center gap-1 mb-6">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className={cn(
-                      'w-6 h-6',
-                      i < testimonials[activeIndex].rating
-                        ? 'fill-[#F7941D] text-[#F7941D]'
-                        : 'text-gray-300'
-                    )}
-                  />
-                ))}
-              </div>
-
-              {/* Quote */}
-              <p className="text-2xl lg:text-3xl text-[#00377B] font-medium mb-8 leading-relaxed">
-                "{testimonials[activeIndex].quote}"
-              </p>
-
-              {/* Author */}
-              <div>
-                <div className="font-bold text-xl text-[#00377B] mb-1">
-                  {testimonials[activeIndex].name}
-                </div>
-                <div className="text-gray-600">
-                  {testimonials[activeIndex].role}
-                </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Indicators */}
-          <div className="flex items-center justify-center gap-3 mt-8">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveIndex(index)}
-                className={cn(
-                  'h-3 rounded-full transition-all duration-300',
-                  index === activeIndex
-                    ? 'w-10 bg-[#F7941D]'
-                    : 'w-3 bg-gray-300 hover:bg-gray-400'
-                )}
-              />
-            ))}
-          </div>
         </div>
       </div>
     </section>
@@ -1466,41 +1305,44 @@ function BunqCTA() {
   const ArrowIcon = dir === 'rtl' ? ArrowLeft : ArrowRight;
 
   return (
-    <section className="py-20 lg:py-32" style={{ background: GRADIENTS.sunset }}>
-      <div className="container mx-auto px-4 lg:px-8">
+    <section className="py-20 lg:py-32 bg-gradient-to-r from-[#F7941D] via-[#FF6B9D] to-[#8B5CF6] relative overflow-hidden">
+      <div className="absolute inset-0">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-4 h-4 bg-white/20 rounded-full"
+            style={{ left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%` }}
+            animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
+            transition={{ duration: 3, repeat: Infinity, delay: Math.random() * 2 }}
+          />
+        ))}
+      </div>
+
+      <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <motion.div
-          className="max-w-4xl mx-auto text-center text-white"
+          className="max-w-4xl mx-auto text-center"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl lg:text-6xl font-bold mb-6">
-            {language === 'ar'
-              ? 'مستعد لتحقيق أحلامك؟'
-              : 'Ready to Achieve Your Dreams?'}
+          <h2 className="text-4xl lg:text-6xl font-bold text-white mb-6">
+            {language === 'ar' ? 'مستعد لتحقيق أحلامك؟' : 'Ready to Achieve Your Dreams?'}
           </h2>
-          <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto">
-            {language === 'ar'
-              ? 'تواصل معنا اليوم واحصل على استشارة مجانية من خبرائنا'
-              : 'Contact us today and get a free consultation from our experts'}
+          <p className="text-xl text-white/90 mb-10">
+            {language === 'ar' ? 'ابدأ رحلتك معنا اليوم' : 'Start your journey with us today'}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/apply">
-              <motion.button
-                className="flex items-center gap-3 px-10 py-5 rounded-2xl font-bold text-lg text-[#00377B] bg-white"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
+              <MagneticButton className="flex items-center gap-3 px-10 py-5 bg-white text-[#00377B] font-bold text-lg rounded-2xl shadow-xl">
                 {language === 'ar' ? 'قدّم طلبك الآن' : 'Apply Now'}
                 <ArrowIcon className="w-6 h-6" />
-              </motion.button>
+              </MagneticButton>
             </Link>
             <a href="tel:8002442211">
               <motion.button
-                className="flex items-center gap-3 px-10 py-5 rounded-2xl font-semibold text-lg text-white border-2 border-white/50 hover:bg-white/10"
+                className="flex items-center gap-3 px-10 py-5 border-2 border-white text-white font-semibold text-lg rounded-2xl hover:bg-white/10"
                 whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
                 <Phone className="w-6 h-6" />
                 <span dir="ltr">800 244 2211</span>
@@ -1514,83 +1356,64 @@ function BunqCTA() {
 }
 
 // ============================================
-// FOOTER - Clean Modern Style
+// FOOTER
 // ============================================
 function BunqFooter() {
   const { language } = useI18n();
 
-  const footerLinks = [
-    {
-      title: language === 'ar' ? 'الأفراد' : 'Individuals',
-      links: [
-        { label: language === 'ar' ? 'تمويل السيارات' : 'Car Financing', href: '/individuals/car-financing' },
-        { label: language === 'ar' ? 'التمويل الشخصي' : 'Personal Financing', href: '/individuals/personal-financing' },
-        { label: language === 'ar' ? 'معدلات التمويل' : 'Financing Rates', href: '/individuals/rates' },
-      ],
-    },
-    {
-      title: language === 'ar' ? 'الأعمال' : 'Business',
-      links: [
-        { label: language === 'ar' ? 'التمويل النقدي' : 'Cash Financing', href: '/business/cash-financing' },
-        { label: language === 'ar' ? 'تمويل السيارات' : 'Fleet Financing', href: '/business/car-financing' },
-        { label: language === 'ar' ? 'المعدات الثقيلة' : 'Heavy Equipment', href: '/business/heavy-equipment' },
-      ],
-    },
-    {
-      title: language === 'ar' ? 'الشركة' : 'Company',
-      links: [
-        { label: language === 'ar' ? 'عن أجل' : 'About Us', href: '/about/story' },
-        { label: language === 'ar' ? 'الأخبار' : 'News', href: '/about/news' },
-        { label: language === 'ar' ? 'الفروع' : 'Branches', href: '/branches' },
-        { label: language === 'ar' ? 'اتصل بنا' : 'Contact', href: '/contact' },
-      ],
-    },
-  ];
-
   return (
     <footer className="bg-[#0A0A1A] text-white py-16">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-3 mb-6">
-              <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center"
-                style={{ background: GRADIENTS.hero }}
-              >
-                <Image
-                  src="/images/AJIL_logo.png"
-                  alt="AJIL"
-                  width={40}
-                  height={40}
-                  className="object-contain"
-                />
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00377B] to-[#0066B3] flex items-center justify-center">
+                <Image src="/images/AJIL_logo.png" alt="AJIL" width={40} height={40} className="object-contain" />
               </div>
               <span className="font-bold text-2xl">{language === 'ar' ? 'أجل' : 'AJIL'}</span>
             </Link>
             <p className="text-gray-400 mb-6 max-w-sm">
               {language === 'ar'
-                ? 'شركة أجل للتمويل، رائدة في تقديم الحلول التمويلية المتوافقة مع الشريعة الإسلامية في المملكة العربية السعودية.'
-                : 'AJIL Finance Company, a pioneer in providing Sharia-compliant financing solutions in Saudi Arabia.'}
+                ? 'شركة أجل للتمويل، رائدة في تقديم الحلول التمويلية المتوافقة مع الشريعة الإسلامية.'
+                : 'AJIL Finance Company, a pioneer in Sharia-compliant financing solutions.'}
             </p>
-
-            {/* Contact */}
-            <div className="space-y-3">
-              <a href="tel:8002442211" className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors">
-                <Phone className="w-5 h-5" />
-                <span dir="ltr">800 244 2211</span>
-              </a>
-              <a href="mailto:info@ajil.com" className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors">
-                <Mail className="w-5 h-5" />
-                info@ajil.com
-              </a>
+            <div className="flex gap-4">
+              {['twitter', 'instagram', 'linkedin'].map((social) => (
+                <motion.a
+                  key={social}
+                  href="#"
+                  className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-[#F7941D] transition-colors"
+                  whileHover={{ scale: 1.1 }}
+                >
+                  <span className="sr-only">{social}</span>
+                  <div className="w-5 h-5 bg-current rounded-sm" />
+                </motion.a>
+              ))}
             </div>
           </div>
 
           {/* Links */}
-          {footerLinks.map((section, idx) => (
+          {[
+            {
+              title: language === 'ar' ? 'الخدمات' : 'Services',
+              links: [
+                { label: language === 'ar' ? 'تمويل السيارات' : 'Car Financing', href: '/individuals/car-financing' },
+                { label: language === 'ar' ? 'التمويل الشخصي' : 'Personal', href: '/individuals/personal-financing' },
+                { label: language === 'ar' ? 'تمويل الأعمال' : 'Business', href: '/business/cash-financing' },
+              ],
+            },
+            {
+              title: language === 'ar' ? 'الشركة' : 'Company',
+              links: [
+                { label: language === 'ar' ? 'عن أجل' : 'About Us', href: '/about/story' },
+                { label: language === 'ar' ? 'الفروع' : 'Branches', href: '/branches' },
+                { label: language === 'ar' ? 'اتصل بنا' : 'Contact', href: '/contact' },
+              ],
+            },
+          ].map((section, idx) => (
             <div key={idx}>
-              <h4 className="font-bold text-lg mb-6">{section.title}</h4>
+              <h4 className="font-bold mb-6">{section.title}</h4>
               <ul className="space-y-3">
                 {section.links.map((link, linkIdx) => (
                   <li key={linkIdx}>
@@ -1604,20 +1427,13 @@ function BunqFooter() {
           ))}
         </div>
 
-        {/* Bottom */}
-        <div className="pt-8 border-t border-gray-800 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-gray-500 text-sm text-center md:text-start">
-            {language === 'ar'
-              ? '© 2008-2025 شركة أجل للتمويل - جميع الحقوق محفوظة'
-              : '© 2008-2025 AJIL Finance Company - All Rights Reserved'}
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-gray-500 text-sm">
+            {language === 'ar' ? '© 2025 شركة أجل للتمويل' : '© 2025 AJIL Finance Company'}
           </p>
-          <div className="flex items-center gap-6 text-sm">
-            <Link href="/privacy" className="text-gray-500 hover:text-white transition-colors">
-              {language === 'ar' ? 'الخصوصية' : 'Privacy'}
-            </Link>
-            <Link href="/terms" className="text-gray-500 hover:text-white transition-colors">
-              {language === 'ar' ? 'الشروط' : 'Terms'}
-            </Link>
+          <div className="flex gap-6 text-sm">
+            <Link href="/privacy" className="text-gray-500 hover:text-white">{language === 'ar' ? 'الخصوصية' : 'Privacy'}</Link>
+            <Link href="/terms" className="text-gray-500 hover:text-white">{language === 'ar' ? 'الشروط' : 'Terms'}</Link>
           </div>
         </div>
       </div>
@@ -1626,7 +1442,7 @@ function BunqFooter() {
 }
 
 // ============================================
-// MAIN PAGE COMPONENT
+// MAIN PAGE
 // ============================================
 export default function BunqStyleHomepage() {
   return (
@@ -1636,9 +1452,8 @@ export default function BunqStyleHomepage() {
       <BunqStats />
       <BunqFeatures />
       <BunqWhyUs />
-      <BunqHowItWorks />
-      <BunqAppDownload />
-      <BunqTestimonials />
+      <BunqProcess />
+      <BunqApp />
       <BunqCTA />
       <BunqFooter />
     </main>
