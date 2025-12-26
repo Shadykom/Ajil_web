@@ -286,6 +286,16 @@ const navItems = [
         icon: IconOffers,
         animatedIcon: AnimatedOffers,
       },
+      { 
+        key: 'karta_style', 
+        labelAr: 'تصميم كارتا',
+        labelEn: 'Karta Style',
+        descAr: 'تصميم بطاقات ثلاثي الأبعاد',
+        descEn: '3D cards design',
+        href: '/karta-style',
+        icon: IconOffers,
+        animatedIcon: AnimatedOffers,
+      },
     ],
   },
   {
@@ -1779,12 +1789,20 @@ function FloatingDesignButtons() {
 
   const designs = [
     {
+      href: '/karta-style',
+      label: language === 'ar' ? '💳 تصميم كارتا الجديد' : '💳 New Karta Style',
+      gradient: 'linear-gradient(135deg, #7C3AED 0%, #EC4899 100%)',
+      glowColor: 'rgba(124,58,237,0.5)',
+      icon: '💳',
+      isNew: true,
+    },
+    {
       href: '/kuda-style',
-      label: language === 'ar' ? '💜 تصميم كودا الجديد' : '💜 New Kuda Style',
+      label: language === 'ar' ? '💜 تصميم كودا' : '💜 Kuda Style',
       gradient: 'linear-gradient(135deg, #40196D 0%, #AA00FF 100%)',
       glowColor: 'rgba(64,25,109,0.5)',
       icon: '💜',
-      isNew: true,
+      isNew: false,
     },
     {
       href: '/bunq-style',
