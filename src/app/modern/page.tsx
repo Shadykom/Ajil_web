@@ -1757,38 +1757,40 @@ function ModernFooter() {
 // Floating Design Switcher Buttons
 function FloatingDesignButtons() {
   const { language } = useI18n();
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true); // Show immediately
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showPulse, setShowPulse] = useState(true);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsVisible(window.scrollY > 300);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Hide pulse after 5 seconds
+    const timer = setTimeout(() => setShowPulse(false), 5000);
+    return () => clearTimeout(timer);
   }, []);
 
   const designs = [
     {
       href: '/bunq-style',
-      label: language === 'ar' ? 'تصميم بانك' : 'Bunq Style',
-      gradient: 'linear-gradient(135deg, #00377B 0%, #22D3EE 100%)',
-      glowColor: 'rgba(34,211,238,0.3)',
+      label: language === 'ar' ? '🎨 تصميم بانك الجديد' : '🎨 New Bunq Style',
+      gradient: 'linear-gradient(135deg, #F7941D 0%, #FF6B9D 100%)',
+      glowColor: 'rgba(247,148,29,0.4)',
       icon: '🎨',
-    },
-    {
-      href: '/stripe-style',
-      label: language === 'ar' ? 'تصميم سترايب' : 'Stripe Style',
-      gradient: 'linear-gradient(135deg, #0A0A1A 0%, #00377B 100%)',
-      glowColor: 'rgba(247,148,29,0.3)',
-      icon: '⚡',
+      isNew: true,
     },
     {
       href: '/d360-style',
-      label: language === 'ar' ? 'تصميم D360' : 'D360 Style',
+      label: language === 'ar' ? '🌙 تصميم D360' : '🌙 D360 Style',
       gradient: 'linear-gradient(135deg, #0C0C0E 0%, #1C1C21 100%)',
-      glowColor: 'rgba(247,148,29,0.4)',
+      glowColor: 'rgba(12,12,14,0.4)',
       icon: '🌙',
+      isNew: false,
+    },
+    {
+      href: '/stripe-style',
+      label: language === 'ar' ? '⚡ تصميم سترايب' : '⚡ Stripe Style',
+      gradient: 'linear-gradient(135deg, #0A0A1A 0%, #00377B 100%)',
+      glowColor: 'rgba(0,55,123,0.3)',
+      icon: '⚡',
+      isNew: false,
     },
   ];
 
@@ -1812,37 +1814,37 @@ function FloatingDesignButtons() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 20, scale: 0.8 }}
                     transition={{ delay: index * 0.1 }}
+                    className="relative"
                   >
+                    {/* NEW Badge */}
+                    {design.isNew && (
+                      <motion.div
+                        className="absolute -top-2 -right-2 px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded-full z-20"
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{ duration: 1, repeat: Infinity }}
+                      >
+                        NEW
+                      </motion.div>
+                    )}
                     <Link href={design.href}>
                       <motion.button
-                        className="group relative flex items-center gap-3 px-5 py-3.5 rounded-2xl text-white font-bold shadow-2xl overflow-hidden"
+                        className="group relative flex items-center gap-3 px-6 py-4 rounded-2xl text-white font-bold shadow-2xl overflow-hidden"
                         style={{
                           background: design.gradient,
                           boxShadow: `0 10px 40px ${design.glowColor}`,
                         }}
-                        whileHover={{ scale: 1.05 }}
+                        whileHover={{ scale: 1.05, x: -5 }}
                         whileTap={{ scale: 0.95 }}
                       >
-                        {/* Glow effect */}
+                        {/* Shimmer effect */}
                         <motion.div
-                          className="absolute inset-0 rounded-2xl"
-                          style={{
-                            background: `radial-gradient(circle at center, ${design.glowColor} 0%, transparent 70%)`,
-                          }}
-                          animate={{
-                            scale: [1, 1.2, 1],
-                            opacity: [0.5, 0.8, 0.5],
-                          }}
-                          transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                            ease: 'easeInOut',
-                          }}
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                          animate={{ x: ['-100%', '100%'] }}
+                          transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
                         />
                         
-                        <span className="text-lg relative z-10">{design.icon}</span>
                         <span className="relative z-10">{design.label}</span>
-                        <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform rtl:rotate-180 rtl:group-hover:-translate-x-1" />
+                        <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform rtl:rotate-180 rtl:group-hover:-translate-x-1" />
                       </motion.button>
                     </Link>
                   </motion.div>
@@ -1852,54 +1854,55 @@ function FloatingDesignButtons() {
           </AnimatePresence>
 
           {/* Main Toggle Button */}
-          <motion.button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="group relative flex items-center gap-3 px-5 py-3.5 rounded-2xl text-white font-bold shadow-2xl overflow-hidden"
-            style={{
-              background: 'linear-gradient(135deg, #F7941D 0%, #FF6B9D 100%)',
-              boxShadow: '0 10px 40px rgba(247,148,29,0.4)',
-            }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            animate={{ rotate: isExpanded ? 45 : 0 }}
-          >
-            {/* Animated gradient border */}
-            <div 
-              className="absolute inset-0 rounded-2xl opacity-50 group-hover:opacity-100 transition-opacity"
+          <div className="relative">
+            {/* Pulse Animation for attention */}
+            {showPulse && !isExpanded && (
+              <motion.div
+                className="absolute inset-0 rounded-2xl bg-[#F7941D]"
+                animate={{ scale: [1, 1.5, 1.5], opacity: [0.5, 0, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+            )}
+            <motion.button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="group relative flex items-center gap-3 px-6 py-4 rounded-2xl text-white font-bold shadow-2xl overflow-hidden"
               style={{
-                background: 'linear-gradient(135deg, #fff, #F7941D, #fff)',
-                padding: '2px',
-                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                WebkitMaskComposite: 'xor',
-                maskComposite: 'exclude',
+                background: 'linear-gradient(135deg, #F7941D 0%, #FF6B9D 100%)',
+                boxShadow: '0 10px 40px rgba(247,148,29,0.4)',
               }}
-            />
-            
-            {/* Glow effect */}
-            <motion.div
-              className="absolute inset-0 rounded-2xl"
-              style={{
-                background: 'radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, transparent 70%)',
-              }}
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.5, 0.8, 0.5],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-            />
-            
-            <Sparkles className="w-5 h-5 text-white relative z-10" />
-            <span className="relative z-10">
-              {isExpanded 
-                ? (language === 'ar' ? 'إغلاق' : 'Close')
-                : (language === 'ar' ? 'تصاميم أخرى' : 'Other Designs')
-              }
-            </span>
-          </motion.button>
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {/* Animated gradient border */}
+              <motion.div 
+                className="absolute inset-0 rounded-2xl"
+                style={{
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
+                }}
+                animate={{ x: ['-100%', '100%'] }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 0.5 }}
+              />
+              
+              <motion.div
+                animate={{ rotate: isExpanded ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Sparkles className="w-5 h-5 text-white relative z-10" />
+              </motion.div>
+              <span className="relative z-10">
+                {isExpanded 
+                  ? (language === 'ar' ? 'إغلاق' : 'Close')
+                  : (language === 'ar' ? '✨ تصاميم جديدة' : '✨ New Designs')
+                }
+              </span>
+              <motion.div
+                animate={{ rotate: isExpanded ? 90 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ChevronDown className="w-5 h-5 relative z-10" />
+              </motion.div>
+            </motion.button>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
