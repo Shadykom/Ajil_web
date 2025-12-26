@@ -276,6 +276,16 @@ const navItems = [
         icon: IconBusinessFinancing,
         animatedIcon: AnimatedBusinessFinancing,
       },
+      { 
+        key: 'kuda_style', 
+        labelAr: 'تصميم كودا',
+        labelEn: 'Kuda Style',
+        descAr: 'تصميم بنفسجي عصري',
+        descEn: 'Purple modern design',
+        href: '/kuda-style',
+        icon: IconOffers,
+        animatedIcon: AnimatedOffers,
+      },
     ],
   },
   {
@@ -1769,12 +1779,20 @@ function FloatingDesignButtons() {
 
   const designs = [
     {
+      href: '/kuda-style',
+      label: language === 'ar' ? '💜 تصميم كودا الجديد' : '💜 New Kuda Style',
+      gradient: 'linear-gradient(135deg, #40196D 0%, #AA00FF 100%)',
+      glowColor: 'rgba(64,25,109,0.5)',
+      icon: '💜',
+      isNew: true,
+    },
+    {
       href: '/bunq-style',
-      label: language === 'ar' ? '🎨 تصميم بانك الجديد' : '🎨 New Bunq Style',
+      label: language === 'ar' ? '🎨 تصميم بانك' : '🎨 Bunq Style',
       gradient: 'linear-gradient(135deg, #F7941D 0%, #FF6B9D 100%)',
       glowColor: 'rgba(247,148,29,0.4)',
       icon: '🎨',
-      isNew: true,
+      isNew: false,
     },
     {
       href: '/d360-style',
