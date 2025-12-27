@@ -15,6 +15,7 @@ import {
   ArrowLeft,
   User,
   Headphones,
+  Building2,
 } from 'lucide-react'
 import {
   IconCarFinancing,
@@ -25,6 +26,7 @@ import {
   IconAbout,
   IconNews,
   IconCustomerSupport,
+  IconHome,
   AjilSymbol,
   AnimatedCarFinancing,
   AnimatedPersonalFinancing,
@@ -202,6 +204,14 @@ const navItems = [
         animatedIcon: AnimatedLoanCalculator,
       },
     ],
+  },
+  {
+    key: 'interactive-city',
+    labelAr: 'المدينة التفاعلية',
+    labelEn: 'Interactive City',
+    href: '/interactive-city',
+    icon: IconHome,
+    animatedIcon: IconHome,
   },
   {
     key: 'contact',
