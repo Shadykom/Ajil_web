@@ -48,11 +48,22 @@ export function middleware(request: NextRequest) {
   // Handle legacy/printed QR URLs that end with ".html"
   const lower = pathname.toLowerCase()
   const normalized =
-    lower === '/confirmation.html' || lower === '/confirm.html' ? '/confirmation' : lower
+    lower === '/confirmation.html' ||
+    lower === '/confirm.html' ||
+    lower === '/verify.html' ||
+    lower === '/verification.html'
+      ? '/confirmation'
+      : lower
 
-  if (pathname !== normalized) {
+  // Handle legacy/printed QR paths like "/verify/..." or "/verification/...".
+  const normalized2 =
+    normalized.startsWith('/verify') || normalized.startsWith('/verification')
+      ? normalized.replace(/^\/verification/, '/confirmation').replace(/^\/verify/, '/confirmation')
+      : normalized
+
+  if (pathname !== normalized2) {
     const url = request.nextUrl.clone()
-    url.pathname = normalized
+    url.pathname = normalized2
     return NextResponse.redirect(url, 308)
   }
 
